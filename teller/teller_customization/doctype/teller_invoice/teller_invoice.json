@@ -1,0 +1,275 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "Invoice_.####",
+ "creation": "2024-02-26 10:07:17.673734",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "movement_number",
+  "price_list",
+  "column_break_beht",
+  "receipt_number",
+  "branch_number",
+  "special_price",
+  "column_break_racu",
+  "treasury_code",
+  "cost_center_number",
+  "section_break_onwq",
+  "client_type",
+  "column_break_nlal",
+  "client",
+  "individual_section",
+  "test",
+  "gender",
+  "nationality",
+  "column_break_vdaf",
+  "primary_contacts",
+  "work_for",
+  "mobile_number",
+  "companies_section",
+  "comp",
+  "company_activity",
+  "company_commercial_no",
+  "column_break_nqxf",
+  "start_registration_date",
+  "end_registration_date",
+  "inter_bank_section",
+  "test2",
+  "teller_item_section",
+  "items",
+  "section_break_sjfi",
+  "column_break_ddng",
+  "column_break_rnwq",
+  "total",
+  "section_break_hqmb",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "movement_number",
+   "fieldtype": "Data",
+   "label": "Movement number"
+  },
+  {
+   "fieldname": "treasury_code",
+   "fieldtype": "Link",
+   "label": "Treasury code",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "column_break_beht",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "receipt_number",
+   "fieldtype": "Data",
+   "label": "Receipt number"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "cost_center_number",
+   "fieldtype": "Link",
+   "label": "Cost center number",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "special_price",
+   "fieldtype": "Currency",
+   "label": "Special price"
+  },
+  {
+   "fieldname": "section_break_onwq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "client_type",
+   "fieldtype": "Link",
+   "label": "Client Type",
+   "options": "Customer Group"
+  },
+  {
+   "fieldname": "branch_number",
+   "fieldtype": "Link",
+   "label": "Branch no",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Client",
+   "options": "Customer"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.client_type=='Individual'",
+   "depends_on": "eval:doc.client_type=='Individual'",
+   "fieldname": "individual_section",
+   "fieldtype": "Section Break",
+   "label": "Individual"
+  },
+  {
+   "fetch_from": ".customer_name",
+   "fieldname": "test",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Companies'",
+   "fieldname": "companies_section",
+   "fieldtype": "Section Break",
+   "label": "Companies"
+  },
+  {
+   "fieldname": "comp",
+   "fieldtype": "Data",
+   "label": "Company Legal Form"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Inter Bank'",
+   "fieldname": "inter_bank_section",
+   "fieldtype": "Section Break",
+   "label": "Inter Bank"
+  },
+  {
+   "fieldname": "test2",
+   "fieldtype": "Data",
+   "label": "Test2"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Data",
+   "label": "Gender"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality"
+  },
+  {
+   "fieldname": "primary_contacts",
+   "fieldtype": "Data",
+   "label": "Primary Contacts"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number"
+  },
+  {
+   "fieldname": "work_for",
+   "fieldtype": "Data",
+   "label": "Work For "
+  },
+  {
+   "fieldname": "column_break_vdaf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_activity",
+   "fieldtype": "Data",
+   "label": "Company Activity"
+  },
+  {
+   "fieldname": "company_commercial_no",
+   "fieldtype": "Data",
+   "label": "Company Commercial No "
+  },
+  {
+   "fieldname": "start_registration_date",
+   "fieldtype": "Data",
+   "label": "Start Registration Date"
+  },
+  {
+   "fieldname": "end_registration_date",
+   "fieldtype": "Data",
+   "label": "End Registration Date"
+  },
+  {
+   "fieldname": "column_break_nqxf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "teller_item_section",
+   "fieldtype": "Section Break",
+   "label": "Teller Item"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Teller Items"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_racu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "label": "Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "column_break_nlal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_hqmb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_break_sjfi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ddng",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_rnwq",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-28 16:17:02.160837",
+ "modified_by": "Administrator",
+ "module": "Teller Customization",
+ "name": "Teller Invoice",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

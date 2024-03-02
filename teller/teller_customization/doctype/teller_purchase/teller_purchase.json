@@ -1,0 +1,279 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TE_Purchase.####",
+ "creation": "2024-02-28 10:27:57.392393",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "movement_number",
+  "price_list",
+  "column_break_tvyk",
+  "receipt_number",
+  "branch_number",
+  "treasury_code",
+  "column_break_sgyq",
+  "cost_center_number",
+  "shift",
+  "teller",
+  "section_break_defd",
+  "category_of_buyer",
+  "column_break_gkcv",
+  "buyer",
+  "individual_section",
+  "customer_name",
+  "gender",
+  "nationality",
+  "column_break_djgb",
+  "primary_contacts",
+  "work_for",
+  "mobile_number",
+  "companies_section",
+  "company_legal_form",
+  "company_activity",
+  "company_commercial_no",
+  "column_break_ndtu",
+  "start_registration_date",
+  "end_registration_date",
+  "teller_item_section",
+  "items",
+  "section_break_pkqo",
+  "column_break_abeu",
+  "column_break_flln",
+  "total",
+  "section_break_erkw",
+  "notes",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "movement_number",
+   "fieldtype": "Data",
+   "label": "Movement Number"
+  },
+  {
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "label": "Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "column_break_tvyk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_sgyq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "receipt_number",
+   "fieldtype": "Data",
+   "label": "Receipt number"
+  },
+  {
+   "fieldname": "branch_number",
+   "fieldtype": "Link",
+   "label": "Branch number",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "treasury_code",
+   "fieldtype": "Link",
+   "label": "Treasury code",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "cost_center_number",
+   "fieldtype": "Link",
+   "label": "Cost center number",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "section_break_defd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "category_of_buyer",
+   "fieldtype": "Link",
+   "label": "Category of buyer",
+   "options": "Customer Group"
+  },
+  {
+   "fieldname": "column_break_gkcv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "label": "Buyer",
+   "options": "Customer"
+  },
+  {
+   "depends_on": "eval:doc.category_of_buyer=='Individual'",
+   "fieldname": "individual_section",
+   "fieldtype": "Section Break",
+   "label": "Individual"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Data",
+   "label": "Gender"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality"
+  },
+  {
+   "fieldname": "column_break_djgb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "primary_contacts",
+   "fieldtype": "Data",
+   "label": "Primary Contacts"
+  },
+  {
+   "fieldname": "work_for",
+   "fieldtype": "Data",
+   "label": "Work For "
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number"
+  },
+  {
+   "depends_on": "eval:doc.category_of_buyer=='Companies'",
+   "fieldname": "companies_section",
+   "fieldtype": "Section Break",
+   "label": "Companies"
+  },
+  {
+   "fieldname": "company_legal_form",
+   "fieldtype": "Data",
+   "label": "Company Legal Form"
+  },
+  {
+   "fieldname": "company_activity",
+   "fieldtype": "Data",
+   "label": "Company Activity"
+  },
+  {
+   "fieldname": "company_commercial_no",
+   "fieldtype": "Data",
+   "label": "Company Commercial No "
+  },
+  {
+   "fieldname": "column_break_ndtu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_registration_date",
+   "fieldtype": "Data",
+   "label": "Start Registration Date"
+  },
+  {
+   "fieldname": "end_registration_date",
+   "fieldtype": "Data",
+   "label": "End Registration Date"
+  },
+  {
+   "fieldname": "teller_item_section",
+   "fieldtype": "Section Break",
+   "label": "Teller Item"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Teller Items"
+  },
+  {
+   "fieldname": "section_break_erkw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pkqo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_abeu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_flln",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Teller Purchase",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "OPen Shift"
+  },
+  {
+   "fieldname": "teller",
+   "fieldtype": "Link",
+   "label": "Teller",
+   "options": "User"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-02-29 12:59:19.254409",
+ "modified_by": "Administrator",
+ "module": "Teller Customization",
+ "name": "Teller Purchase",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

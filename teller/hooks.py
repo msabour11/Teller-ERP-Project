@@ -5,6 +5,7 @@ app_description = "teller app"
 app_email = "test@test.com"
 app_license = "mit"
 # required_apps = []
+fixtures=["Custom Field"]
 
 # Includes in <head>
 # ------------------

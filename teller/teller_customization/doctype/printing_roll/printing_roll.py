@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class PrintingPackage(Document):
+class PrintingRoll(Document):
 	pass

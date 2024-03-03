@@ -52,10 +52,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-28 16:10:16.540954",
+ "modified": "2024-03-03 11:23:30.953618",
  "modified_by": "Administrator",
  "module": "Teller Customization",
- "name": "Printing Package",
+ "name": "Printing Roll",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

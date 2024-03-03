@@ -56,7 +56,7 @@
    "fieldname": "treasury_code",
    "fieldtype": "Link",
    "label": "Treasury code",
-   "options": "OPen Shift"
+   "options": "Mode of Payment"
   },
   {
    "fieldname": "column_break_beht",
@@ -251,7 +251,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 13:55:17.293502",
+ "modified": "2024-03-03 20:19:45.706912",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

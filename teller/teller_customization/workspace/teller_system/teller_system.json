@@ -390,7 +390,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": " Reports",
-   "link_count": 2,
+   "link_count": 3,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -414,9 +414,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily currency rates",
+   "link_count": 0,
+   "link_to": "Daily currency rates",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-03-03 16:55:07.319433",
+ "modified": "2024-03-04 01:46:09.952857",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller System",

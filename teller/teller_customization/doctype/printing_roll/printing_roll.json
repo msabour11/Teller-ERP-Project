@@ -12,7 +12,8 @@
   "column_break_elnm",
   "last_printed_number",
   "show_number",
-  "branch"
+  "branch",
+  "active"
  ],
  "fields": [
   {
@@ -49,11 +50,17 @@
    "fieldname": "description",
    "fieldtype": "Small Text",
    "label": "Description"
+  },
+  {
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 11:31:02.302037",
+ "modified": "2024-03-03 11:41:47.390467",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

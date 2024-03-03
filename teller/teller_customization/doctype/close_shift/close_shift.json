@@ -17,7 +17,6 @@
   "end_date",
   "current_user",
   "open_shift",
-  "invoice_type",
   "section_break_xmut",
   "invoices_tables"
  ],
@@ -85,25 +84,20 @@
   },
   {
    "fieldname": "section_break_xmut",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Purchase Invoices"
   },
   {
    "fieldname": "invoices_tables",
    "fieldtype": "Table",
    "label": "Invoices tables",
    "options": "Invoice Table"
-  },
-  {
-   "fieldname": "invoice_type",
-   "fieldtype": "Select",
-   "label": "Invoice Type",
-   "options": "Selling\nBuying"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 14:52:10.285598",
+ "modified": "2024-03-04 01:21:42.916990",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

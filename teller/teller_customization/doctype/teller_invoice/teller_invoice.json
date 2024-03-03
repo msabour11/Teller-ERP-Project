@@ -55,7 +55,7 @@
    "fieldname": "treasury_code",
    "fieldtype": "Link",
    "label": "Treasury code",
-   "options": "Mode of Payment"
+   "options": "OPen Shift"
   },
   {
    "fieldname": "column_break_beht",
@@ -63,8 +63,9 @@
   },
   {
    "fieldname": "receipt_number",
-   "fieldtype": "Data",
-   "label": "Receipt number"
+   "fieldtype": "Link",
+   "label": "Receipt number",
+   "options": "Printing Roll"
   },
   {
    "default": "Now",
@@ -244,7 +245,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 11:11:41.352821",
+ "modified": "2024-03-03 11:35:31.794373",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

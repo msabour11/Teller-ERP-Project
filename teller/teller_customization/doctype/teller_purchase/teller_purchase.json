@@ -74,8 +74,9 @@
   },
   {
    "fieldname": "receipt_number",
-   "fieldtype": "Data",
-   "label": "Receipt number"
+   "fieldtype": "Link",
+   "label": "Receipt number",
+   "options": "Printing Roll"
   },
   {
    "fieldname": "branch_number",
@@ -87,7 +88,7 @@
    "fieldname": "treasury_code",
    "fieldtype": "Link",
    "label": "Treasury code",
-   "options": "Mode of Payment"
+   "options": "OPen Shift"
   },
   {
    "fieldname": "cost_center_number",
@@ -254,7 +255,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 11:12:45.423628",
+ "modified": "2024-03-03 11:35:12.073410",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

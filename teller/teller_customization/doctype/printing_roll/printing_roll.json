@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "Roll-.####",
  "creation": "2024-02-28 15:50:49.175495",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -17,7 +18,7 @@
   {
    "fieldname": "printing_package",
    "fieldtype": "Data",
-   "label": "Printing package"
+   "label": "Printing Roll"
   },
   {
    "fieldname": "starting_letters",
@@ -52,7 +53,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 11:23:30.953618",
+ "modified": "2024-03-03 11:31:02.302037",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

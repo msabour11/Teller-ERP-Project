@@ -133,12 +133,12 @@ frappe.ui.form.on("Teller Items", {
         args: {
           doctype: "Item Price",
           filters: { item_code: row.item_code },
-          fieldname: "price_list_rate",
+          fieldname: "custom_selling_rate",
         },
         callback: function (response) {
           console.log(response); // Log the entire response
           if (response.message) {
-            let item_rate = response.message.price_list_rate;
+            let item_rate = response.message.custom_selling_rate;
             console.log(item_rate);
             frappe.model.set_value(cdt, cdn, "rate", item_rate);
             if (row.quantity) {

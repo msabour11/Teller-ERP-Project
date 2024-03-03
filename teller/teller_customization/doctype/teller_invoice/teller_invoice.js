@@ -9,7 +9,6 @@ frappe.ui.form.on("Teller Invoice", {
   //   }
   // },
 
-
   //   "items_add": function(frm, cdt, cdn) {
   //   if (frm.doc.items.length > 3) {
   //     frappe.throw("You cannot add more than three items.");
@@ -18,7 +17,31 @@ frappe.ui.form.on("Teller Invoice", {
   //     frm.refresh_field("items");
   //   }
   // },
-  
+  // onload(frm) {
+  //   frappe.call({
+  //     method: "frappe.client.get",
+  //     args: {
+  //       doctype: "Printing Roll",
+  //       // fieldname: "last_printed_number",
+  //       name: frm.doc.current_roll,
+
+  //       // filters: {
+  //       //   name: frm.doc.current_roll,
+  //       // },
+  //     },
+  //     callback: function (response) {
+  //       if (response.message) {
+  //         // lpn = response.message.last_printed_number;
+  //         // lpn = parseInt(lpn);
+  //         // frm.set_value("last_printed_number", lpn);
+  //         // lpn += 1;
+  //         // frm.set_value("last_printed_number", lpn);
+  //         // console.log(lpn);
+  //         console.log(response.message);
+  //       }
+  //     },
+  //   });
+  // },
 
   refresh(frm) {
     // filter customers by customer group

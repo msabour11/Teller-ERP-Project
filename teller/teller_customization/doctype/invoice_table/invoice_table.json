@@ -16,6 +16,7 @@
   {
    "fieldname": "amount",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Amount",
    "read_only": 1
@@ -23,6 +24,7 @@
   {
    "fieldname": "quantity",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Quantity",
    "read_only": 1
@@ -30,6 +32,7 @@
   {
    "fieldname": "item_code",
    "fieldtype": "Data",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Item Code",
    "read_only": 1
@@ -53,7 +56,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-02-29 22:42:54.531427",
+ "modified": "2024-03-03 14:45:49.006895",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Invoice Table",

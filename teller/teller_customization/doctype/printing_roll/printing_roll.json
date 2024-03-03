@@ -32,7 +32,7 @@
   },
   {
    "fieldname": "last_printed_number",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Last Printed Number"
   },
   {
@@ -60,7 +60,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 11:41:47.390467",
+ "modified": "2024-03-03 13:59:52.851595",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

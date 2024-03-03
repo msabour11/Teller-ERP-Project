@@ -11,6 +11,7 @@
   "price_list",
   "column_break_beht",
   "receipt_number",
+  "current_roll",
   "branch_number",
   "column_break_racu",
   "treasury_code",
@@ -63,9 +64,8 @@
   },
   {
    "fieldname": "receipt_number",
-   "fieldtype": "Link",
-   "label": "Receipt number",
-   "options": "Printing Roll"
+   "fieldtype": "Data",
+   "label": "Receipt number"
   },
   {
    "default": "Now",
@@ -241,11 +241,17 @@
   {
    "fieldname": "column_break_rnwq",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "current_roll",
+   "fieldtype": "Link",
+   "label": "Current Roll",
+   "options": "Printing Roll"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 11:35:31.794373",
+ "modified": "2024-03-03 13:55:17.293502",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

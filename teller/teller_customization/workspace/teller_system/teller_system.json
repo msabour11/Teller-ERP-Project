@@ -1,6 +1,15 @@
 {
- "charts": [],
- "content": "[{\"id\":\"iUVF6I8gh0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Teller System</span>\",\"col\":12}},{\"id\":\"dbXE2A5fPf\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"ioE7jCyJAK\",\"type\":\"card\",\"data\":{\"card_name\":\"Daily branch closure\",\"col\":4}},{\"id\":\"AzFYs6_R0v\",\"type\":\"card\",\"data\":{\"card_name\":\"Permissions\",\"col\":4}},{\"id\":\"8sf-Mk8Wvp\",\"type\":\"card\",\"data\":{\"card_name\":\"Operations\",\"col\":4}}]",
+ "charts": [
+  {
+   "chart_name": "Teller Selling",
+   "label": "Selling"
+  },
+  {
+   "chart_name": "Teller buying",
+   "label": "buying"
+  }
+ ],
+ "content": "[{\"id\":\"iUVF6I8gh0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Teller System</span>\",\"col\":12}},{\"id\":\"FHT7Ynw2JG\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Selling\",\"col\":6}},{\"id\":\"0ilYqaYEZH\",\"type\":\"chart\",\"data\":{\"chart_name\":\"buying\",\"col\":6}},{\"id\":\"8sf-Mk8Wvp\",\"type\":\"card\",\"data\":{\"card_name\":\"Movement\",\"col\":4}},{\"id\":\"BBTRXVnwSl\",\"type\":\"card\",\"data\":{\"card_name\":\"Master\",\"col\":4}},{\"id\":\"LDjYY7oMV9\",\"type\":\"card\",\"data\":{\"card_name\":\"Impacts\",\"col\":4}},{\"id\":\"AzFYs6_R0v\",\"type\":\"card\",\"data\":{\"card_name\":\"Permissions\",\"col\":4}},{\"id\":\"dbXE2A5fPf\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"u_uCeIjbql\",\"type\":\"card\",\"data\":{\"card_name\":\" Reports\",\"col\":4}}]",
  "creation": "2024-02-28 14:44:13.853104",
  "custom_blocks": [],
  "docstatus": 0,
@@ -57,18 +66,8 @@
    "is_query_report": 0,
    "label": "Printing Package",
    "link_count": 0,
-   "link_to": "Printing Package",
+   "link_to": "Printing Roll",
    "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales report",
-   "link_count": 0,
-   "link_to": "Teller Sales",
-   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   },
@@ -127,36 +126,7 @@
    "is_query_report": 0,
    "label": "Printing Package",
    "link_count": 0,
-   "link_to": "Printing Package",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Daily branch closure",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Opening Shift",
-   "link_count": 0,
-   "link_to": "OPen Shift",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Closing Shift",
-   "link_count": 0,
-   "link_to": "Close Shift",
+   "link_to": "Printing Roll",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -183,8 +153,27 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Operations",
-   "link_count": 5,
+   "label": "Settings",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "General Settings",
+   "link_count": 0,
+   "link_to": "Teller Setting",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Movement",
+   "link_count": 7,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -196,26 +185,6 @@
    "link_count": 0,
    "link_to": "Payment Entry",
    "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Printing Package",
-   "link_count": 0,
-   "link_to": "Printing Package",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "General Ledger",
-   "link_count": 0,
-   "link_to": "General Ledger",
-   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   },
@@ -242,8 +211,48 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Settings",
-   "link_count": 1,
+   "label": "Cash Transfer Bill Of Exchange",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Request To Transfer Cash Receip From Bank",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bank Transfer Document",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cash Voucher",
+   "link_count": 0,
+   "link_to": "Mode of Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Master",
+   "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -251,15 +260,163 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "General Settings",
+   "label": "Companies",
    "link_count": 0,
-   "link_to": "Teller Setting",
+   "link_to": "Customer",
    "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Banks",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Individuals",
+   "link_count": 0,
+   "link_to": "Customer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Currency Exchange Rates",
+   "link_count": 0,
+   "link_to": "Item Price",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Currency Data",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cashier Till",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Impacts",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cancel Purchase Effect",
+   "link_count": 0,
+   "link_to": "Cancel Purchase Effect",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bank Deposit Voucher",
+   "link_count": 0,
+   "link_to": "Bank Transaction",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cancellation Of The Effect Of Bank Deposit",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cancel Selling Effect",
+   "link_count": 0,
+   "link_to": "Cancel Selling Effect",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Branch Closure",
+   "link_count": 0,
+   "link_to": "Close Shift",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Branch Opening",
+   "link_count": 0,
+   "link_to": "OPen Shift",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": " Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Branch Balances Report",
+   "link_count": 0,
+   "link_to": "General Ledger",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Treasury Movement Report",
+   "link_count": 0,
+   "link_to": "General Ledger",
+   "link_type": "Report",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2024-02-29 17:08:54.347296",
+ "modified": "2024-03-03 16:55:07.319433",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller System",

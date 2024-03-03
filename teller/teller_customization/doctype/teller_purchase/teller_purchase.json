@@ -9,10 +9,11 @@
   "date",
   "movement_number",
   "price_list",
+  "treasury_code",
   "column_break_tvyk",
   "receipt_number",
+  "current_roll",
   "branch_number",
-  "treasury_code",
   "column_break_sgyq",
   "cost_center_number",
   "shift",
@@ -74,9 +75,8 @@
   },
   {
    "fieldname": "receipt_number",
-   "fieldtype": "Link",
-   "label": "Receipt number",
-   "options": "Printing Roll"
+   "fieldtype": "Data",
+   "label": "Receipt number"
   },
   {
    "fieldname": "branch_number",
@@ -143,7 +143,7 @@
   },
   {
    "fieldname": "primary_contacts",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Primary Contacts"
   },
   {
@@ -250,12 +250,18 @@
    "fieldtype": "Link",
    "label": "Teller",
    "options": "User"
+  },
+  {
+   "fieldname": "current_roll",
+   "fieldtype": "Link",
+   "label": "Current Roll",
+   "options": "Printing Roll"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 20:18:38.917588",
+ "modified": "2024-03-03 20:43:40.163484",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

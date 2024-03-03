@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "shift_.####",
+ "autoname": "Open Shift_.####",
  "creation": "2024-02-28 21:21:13.765288",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -63,7 +63,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 11:18:29.285872",
+ "modified": "2024-03-03 20:23:51.952231",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "OPen Shift",

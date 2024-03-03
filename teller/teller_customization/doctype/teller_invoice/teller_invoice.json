@@ -12,7 +12,6 @@
   "column_break_beht",
   "receipt_number",
   "branch_number",
-  "special_price",
   "column_break_racu",
   "treasury_code",
   "cost_center_number",
@@ -68,8 +67,9 @@
    "label": "Receipt number"
   },
   {
+   "default": "Now",
    "fieldname": "date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "label": "Date"
   },
   {
@@ -77,11 +77,6 @@
    "fieldtype": "Link",
    "label": "Cost center number",
    "options": "Cost Center"
-  },
-  {
-   "fieldname": "special_price",
-   "fieldtype": "Currency",
-   "label": "Special price"
   },
   {
    "fieldname": "section_break_onwq",
@@ -249,7 +244,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-28 16:17:02.160837",
+ "modified": "2024-03-03 11:11:41.352821",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

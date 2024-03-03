@@ -48,8 +48,9 @@
  ],
  "fields": [
   {
+   "default": "Now",
    "fieldname": "date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "label": "Date"
   },
   {
@@ -253,7 +254,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-02-29 12:59:19.254409",
+ "modified": "2024-03-03 11:12:45.423628",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

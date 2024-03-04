@@ -12,8 +12,8 @@
   "receipt_number",
   "current_roll",
   "column_break_sgyq",
-  "cost_center_number",
-  "branch",
+  "shift",
+  "teller",
   "section_break_defd",
   "category_of_buyer",
   "column_break_gkcv",
@@ -45,10 +45,10 @@
   "amended_from",
   "invoice_information_section",
   "price_list",
-  "treasury_code",
+  "treasury",
   "column_break_oxye",
-  "shift",
-  "teller"
+  "branch",
+  "cost_center_number"
  ],
  "fields": [
   {
@@ -82,16 +82,9 @@
    "label": "Receipt number"
   },
   {
-   "fieldname": "treasury_code",
-   "fieldtype": "Link",
-   "label": "Treasury code",
-   "options": "Mode of Payment"
-  },
-  {
    "fieldname": "cost_center_number",
-   "fieldtype": "Link",
-   "label": "Cost center number",
-   "options": "Cost Center"
+   "fieldtype": "Data",
+   "label": "Cost center number"
   },
   {
    "fieldname": "section_break_defd",
@@ -269,20 +262,24 @@
   {
    "default": "Cairo",
    "fieldname": "branch",
-   "fieldtype": "Link",
-   "label": "Branch",
-   "options": "Branch"
+   "fieldtype": "Data",
+   "label": "Branch"
   },
   {
    "fieldname": "national_id",
    "fieldtype": "Data",
    "label": "National ID"
+  },
+  {
+   "fieldname": "treasury",
+   "fieldtype": "Data",
+   "label": "Treasury"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 11:55:24.800417",
+ "modified": "2024-03-04 13:17:25.043138",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

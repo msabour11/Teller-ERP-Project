@@ -6,4 +6,9 @@ from frappe.model.document import Document
 
 
 class TellerSetting(Document):
+	# treasury = frappe.get_single_value("Teller Setting", "treasury_code")
+	# frappe.db.set_value('Teller Purchase','treasury', treasury)
+
+	# print(treasury)
 	pass
+	

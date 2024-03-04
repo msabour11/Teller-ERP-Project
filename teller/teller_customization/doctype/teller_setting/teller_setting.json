@@ -5,18 +5,52 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_jvme"
+  "server_settings_section",
+  "cost_center",
+  "branch",
+  "column_break_mmao",
+  "price_list",
+  "treasury_code"
  ],
  "fields": [
   {
-   "fieldname": "section_break_jvme",
-   "fieldtype": "Section Break"
+   "fieldname": "server_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Server Settings"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "price_list",
+   "fieldtype": "Link",
+   "label": "Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "treasury_code",
+   "fieldtype": "Link",
+   "label": "Treasury code",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "column_break_mmao",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-02-29 17:06:58.875395",
+ "modified": "2024-03-04 12:13:47.661389",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

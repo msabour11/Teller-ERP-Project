@@ -13,7 +13,7 @@
   "current_roll",
   "column_break_sgyq",
   "cost_center_number",
-  "branch_number",
+  "branch",
   "section_break_defd",
   "category_of_buyer",
   "column_break_gkcv",
@@ -22,6 +22,7 @@
   "customer_name",
   "gender",
   "nationality",
+  "national_id",
   "column_break_djgb",
   "primary_contacts",
   "work_for",
@@ -79,12 +80,6 @@
    "fieldname": "receipt_number",
    "fieldtype": "Data",
    "label": "Receipt number"
-  },
-  {
-   "fieldname": "branch_number",
-   "fieldtype": "Link",
-   "label": "Branch number",
-   "options": "Branch"
   },
   {
    "fieldname": "treasury_code",
@@ -270,12 +265,24 @@
   {
    "fieldname": "column_break_oxye",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Cairo",
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "national_id",
+   "fieldtype": "Data",
+   "label": "National ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 10:58:24.987857",
+ "modified": "2024-03-04 11:55:24.800417",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

@@ -97,6 +97,7 @@ frappe.ui.form.on("Teller Purchase", {
             frm.set_value("primary_contacts", r.message.primary_address);
             frm.set_value("mobile_number", r.message.mobile_no);
             frm.set_value("work_for", r.message.custom_work_for);
+            frm.set_value("national_id", r.message.custom_national_id);
           },
         });
       } else {
@@ -107,6 +108,7 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("primary_contacts", "");
         frm.set_value("mobile_number", "");
         frm.set_value("work_for", "");
+        frm.set_value("national_id", "");
       }
     } else if (frm.doc.category_of_buyer == "Companies") {
       if (frm.doc.buyer) {

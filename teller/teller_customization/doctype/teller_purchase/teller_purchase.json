@@ -66,7 +66,8 @@
    "fieldname": "price_list",
    "fieldtype": "Link",
    "label": "Price List",
-   "options": "Price List"
+   "options": "Price List",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_tvyk",
@@ -79,12 +80,14 @@
   {
    "fieldname": "receipt_number",
    "fieldtype": "Data",
-   "label": "Receipt number"
+   "label": "Receipt number",
+   "read_only": 1
   },
   {
    "fieldname": "cost_center_number",
    "fieldtype": "Data",
-   "label": "Cost center number"
+   "label": "Cost center number",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_defd",
@@ -235,20 +238,23 @@
    "fieldname": "shift",
    "fieldtype": "Link",
    "label": "Shift",
-   "options": "OPen Shift"
+   "options": "OPen Shift",
+   "read_only": 1
   },
   {
-   "fetch_from": "shift.current_user",
+   "fetch_from": ".current_user",
    "fieldname": "teller",
    "fieldtype": "Link",
    "label": "Teller",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "current_roll",
    "fieldtype": "Link",
    "label": "Current Roll",
-   "options": "Printing Roll"
+   "options": "Printing Roll",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -264,7 +270,8 @@
    "default": "Cairo",
    "fieldname": "branch",
    "fieldtype": "Data",
-   "label": "Branch"
+   "label": "Branch",
+   "read_only": 1
   },
   {
    "fieldname": "national_id",
@@ -274,13 +281,14 @@
   {
    "fieldname": "treasury",
    "fieldtype": "Data",
-   "label": "Treasury"
+   "label": "Treasury",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 13:35:59.921641",
+ "modified": "2024-03-04 16:27:08.353391",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

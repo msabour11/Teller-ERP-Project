@@ -9,11 +9,15 @@ frappe.ui.form.on("Teller Purchase", {
           customer_group: doc.category_of_buyer,
         },
       };
-    });
+    })
 
     // get the current active Printing Roll from the Value doctype
   },
   onload(frm) {
+     // Check if the document is newly created
+    if (!frm.doc.__islocal) {
+        return;
+    }
     frappe.call({
       method: "frappe.client.get_list",
       args: {

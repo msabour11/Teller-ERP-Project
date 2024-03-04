@@ -33,7 +33,8 @@
   {
    "fieldname": "last_printed_number",
    "fieldtype": "Int",
-   "label": "Last Printed Number"
+   "label": "Last Printed Number",
+   "read_only": 1
   },
   {
    "fieldname": "branch",
@@ -60,7 +61,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-03 13:59:52.851595",
+ "modified": "2024-03-04 17:01:09.962099",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

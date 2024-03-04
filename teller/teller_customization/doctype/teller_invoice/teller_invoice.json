@@ -12,8 +12,8 @@
   "receipt_number",
   "current_roll",
   "column_break_racu",
-  "teller",
   "shift",
+  "teller",
   "section_break_onwq",
   "client_type",
   "column_break_nlal",
@@ -60,7 +60,8 @@
   {
    "fieldname": "treasury_code",
    "fieldtype": "Data",
-   "label": "Treasury code"
+   "label": "Treasury code",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_beht",
@@ -80,7 +81,8 @@
   {
    "fieldname": "cost_center_number",
    "fieldtype": "Data",
-   "label": "Cost center number"
+   "label": "Cost center number",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_onwq",
@@ -211,7 +213,8 @@
   {
    "fieldname": "price_list",
    "fieldtype": "Data",
-   "label": "Price List"
+   "label": "Price List",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_nlal",
@@ -250,12 +253,14 @@
    "fieldname": "teller",
    "fieldtype": "Link",
    "label": "Teller",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "branch_number",
    "fieldtype": "Data",
-   "label": "Branch"
+   "label": "Branch",
+   "read_only": 1
   },
   {
    "fieldname": "shift",
@@ -263,7 +268,7 @@
    "in_list_view": 1,
    "label": "Shift",
    "options": "OPen Shift",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -283,7 +288,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-04 13:33:21.491927",
+ "modified": "2024-03-04 16:25:14.186036",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

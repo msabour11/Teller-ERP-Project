@@ -13,7 +13,8 @@
   "end_date",
   "column_break_wnku",
   "serial",
-  "current_user"
+  "current_user",
+  "active"
  ],
  "fields": [
   {
@@ -58,12 +59,18 @@
    "fieldtype": "Link",
    "label": "Current User",
    "options": "User"
+  },
+  {
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 20:23:51.952231",
+ "modified": "2024-03-04 13:45:03.080568",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "OPen Shift",

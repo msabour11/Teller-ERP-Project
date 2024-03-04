@@ -8,11 +8,14 @@ from frappe.utils import add_days, cint, cstr, flt, formatdate, get_link_to_form
 
 class TellerInvoice(Document):
 
+
 	def onload(self):
 		self.set_treasury()
 		self.set_branch()
 		self.set_price()
 		self.set_cost()
+		self.get_active_shift()
+		# self.get_printing_roll()
 
 	def set_treasury(self):
 		treasury_code = frappe.db.get_single_value('Teller Setting', 'treasury_code')
@@ -29,12 +32,22 @@ class TellerInvoice(Document):
 	def set_cost(self):
 		cost = frappe.db.get_single_value('Teller Setting', 'cost_center')
 		self.cost_center_number = cost
-	
-	def update_item(source_doc, target_doc, source_parent):
-	# target_doc.qty = flt(source_doc.qty) - flt(source_doc.delivered_qty)
-		# target_doc.stock_qty = target_doc.qty * flt(source_doc.conversion_factor)
-		#
-		# target_doc.base_amount = target_doc.qty * flt(source_doc.base_rate)
-		target_doc.amount = target_doc.qty * flt(source_doc.rate)
+
+	def get_active_shift(self):
+		shift = frappe.db.get_value('OPen Shift', {'active': 1})
+		user = frappe.db.get_value('OPen Shift', {'active': 1}, 'current_user')
+		self.shift = shift
+		self.teller = user
+
+	# def get_printing_roll(self):
+	# 	roll_code = frappe.db.get_value('Printing Roll',{'active':1},)
+	# 	self.current_roll = roll_code
+	# 	last_printed_no = frappe.db.get_value('Printing Roll',{'active':1},'last_printed_number')
+	# 	lettres = frappe.db.get_value('Printing Roll',{'active':1},'starting_letters')
+	# 	frappe.msgprint(roll_code)
+	#
+	# 	last_printed_no += 1
+	# 	recp=f"{lettres}-{last_printed_no}"
+	# 	self.receipt_number = recp
 
 

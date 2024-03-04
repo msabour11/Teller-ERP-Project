@@ -8,16 +8,12 @@
  "field_order": [
   "date",
   "movement_number",
-  "price_list",
-  "treasury_code",
   "column_break_tvyk",
   "receipt_number",
   "current_roll",
-  "branch_number",
   "column_break_sgyq",
   "cost_center_number",
-  "shift",
-  "teller",
+  "branch_number",
   "section_break_defd",
   "category_of_buyer",
   "column_break_gkcv",
@@ -45,7 +41,13 @@
   "total",
   "section_break_erkw",
   "notes",
-  "amended_from"
+  "amended_from",
+  "invoice_information_section",
+  "price_list",
+  "treasury_code",
+  "column_break_oxye",
+  "shift",
+  "teller"
  ],
  "fields": [
   {
@@ -203,8 +205,10 @@
    "options": "Teller Items"
   },
   {
+   "collapsible": 1,
    "fieldname": "section_break_erkw",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Notes"
   },
   {
    "fieldname": "notes",
@@ -256,12 +260,22 @@
    "fieldtype": "Link",
    "label": "Current Roll",
    "options": "Printing Roll"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "invoice_information_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Information"
+  },
+  {
+   "fieldname": "column_break_oxye",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 20:43:40.163484",
+ "modified": "2024-03-04 10:58:24.987857",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

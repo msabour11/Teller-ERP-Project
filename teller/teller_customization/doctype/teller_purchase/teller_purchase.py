@@ -15,7 +15,7 @@ class TellerPurchase(Document):
     def set_treasury(self):
         treasury_code = frappe.db.get_single_value('Teller Setting', 'treasury_code')
         self.treasury = treasury_code
-        
+
 
     def set_branch(self):
         branch = frappe.db.get_single_value('Teller Setting', 'branch')

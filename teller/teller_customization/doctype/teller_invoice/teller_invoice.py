@@ -7,18 +7,31 @@ from frappe.utils import add_days, cint, cstr, flt, formatdate, get_link_to_form
 
 
 class TellerInvoice(Document):
-	# def validate(self):
-	# 	self.calculate_total_amount()
-	#
-	# def calculate_total_amount(self):
-	# 	amount = 0
-	# 	for item in self.items:
-	# 		amount += item.qty*item.rate
-	# 	self.amount = amount
-	# 	frappe.msgprint(amount)
-	# 	print(amount)
+
+	def onload(self):
+		self.set_treasury()
+		self.set_branch()
+		self.set_price()
+		self.set_cost()
+
+	def set_treasury(self):
+		treasury_code = frappe.db.get_single_value('Teller Setting', 'treasury_code')
+		self.treasury_code = treasury_code
+
+	def set_branch(self):
+		branch = frappe.db.get_single_value('Teller Setting', 'branch')
+		self.branch_number = branch
+
+	def set_price(self):
+		price_lst = frappe.db.get_single_value('Teller Setting', 'price_list')
+		self.price_list = price_lst
+
+	def set_cost(self):
+		cost = frappe.db.get_single_value('Teller Setting', 'cost_center')
+		self.cost_center_number = cost
+	
 	def update_item(source_doc, target_doc, source_parent):
-		# target_doc.qty = flt(source_doc.qty) - flt(source_doc.delivered_qty)
+	# target_doc.qty = flt(source_doc.qty) - flt(source_doc.delivered_qty)
 		# target_doc.stock_qty = target_doc.qty * flt(source_doc.conversion_factor)
 		#
 		# target_doc.base_amount = target_doc.qty * flt(source_doc.base_rate)

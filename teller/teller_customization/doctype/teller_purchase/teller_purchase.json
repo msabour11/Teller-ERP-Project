@@ -238,6 +238,7 @@
    "options": "OPen Shift"
   },
   {
+   "fetch_from": "shift.current_user",
    "fieldname": "teller",
    "fieldtype": "Link",
    "label": "Teller",
@@ -279,7 +280,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 13:17:25.043138",
+ "modified": "2024-03-04 13:35:59.921641",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

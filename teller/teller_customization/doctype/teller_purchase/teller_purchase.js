@@ -82,6 +82,19 @@ frappe.ui.form.on("Teller Purchase", {
         }
       },
     });
+    frappe.call({
+      method: "frappe.client.get_value",
+      args: {
+        doctype: "OPen Shift",
+        filters: {active:1},
+        fieldname: ['name','current_user'],
+      },
+        callback: function (response) {
+        console.log(response.message)
+          frm.set_value('shift',response.message.name)
+          frm.set_value('teller',response.message.current_user)
+        }
+    })
   },
 
   buyer: function (frm) {
@@ -203,12 +216,12 @@ frappe.ui.form.on("Teller Items", {
         args: {
           doctype: "Item Price",
           filters: { item_code: row.item_code },
-          fieldname: "custom_purchase_rate",
+          fieldname: "price_list_rate",
         },
         callback: function (response) {
           console.log(response); // Log the entire response
           if (response.message) {
-            let item_rate = response.message.custom_purchase_rate;
+            let item_rate = response.message.price_list_rate;
             console.log(item_rate);
             frappe.model.set_value(cdt, cdn, "rate", item_rate);
             if (row.quantity) {
@@ -242,4 +255,26 @@ frappe.ui.form.on("Teller Items", {
       frm.set_value("total", total);
     }
   },
+  //  on_trash: function(frm, cdt, cdn) {
+  //   // Call a function to recalculate the total
+  //     console.log("Item deleted, recalculating total...");
+  //   // frm.events.set_total(frm);
+  //      frm.trigger('set_total');
+  // },
+  // // Define the function to recalculate the total
+  // set_total: function(frm) {
+  //   let total = 0;
+  //   // Loop through the remaining items and add their amounts
+  //   frm.doc.items.forEach(function (item) {
+  //     total += item.amount;
+  //   });
+  //   // Set the total field value
+  //   frm.set_value("total", total);
+  //    // frappe.model.set_value(frm.doctype, frm.docname, "total", total);
+  //   // Refresh the total field
+  //   frm.refresh_field("total");
+  //    console.log("Total updated:", total);
+  // }
+
 });
+

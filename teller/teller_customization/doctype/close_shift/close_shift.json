@@ -18,7 +18,17 @@
   "current_user",
   "open_shift",
   "section_break_xmut",
-  "invoices_tables"
+  "invoices_tables",
+  "invoices_purchase_total_section",
+  "column_break_vtfs",
+  "column_break_pzqx",
+  "total_purchase",
+  "sales_invoices_section",
+  "sales_table",
+  "invoices_sales_total_section",
+  "column_break_lsit",
+  "column_break_ibdu",
+  "total_sales"
  ],
  "fields": [
   {
@@ -92,12 +102,59 @@
    "fieldtype": "Table",
    "label": "Invoices tables",
    "options": "Invoice Table"
+  },
+  {
+   "fieldname": "invoices_purchase_total_section",
+   "fieldtype": "Section Break",
+   "label": "Invoices Purchase Total"
+  },
+  {
+   "fieldname": "column_break_vtfs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_pzqx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_purchase",
+   "fieldtype": "Currency",
+   "label": "Total Purchase"
+  },
+  {
+   "fieldname": "sales_invoices_section",
+   "fieldtype": "Section Break",
+   "label": "Sales Invoices"
+  },
+  {
+   "fieldname": "sales_table",
+   "fieldtype": "Table",
+   "label": "Sales Table",
+   "options": "Sales Table"
+  },
+  {
+   "fieldname": "invoices_sales_total_section",
+   "fieldtype": "Section Break",
+   "label": "Invoices Sales Total"
+  },
+  {
+   "fieldname": "column_break_lsit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ibdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_sales",
+   "fieldtype": "Currency",
+   "label": "Total Sales"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 01:21:42.916990",
+ "modified": "2024-03-05 02:11:56.863706",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

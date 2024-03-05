@@ -6,6 +6,12 @@
  "engine": "InnoDB",
  "field_order": [
   "server_settings_section",
+  "ip",
+  "database",
+  "column_break_sjag",
+  "user_name",
+  "password",
+  "invoice_setting_section",
   "cost_center",
   "branch",
   "column_break_mmao",
@@ -45,12 +51,41 @@
   {
    "fieldname": "column_break_mmao",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ip",
+   "fieldtype": "Data",
+   "label": "IP"
+  },
+  {
+   "fieldname": "database",
+   "fieldtype": "Data",
+   "label": "DataBase"
+  },
+  {
+   "fieldname": "column_break_sjag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "label": "User Name"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "invoice_setting_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Settings"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-04 12:13:47.661389",
+ "modified": "2024-03-05 12:45:55.269554",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

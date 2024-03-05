@@ -101,7 +101,8 @@
    "fieldname": "invoices_tables",
    "fieldtype": "Table",
    "label": "Invoices tables",
-   "options": "Invoice Table"
+   "options": "Invoice Table",
+   "read_only": 1
   },
   {
    "fieldname": "invoices_purchase_total_section",
@@ -119,7 +120,8 @@
   {
    "fieldname": "total_purchase",
    "fieldtype": "Currency",
-   "label": "Total Purchase"
+   "label": "Total Purchase",
+   "read_only": 1
   },
   {
    "fieldname": "sales_invoices_section",
@@ -130,7 +132,8 @@
    "fieldname": "sales_table",
    "fieldtype": "Table",
    "label": "Sales Table",
-   "options": "Sales Table"
+   "options": "Sales Table",
+   "read_only": 1
   },
   {
    "fieldname": "invoices_sales_total_section",
@@ -148,13 +151,14 @@
   {
    "fieldname": "total_sales",
    "fieldtype": "Currency",
-   "label": "Total Sales"
+   "label": "Total Sales",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-05 02:11:56.863706",
+ "modified": "2024-03-05 13:10:24.655118",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

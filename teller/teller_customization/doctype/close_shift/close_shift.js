@@ -1,8 +1,6 @@
 // Copyright (c) 2024, Mohamed AbdElsabour and contributors
 // For license information, please see license.txt
 
-
-
 frappe.ui.form.on("Close Shift", {
   refresh(frm) {},
   async get_invoices(frm) {
@@ -35,17 +33,25 @@ frappe.ui.form.on("Close Shift", {
             const invocies = invResponse.message;
             const arr = invocies.items;
             let amount = 0;
+            console.log(arr);
 
             arr.forEach((element) => {
               // console.log(element["amount"]);
               amount += element["amount"];
+              frm.add_child("invoices_tables", {
+                reference: invocies.name,
+                //  total: invocies.total,
+                amount: element["amount"],
+                item_code: element["item_code"],
+                quantity: element["quantity"],
+              });
             });
 
-            frm.add_child("invoices_tables", {
-              reference: invocies.name,
-              total: invocies.total,
-              amount: amount,
-            });
+            // frm.add_child("invoices_tables", {
+            //   reference: invocies.name,
+            //   total: invocies.total,
+            //   // amount: element["amount"],
+            // });
 
             total_purchase_invoices += invocies.total;
           }
@@ -88,15 +94,22 @@ frappe.ui.form.on("Close Shift", {
             let amount = 0;
 
             arr.forEach((element) => {
-              // console.log(element["amount"]);
+              console.log(element["amount"]);
               amount += element["amount"];
+              frm.add_child("sales_table", {
+                reference: invocies.name,
+                //  total: invocies.total,
+                amount: element["amount"],
+                item_code: element["item_code"],
+                quantity: element["quantity"],
+              });
             });
 
-            frm.add_child("sales_table", {
-              reference: invocies.name,
-              total: invocies.total,
-              // amount: amount,
-            });
+            // frm.add_child("sales_table", {
+            //   reference: invocies.name,
+            //   total: invocies.total,
+            //   // amount: amount,
+            // });
 
             total_sale_invoices += invocies.total;
           }

@@ -228,11 +228,6 @@ frappe.ui.form.on("Teller Items", {
     }
   },
 
-  items_remove: function (frm) {
-    let total = 0;
-    frm.doc.items.forEach(function (item) {
-      total += item.amount;
-    });
-    frm.set_value("total", total);
-  },
+  
+  
 });

@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Teller Purchase", {
   refresh(frm) {
-     // filter customers based on  customer category
+    // filter customers based on  customer category
     frm.set_query("buyer", function (doc) {
       return {
         filters: {
@@ -102,7 +102,7 @@ frappe.ui.form.on("Teller Purchase", {
       },
     });
   },
-   // get customer information if exists
+  // get customer information if exists
   buyer: function (frm) {
     if (frm.doc.category_of_buyer == "Individual") {
       if (frm.doc.buyer) {
@@ -113,7 +113,6 @@ frappe.ui.form.on("Teller Purchase", {
             name: frm.doc.buyer,
           },
           callback: function (r) {
-            
             frm.set_value("customer_name", r.message.customer_name);
             frm.set_value("gender", r.message.gender);
             frm.set_value("nationality", r.message.custom_nationality);
@@ -176,8 +175,7 @@ frappe.ui.form.on("Teller Purchase", {
   },
 });
 
-
-// set currency items code and purchasing  rate  
+// set currency items code and purchasing  rate
 
 frappe.ui.form.on("Teller Items", {
   item_code: function (frm, cdt, cdn) {
@@ -218,6 +216,7 @@ frappe.ui.form.on("Teller Items", {
       frappe.model.set_value(cdt, cdn, "amount", row.rate * row.quantity);
     }
   },
+
   amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
     if (row.amount) {
@@ -228,24 +227,12 @@ frappe.ui.form.on("Teller Items", {
       frm.set_value("total", total);
     }
   },
-  //  on_trash: function(frm, cdt, cdn) {
-  //   // Call a function to recalculate the total
-  //     console.log("Item deleted, recalculating total...");
-  //   // frm.events.set_total(frm);
-  //      frm.trigger('set_total');
-  // },
-  // // Define the function to recalculate the total
-  // set_total: function(frm) {
-  //   let total = 0;
-  //   // Loop through the remaining items and add their amounts
-  //   frm.doc.items.forEach(function (item) {
-  //     total += item.amount;
-  //   });
-  //   // Set the total field value
-  //   frm.set_value("total", total);
-  //    // frappe.model.set_value(frm.doctype, frm.docname, "total", total);
-  //   // Refresh the total field
-  //   frm.refresh_field("total");
-  //    console.log("Total updated:", total);
-  // }
+
+  items_remove: function (frm) {
+    let total = 0;
+    frm.doc.items.forEach(function (item) {
+      total += item.amount;
+    });
+    frm.set_value("total", total);
+  },
 });

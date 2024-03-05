@@ -54,9 +54,9 @@ frappe.ui.form.on("Teller Invoice", {
     };
   },
   onload(frm) {
-     // Check if the document is newly created
+    // Check if the document is newly created
     if (!frm.doc.__islocal) {
-        return;
+      return;
     }
     frappe.call({
       method: "frappe.client.get_list",
@@ -120,6 +120,20 @@ frappe.ui.form.on("Teller Invoice", {
             },
           });
         }
+      },
+    });
+    // get the active open shift and the associated teller user
+    frappe.call({
+      method: "frappe.client.get_value",
+      args: {
+        doctype: "OPen Shift",
+        filters: { active: 1 },
+        fieldname: ["name", "current_user"],
+      },
+      callback: function (response) {
+        console.log(response.message);
+        frm.set_value("shift", response.message.name);
+        frm.set_value("teller", response.message.current_user);
       },
     });
   },

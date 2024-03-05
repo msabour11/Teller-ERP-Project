@@ -14,7 +14,7 @@ class TellerInvoice(Document):
 		self.set_branch()
 		self.set_price()
 		self.set_cost()
-		self.get_active_shift()
+		# self.get_active_shift()
 		# self.get_printing_roll()
 
 	def set_treasury(self):

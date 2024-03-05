@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Teller Purchase", {
   refresh(frm) {
-  
+     // filter customers based on  customer category
     frm.set_query("buyer", function (doc) {
       return {
         filters: {
@@ -19,6 +19,7 @@ frappe.ui.form.on("Teller Purchase", {
     if (!frm.doc.__islocal) {
       return;
     }
+    // add printing roll serial to each invoice
     frappe.call({
       method: "frappe.client.get_list",
       args: {
@@ -31,6 +32,7 @@ frappe.ui.form.on("Teller Purchase", {
         order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
       },
       callback: function (response) {
+        // check if there is response and there is at least one active roll
         if (response && response.message && response.message.length > 0) {
           let current_active_roll = response.message[0].name;
 
@@ -100,7 +102,7 @@ frappe.ui.form.on("Teller Purchase", {
       },
     });
   },
-
+   // get customer information if exists
   buyer: function (frm) {
     if (frm.doc.category_of_buyer == "Individual") {
       if (frm.doc.buyer) {
@@ -111,7 +113,7 @@ frappe.ui.form.on("Teller Purchase", {
             name: frm.doc.buyer,
           },
           callback: function (r) {
-            // set the fields with r.message.fieldname
+            
             frm.set_value("customer_name", r.message.customer_name);
             frm.set_value("gender", r.message.gender);
             frm.set_value("nationality", r.message.custom_nationality);
@@ -122,7 +124,7 @@ frappe.ui.form.on("Teller Purchase", {
           },
         });
       } else {
-        // clear the fields
+        // clear the fields if the customer not exists
         frm.set_value("customer_name", "");
         frm.set_value("gender", "");
         frm.set_value("nationality", "");
@@ -174,41 +176,8 @@ frappe.ui.form.on("Teller Purchase", {
   },
 });
 
-// frappe.ui.form.on("Teller Items", {
-//   item_code: function (frm, cdt, cdn) {
-//     var row = locals[cdt][cdn];
 
-//     if (row.item_code) {
-//       frappe.call({
-//         method: "frappe.client.get_value",
-//         args: {
-//           doctype: "Item Price",
-//           filters: { item_code: row.item_code },
-//           fieldname: "price_list_rate",
-//         },
-//         callback: function (response) {
-//           console.log(response);
-//           if (response.message) {
-//             let item_rate = response.message.price_list_rate;
-//             console.log(item_rate);
-
-//             // row.rate = item_rate;
-//             // refresh_field(cdt, cdn, "rate");
-
-//             frappe.model.set_value(cdt, cdn, "rate", item_rate);
-//             frappe.model.set_value(
-//               cdt,
-//               cdn,
-//               "amount",
-//               item_rate * row.quantity
-//             );
-//             console.log(row.amount);
-//           }
-//         },
-//       });
-//     }
-//   },
-// });
+// set currency items code and purchasing  rate  
 
 frappe.ui.form.on("Teller Items", {
   item_code: function (frm, cdt, cdn) {
@@ -235,7 +204,7 @@ frappe.ui.form.on("Teller Items", {
                 "amount",
                 item_rate * row.quantity
               );
-              console.log(row.amount);
+              // console.log(row.amount);
             }
           }
         },

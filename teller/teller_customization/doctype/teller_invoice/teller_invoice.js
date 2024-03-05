@@ -2,49 +2,8 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Invoice", {
-  // items: function (frm) {
-  //   if (frm.doc.items.length > 3) {
-  //     frappe.throw("You cannot add more than three items.");
-  //     //   validated = false;
-  //   }
-  // },
-
-  //   "items_add": function(frm, cdt, cdn) {
-  //   if (frm.doc.items.length > 3) {
-  //     frappe.throw("You cannot add more than three items.");
-  //     // Remove the last row
-  //     frm.doc.items.splice(-1,1);
-  //     frm.refresh_field("items");
-  //   }
-  // },
-  // onload(frm) {
-  //   frappe.call({
-  //     method: "frappe.client.get",
-  //     args: {
-  //       doctype: "Printing Roll",
-  //       // fieldname: "last_printed_number",
-  //       name: frm.doc.current_roll,
-
-  //       // filters: {
-  //       //   name: frm.doc.current_roll,
-  //       // },
-  //     },
-  //     callback: function (response) {
-  //       if (response.message) {
-  //         // lpn = response.message.last_printed_number;
-  //         // lpn = parseInt(lpn);
-  //         // frm.set_value("last_printed_number", lpn);
-  //         // lpn += 1;
-  //         // frm.set_value("last_printed_number", lpn);
-  //         // console.log(lpn);
-  //         console.log(response.message);
-  //       }
-  //     },
-  //   });
-  // },
-
   refresh(frm) {
-    // filter customers by customer group
+    // filter customers based on  customer group
     frm.fields_dict["client"].get_query = function (doc) {
       return {
         filters: {
@@ -58,6 +17,8 @@ frappe.ui.form.on("Teller Invoice", {
     if (!frm.doc.__islocal) {
       return;
     }
+
+    // add printing roll serial to each invoice
     frappe.call({
       method: "frappe.client.get_list",
       args: {
@@ -137,6 +98,8 @@ frappe.ui.form.on("Teller Invoice", {
       },
     });
   },
+
+  // Get customer information if exists
   client: function (frm) {
     if (frm.doc.client_type == "Individual") {
       if (frm.doc.client) {
@@ -209,6 +172,8 @@ frappe.ui.form.on("Teller Invoice", {
     }
   },
 });
+// set currency items code and selling  rate
+
 frappe.ui.form.on("Teller Items", {
   item_code: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];

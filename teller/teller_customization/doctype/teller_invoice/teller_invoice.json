@@ -70,13 +70,15 @@
   {
    "fieldname": "receipt_number",
    "fieldtype": "Data",
-   "label": "Receipt number"
+   "label": "Receipt number",
+   "read_only": 1
   },
   {
    "default": "Now",
    "fieldname": "date",
    "fieldtype": "Datetime",
-   "label": "Date"
+   "label": "Date",
+   "read_only": 1
   },
   {
    "fieldname": "cost_center_number",
@@ -89,12 +91,14 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "Individual",
    "fieldname": "client_type",
    "fieldtype": "Link",
    "label": "Client Type",
    "options": "Customer Group"
   },
   {
+   "default": "Ahmed",
    "fieldname": "client",
    "fieldtype": "Link",
    "label": "Client",
@@ -203,8 +207,7 @@
   {
    "fieldname": "total",
    "fieldtype": "Currency",
-   "label": "Total",
-   "read_only": 1
+   "label": "Total"
   },
   {
    "fieldname": "column_break_racu",
@@ -241,17 +244,20 @@
   },
   {
    "fieldname": "column_break_rnwq",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "read_only": 1
   },
   {
    "fieldname": "current_roll",
    "fieldtype": "Link",
    "label": "Current Roll",
-   "options": "Printing Roll"
+   "options": "Printing Roll",
+   "read_only": 1
   },
   {
    "fieldname": "teller",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Teller",
    "options": "User",
    "read_only": 1
@@ -288,7 +294,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-04 16:25:14.186036",
+ "modified": "2024-03-05 15:35:39.711659",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

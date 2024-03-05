@@ -21,7 +21,8 @@
   {
    "fieldname": "rate",
    "fieldtype": "Currency",
-   "label": "Rate"
+   "label": "Rate",
+   "read_only": 1
   },
   {
    "fieldname": "amount",
@@ -47,7 +48,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-02-27 21:54:32.870078",
+ "modified": "2024-03-05 15:10:38.734106",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Items",

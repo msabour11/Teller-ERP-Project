@@ -55,7 +55,8 @@
    "default": "Now",
    "fieldname": "date",
    "fieldtype": "Datetime",
-   "label": "Date"
+   "label": "Date",
+   "read_only": 1
   },
   {
    "fieldname": "movement_number",
@@ -94,6 +95,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "Individual",
    "fieldname": "category_of_buyer",
    "fieldtype": "Link",
    "label": "Category of buyer",
@@ -104,6 +106,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Ahmed",
    "fieldname": "buyer",
    "fieldtype": "Link",
    "label": "Buyer",
@@ -245,6 +248,7 @@
    "fetch_from": ".current_user",
    "fieldname": "teller",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Teller",
    "options": "User",
    "read_only": 1
@@ -288,7 +292,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-04 16:27:08.353391",
+ "modified": "2024-03-05 15:36:51.173455",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

@@ -236,3 +236,4 @@ frappe.ui.form.on("Teller Items", {
     frm.set_value("total", total);
   },
 });
+

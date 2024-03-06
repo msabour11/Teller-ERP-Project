@@ -105,6 +105,17 @@ frappe.ui.form.on("Close Shift", {
               });
             });
 
+            // total currency
+            // arr.forEach((element) => {
+            //   console.log(element["amount"]);
+            //   amount += element["amount"];
+            //   frm.add_child("total_currency", {
+            //     amount: element["amount"],
+            //     item_code: element["item_code"],
+            //     quantity: element["quantity"],
+            //   });
+            // });
+
             // frm.add_child("sales_table", {
             //   reference: invocies.name,
             //   total: invocies.total,

@@ -7,13 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
-  "movement_number",
   "column_break_tvyk",
   "receipt_number",
-  "current_roll",
   "column_break_sgyq",
-  "shift",
+  "current_roll",
   "teller",
+  "column_break_nwfq",
+  "shift",
   "section_break_defd",
   "category_of_buyer",
   "column_break_gkcv",
@@ -57,11 +57,6 @@
    "fieldtype": "Datetime",
    "label": "Date",
    "read_only": 1
-  },
-  {
-   "fieldname": "movement_number",
-   "fieldtype": "Data",
-   "label": "Movement Number"
   },
   {
    "fieldname": "price_list",
@@ -287,12 +282,16 @@
    "fieldtype": "Data",
    "label": "Treasury",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nwfq",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-05 15:36:51.173455",
+ "modified": "2024-03-06 10:08:49.477538",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

@@ -7,11 +7,11 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
-  "movement_number",
   "column_break_beht",
   "receipt_number",
-  "current_roll",
   "column_break_racu",
+  "current_roll",
+  "column_break_phqr",
   "shift",
   "teller",
   "section_break_onwq",
@@ -52,11 +52,6 @@
   "treasury_code"
  ],
  "fields": [
-  {
-   "fieldname": "movement_number",
-   "fieldtype": "Data",
-   "label": "Movement number"
-  },
   {
    "fieldname": "treasury_code",
    "fieldtype": "Data",
@@ -290,11 +285,15 @@
    "fieldname": "national_id",
    "fieldtype": "Data",
    "label": "National ID"
+  },
+  {
+   "fieldname": "column_break_phqr",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-05 15:35:39.711659",
+ "modified": "2024-03-06 10:10:25.471123",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

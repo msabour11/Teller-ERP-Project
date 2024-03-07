@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
+  "movement_number",
   "column_break_beht",
   "receipt_number",
   "column_break_racu",
@@ -19,8 +20,8 @@
   "column_break_nlal",
   "client",
   "individual_section",
-  "test",
   "gender",
+  "test",
   "nationality",
   "national_id",
   "column_break_vdaf",
@@ -93,7 +94,6 @@
    "options": "Customer Group"
   },
   {
-   "default": "Ahmed",
    "fieldname": "client",
    "fieldtype": "Link",
    "label": "Client",
@@ -106,12 +106,6 @@
    "fieldname": "individual_section",
    "fieldtype": "Section Break",
    "label": "Individual"
-  },
-  {
-   "fetch_from": ".customer_name",
-   "fieldname": "test",
-   "fieldtype": "Data",
-   "label": "Customer Name"
   },
   {
    "depends_on": "eval:doc.client_type=='Companies'",
@@ -289,11 +283,21 @@
   {
    "fieldname": "column_break_phqr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "movement_number",
+   "fieldtype": "Data",
+   "label": "Movement Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-06 10:10:25.471123",
+ "modified": "2024-03-07 13:29:50.866121",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

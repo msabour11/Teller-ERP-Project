@@ -171,6 +171,48 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
   },
+
+  // set Special sales rates
+  speacial_price: function (frm) {
+    // frappe.msgprint("Special price");
+
+    // Iterate over each item and set the rate to the special rate
+    frm.doc.items.forEach((item) => {
+      frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+          doctype: "Item Price",
+          filters: { item_code: item.item_code },
+          fieldname: "custom_selling_special_rate",
+        },
+
+        callback: function (response) {
+          console.log(response);
+          if (response.message) {
+            special_selling_rate = response.message.custom_selling_special_rate;
+            // console.log(custom_selling_special_rate);
+
+            frappe.model.set_value(
+              "Teller Items",
+              item.name,
+              "rate",
+              special_selling_rate
+            );
+            special_amount = special_selling_rate * item.quantity;
+            if (item.quantity) {
+              frappe.model.set_value(
+                "Teller Items",
+                item.name,
+                "amount",
+                special_amount
+              );
+            }
+            // console.log(special_amount);
+          }
+        },
+      });
+    });
+  },
 });
 // set currency items code and selling  rate
 

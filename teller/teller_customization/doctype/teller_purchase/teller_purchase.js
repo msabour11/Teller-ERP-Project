@@ -173,6 +173,48 @@ frappe.ui.form.on("Teller Purchase", {
       }
     }
   },
+  // set special purchaase rates
+  speacial_price: function (frm) {
+    // frappe.msgprint("Special price");
+
+    // Iterate over each item and set the rate to the special rate
+    frm.doc.items.forEach((item) => {
+      frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+          doctype: "Item Price",
+          filters: { item_code: item.item_code },
+          fieldname: "custom_purchase_special_rate",
+        },
+
+        callback: function (response) {
+          console.log(response);
+          if (response.message) {
+            special_purchase_rate =
+              response.message.custom_purchase_special_rate;
+            console.log(special_purchase_rate);
+
+            frappe.model.set_value(
+              "Teller Items",
+              item.name,
+              "rate",
+              special_purchase_rate
+            );
+            special_amount = special_purchase_rate * item.quantity;
+            if (item.quantity) {
+              frappe.model.set_value(
+                "Teller Items",
+                item.name,
+                "amount",
+                special_amount
+              );
+            }
+            console.log(special_amount);
+          }
+        },
+      });
+    });
+  },
 });
 
 // set currency items code and purchasing  rate
@@ -236,4 +278,3 @@ frappe.ui.form.on("Teller Items", {
     frm.set_value("total", total);
   },
 });
-

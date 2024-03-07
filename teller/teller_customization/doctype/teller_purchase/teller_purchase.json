@@ -35,6 +35,8 @@
   "column_break_ndtu",
   "start_registration_date",
   "end_registration_date",
+  "speacial_price_section",
+  "speacial_price",
   "teller_item_section",
   "items",
   "section_break_pkqo",
@@ -288,12 +290,24 @@
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number"
+  },
+  {
+   "depends_on": "eval:doc.category_of_buyer=='Company'",
+   "fieldname": "speacial_price_section",
+   "fieldtype": "Section Break",
+   "label": "Speacial Price"
+  },
+  {
+   "depends_on": "eval:doc.category_of_buyer=='Company'",
+   "fieldname": "speacial_price",
+   "fieldtype": "Button",
+   "label": "Set Speacial Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-07 13:21:25.426430",
+ "modified": "2024-03-07 16:31:33.174893",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

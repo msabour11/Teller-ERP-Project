@@ -37,6 +37,8 @@
   "end_registration_date",
   "inter_bank_section",
   "test2",
+  "set_speacial_price_section",
+  "speacial_price",
   "teller_item_section",
   "items",
   "section_break_sjfi",
@@ -293,11 +295,23 @@
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Company'",
+   "fieldname": "set_speacial_price_section",
+   "fieldtype": "Section Break",
+   "label": "Set Speacial Price"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Company'",
+   "fieldname": "speacial_price",
+   "fieldtype": "Button",
+   "label": " Speacial Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-07 13:29:50.866121",
+ "modified": "2024-03-07 16:23:37.555358",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

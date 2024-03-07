@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "date",
+  "movement_number",
   "column_break_tvyk",
   "receipt_number",
   "column_break_sgyq",
@@ -99,13 +100,6 @@
   {
    "fieldname": "column_break_gkcv",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "Ahmed",
-   "fieldname": "buyer",
-   "fieldtype": "Link",
-   "label": "Buyer",
-   "options": "Customer"
   },
   {
    "depends_on": "eval:doc.category_of_buyer=='Individual'",
@@ -240,15 +234,6 @@
    "read_only": 1
   },
   {
-   "fetch_from": ".current_user",
-   "fieldname": "teller",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Teller",
-   "options": "User",
-   "read_only": 1
-  },
-  {
    "fieldname": "current_roll",
    "fieldtype": "Link",
    "label": "Current Roll",
@@ -286,12 +271,29 @@
   {
    "fieldname": "column_break_nwfq",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "label": "Buyer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "teller",
+   "fieldtype": "Link",
+   "label": "Teller",
+   "options": "User"
+  },
+  {
+   "fieldname": "movement_number",
+   "fieldtype": "Data",
+   "label": "Movement Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-06 10:08:49.477538",
+ "modified": "2024-03-07 13:21:25.426430",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

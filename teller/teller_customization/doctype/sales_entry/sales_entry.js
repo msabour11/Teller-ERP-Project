@@ -9,7 +9,7 @@ frappe.ui.form.on("Sales Entry", {
 frappe.ui.form.on("Entry Child",{
 	paid_from:function (frm,cdt,cdn){
 		var row=locals[cdt][cdn]
-		if (row.paid_from)
+		if (row.paid_from && row.usd_amount && row.received_amount && row.paid_to)
 		{
 			frappe.call({
 				method:"teller.teller_customization.doctype.sales_entry.sales_entry.get_currency",
@@ -22,16 +22,20 @@ frappe.ui.form.on("Entry Child",{
 					let currency_rate=r.message[1]
 					frappe.model.set_value(cdt,cdn,"currency",curr)
 					frappe.model.set_value(cdt,cdn,"rate",currency_rate)
-					// frappe.call({
-					// 	method:"teller.teller_customization.doctype.sales_entry.create_payment_entry",
-					// 	args:{
-					// 		account:row.paid_from,
-					// 		usd_amount:row.usd_amount,
-					// 		recieved_amount:row.received_amount,
-					// 		paid_to:row.paid_to
-					//
-					// 	}
-					// })
+					frappe.call({
+						method:"teller.teller_customization.doctype.sales_entry.sales_entry.create_payment_entry",
+						args:{
+							account:row.paid_from,
+							usd_amount:row.usd_amount,
+							recieved_amount:row.received_amount,
+							paid_to:row.paid_to
+
+						},
+						callback:function (r)
+						{
+							console.log(r.message)
+						}
+					})
 				}
 			})
 

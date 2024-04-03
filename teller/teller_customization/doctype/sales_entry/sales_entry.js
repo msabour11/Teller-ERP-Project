@@ -3,6 +3,7 @@
 
 frappe.ui.form.on("Sales Entry", {
 	refresh(frm) {
+		frappe.msgprint('test new bench')
 
 	},
 });

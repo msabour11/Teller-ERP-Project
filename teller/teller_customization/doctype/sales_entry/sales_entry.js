@@ -26,32 +26,90 @@ frappe.ui.form.on("Entry Child", {
     }
   },
 
+  // usd_amount: function (frm, cdt, cdn) {
+  //   var row = locals[cdt][cdn];
+  //   // frappe.msgprint("hello")
+
+  //   if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
+  //     let total = row.usd_amount * row.rate;
+  //     console.log(total);
+  //     console.log(frm.doc.comapny);
+  //     frappe.model.set_value(cdt, cdn, "total_amount", total);
+  //     // Create ledger entry
+
+  //     frappe.call({
+  //       method:
+  //         "teller.teller_customization.doctype.sales_entry.sales_entry.get_account_balance",
+  //       args: {
+  //         paid_from: row.paid_from,
+  //         company: frm.doc.comapny,
+  //       },
+  //       callback: function (r) {
+  //         if (r.message) {
+  //           console.log(r.message);
+  //           let account_balance = r.message;
+
+  //           frm.set_value("balance", account_balance);
+  //         } else {
+  //           console.log("not found");
+  //         }
+  //       },
+  //     });
+  //   } else {
+  //     frappe.throw("you must enter this fields");
+  //   }
+  // },
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
-    // frappe.msgprint("hello")
 
     if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
       let total = row.usd_amount * row.rate;
-      console.log(total);
+
       frappe.model.set_value(cdt, cdn, "total_amount", total);
-      // Create ledger entry
+
+      // Update account balances
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.sales_entry.sales_entry.update_account_balances",
+        args: {
+          paid_from: row.paid_from,
+          paid_to: row.paid_to,
+          usd_amount: row.usd_amount,
+          total_amount: row.total_amount,
+          company: frm.doc.comapny,
+        },
+        callback: function (r) {
+          if (r.message) {
+            // Update the UI or show a message if needed
+            console.log("create gl ");
+            console.log(r.message);
+            console.log("Account balances updated successfully.");
+          } else {
+            console.log("Failed to update account balances.");
+          }
+        },
+      });
 
       frappe.call({
         method:
-          "teller.teller_customization.doctype.sales_entry.sales_entry.create_internal_transfer_entry",
+          "teller.teller_customization.doctype.sales_entry.sales_entry.get_account_balance",
         args: {
-          paid_from_account: row.paid_from,
-          amount: row.usd_amount,
-          currency: row.currency,
-          paid_to_account: row.paid_to,
-          exchange_rate: row.rate,
+          paid_from: row.paid_from,
+          company: frm.doc.comapny,
         },
         callback: function (r) {
-          console.log(r.message);
+          if (r.message) {
+            console.log(r.message);
+            let account_balance = r.message;
+
+            frm.set_value("balance", account_balance);
+          } else {
+            console.log("not found");
+          }
         },
       });
     } else {
-      frappe.throw("you must enter this fields");
+      frappe.throw("You must enter all required fields.");
     }
   },
 });

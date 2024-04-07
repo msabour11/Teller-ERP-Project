@@ -10,7 +10,11 @@
   "section_break_movo",
   "customer",
   "section_break_mtyh",
-  "transactions"
+  "transactions",
+  "balance",
+  "comapny",
+  "cost_center",
+  "mode_of_payment"
  ],
  "fields": [
   {
@@ -46,12 +50,35 @@
    "fieldtype": "Table",
    "label": "Transactions",
    "options": "Entry Child"
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "label": "Balance"
+  },
+  {
+   "fieldname": "comapny",
+   "fieldtype": "Link",
+   "label": "Comapny",
+   "options": "Company"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Mode Of Payment",
+   "options": "Mode of Payment"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-27 13:11:22.715899",
+ "modified": "2024-04-06 16:26:03.358866",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Sales Entry",

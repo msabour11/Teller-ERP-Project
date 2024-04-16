@@ -97,9 +97,9 @@ frappe.ui.form.on("Entry Child", {
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
-            let account_balance = r.message;
+            let balance_to = r.message;
 
-            frm.set_value("balance_to", account_balance);
+            frm.set_value("balance_to", balance_to);
           } else {
             console.log("not found");
           }
@@ -110,32 +110,32 @@ frappe.ui.form.on("Entry Child", {
       frappe.throw("You must enter all required fields.");
     }
   },
-  on_submit: function (frm, cdt, cdn) {
-    let row = locals[cdt][cdn];
-    if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
-      frappe.call({
-        method:
-          "teller.teller_customization.doctype.sales_entry.sales_entry.create_gl_entry",
-        args: {
-          account_from: row.paid_from,
-          account_to: row.paid_to,
-          usd_amount: row.usd_amount,
-          credit_amount: row.total_amount,
-          currency: row.currency,
-          currency_rate: row.rate,
-          voucher_no: frm.doc.name,
-        },
-        callback: function (r) {
-          if (r.message) {
-            // Update the UI or show a message if needed
-            console.log("create gl ");
-            console.log(r.message);
-            console.log("Account balances updated successfully.");
-          } else {
-            console.log("Failed to update account balances.");
-          }
-        },
-      });
-    }
-  },
+  // on_submit: function (frm, cdt, cdn) {
+  //   let row = locals[cdt][cdn];
+  //   if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
+  //     frappe.call({
+  //       method:
+  //         "teller.teller_customization.doctype.sales_entry.sales_entry.create_gl_entry",
+  //       args: {
+  //         account_from: row.paid_from,
+  //         account_to: row.paid_to,
+  //         usd_amount: row.usd_amount,
+  //         credit_amount: row.total_amount,
+  //         currency: row.currency,
+  //         currency_rate: row.rate,
+  //         voucher_no: frm.doc.name,
+  //       },
+  //       callback: function (r) {
+  //         if (r.message) {
+  //           // Update the UI or show a message if needed
+  //           console.log("create gl ");
+  //           console.log(r.message);
+  //           console.log("Account balances updated successfully.");
+  //         } else {
+  //           console.log("Failed to update account balances.");
+  //         }
+  //       },
+  //     });
+  //   }
+  // },
 });

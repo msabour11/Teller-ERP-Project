@@ -41,6 +41,8 @@
   "speacial_price",
   "teller_item_section",
   "items",
+  "transctions_section",
+  "transactions",
   "section_break_sjfi",
   "column_break_ddng",
   "column_break_rnwq",
@@ -52,7 +54,8 @@
   "cost_center_number",
   "column_break_cvci",
   "branch_number",
-  "treasury_code"
+  "treasury_code",
+  "amended_from"
  ],
  "fields": [
   {
@@ -307,11 +310,33 @@
    "fieldname": "speacial_price",
    "fieldtype": "Button",
    "label": " Speacial Price"
+  },
+  {
+   "fieldname": "transctions_section",
+   "fieldtype": "Section Break",
+   "label": "Transctions"
+  },
+  {
+   "fieldname": "transactions",
+   "fieldtype": "Table",
+   "label": "Transactions",
+   "options": "Entry Child"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Teller Invoice",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-03-07 16:23:37.555358",
+ "modified": "2024-04-16 16:32:30.912541",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

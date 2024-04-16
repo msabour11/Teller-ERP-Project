@@ -12,6 +12,7 @@
   "section_break_mtyh",
   "transactions",
   "balance",
+  "balance_to",
   "comapny",
   "cost_center",
   "mode_of_payment"
@@ -54,7 +55,7 @@
   {
    "fieldname": "balance",
    "fieldtype": "Currency",
-   "label": "Balance"
+   "label": "Balance From"
   },
   {
    "fieldname": "comapny",
@@ -73,12 +74,17 @@
    "fieldtype": "Link",
    "label": "Mode Of Payment",
    "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "balance_to",
+   "fieldtype": "Currency",
+   "label": "Balance To"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-06 16:26:03.358866",
+ "modified": "2024-04-16 14:13:18.254639",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Sales Entry",

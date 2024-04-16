@@ -1,7 +1,8 @@
-# Copyright (c) 2024, Mohamed AbdElsabour and contributors
-# For license information, please see license.txt
+# # Copyright (c) 2024, Mohamed AbdElsabour and contributors
+# # For license information, please see license.txt
 
 import frappe
+from frappe import get_doc,new_doc
 from datetime import datetime
 from frappe.model.document import Document
 from frappe import _, utils
@@ -18,12 +19,15 @@ from erpnext.accounts.utils import (
 	get_outstanding_invoices,
 	get_party_types_from_account_type,
 )
+from erpnext.accounts.general_ledger import make_gl_entries,make_acc_dimensions_offsetting_entry
+
 
 
 class SalesEntry(Document):
-    # def validate(self):
-    #     self.create_payment_entry()
-    pass
+     def on_submit(self):
+         pass
+  
+     
 
 
 @frappe.whitelist(allow_guest=True)
@@ -34,7 +38,7 @@ def get_currency(account):
     return currency, currency_rate
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_account_balance(paid_from, company):
     try:
         balance = get_balance_on(
@@ -51,59 +55,42 @@ def get_account_balance(paid_from, company):
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
         return _("Error: Unable to fetch account balance.")  # Return a descriptive error message
-# @frappe.whitelist()
-# def update_account_balances(paid_from, paid_to, usd_amount, total_amount, company):
-#     try:
-#         # Subtract usd_amount from paid_from account balance
-#         balance_paid_from = get_balance_on(account=paid_from, company=company)
-#         new_balance_paid_from = balance_paid_from - usd_amount
-        
-#         # Add total_amount to paid_to account balance
-#         balance_paid_to = get_balance_on(account=paid_to, company=company)
-#         new_balance_paid_to = balance_paid_to + total_amount
-        
-#         # Update account balances in the database
-#         frappe.db.set_value("Account", paid_from, "balance", new_balance_paid_from)
-#         frappe.db.set_value("Account", paid_to, "balance", new_balance_paid_to)
-        
-#         return True  # Return a success message or value
-#     except Exception as e:
-#         error_message = f"Error updating account balances: {str(e)}"
-#         frappe.log_error(error_message)
-#         return False  # Return a failure message or value
 
-from erpnext.accounts.general_ledger import make_gl_entries
-from frappe.utils import nowdate
-@frappe.whitelist()
-def update_account_balances(paid_from, paid_to, usd_amount, total_amount, company):
+@frappe.whitelist(allow_guest=True)
+def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rate,voucher_no,credit_amount):
+
+    # Create a new GL Entry document
+    gl_entry = get_doc({
+        'doctype': 'GL Entry',
+        'posting_date':nowdate() ,  # Use the current date
+        'account':account_from ,  # Debit account (From)
+        'against': account_to,  # Credit account (To)
+        'debit': 0, 
+        'credit':credit_amount,
+        'credit_in_account_currency': usd_amount,
+        'debit_in_account_currency':0,  # Credit amount
+        'account_currency': currency,  # Currency
+        'exchange_rate':currency_rate, 
+        'voucher_type':'Sales Entry', # Currency rate
+        'voucher_no':voucher_no
+    })
+
+    # Insert the document into the database
+    gl_entry.insert()
+    gl_entry.submit()
+    return gl_entry
+
+
+@frappe.whitelist(allow_guest=True)
+def paid_to_account_balance(paid_to,company):
     try:
-        # Prepare the gl entries
-        gl_entries = [
-            {
-                "account": paid_from,
-                "company": company,
-                "posting_date": nowdate(),
-                "voucher_type": "Sales Entry",
-                "debit": usd_amount,
-                "credit": 0,
-                "against": paid_to
-            },
-            {
-                "account": paid_to,
-                "company": company,
-                "posting_date": nowdate(),
-                "voucher_type": "Sales Entry",
-                "debit": 0,
-                "credit": total_amount,
-                "against": paid_from
-            }
-        ]
-
-        # Make the gl entries which will update the account balances
-        make_gl_entries(gl_entries)
-
-        return True  # Return a success message or value
+        balance = get_balance_on(
+            account=paid_to,
+            company=company,
+          
+        )
+        return balance
     except Exception as e:
-        error_message = f"Error updating account balances: {str(e)}"
+        error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
-        return False  # Return a failure message or value
+        return _("Error: Unable to fetch account balance.")  # Return a descriptive error message

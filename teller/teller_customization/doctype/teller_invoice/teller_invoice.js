@@ -274,7 +274,7 @@ frappe.ui.form.on("Entry Child", {
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
-    if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
+    if (row.paid_from && row.paid_to && row.usd_amount) {
       let total = row.usd_amount * row.rate;
 
       frappe.model.set_value(cdt, cdn, "total_amount", total);
@@ -283,17 +283,17 @@ frappe.ui.form.on("Entry Child", {
 
       frappe.call({
         method:
-          "teller.teller_customization.doctype.sales_entry.sales_entry.get_account_balance",
+          "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_from_balance",
         args: {
           paid_from: row.paid_from,
-          company: frm.doc.comapny,
+          company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
-            let account_balance = r.message;
+            let from_balance = r.message;
 
-            frm.set_value("balance", account_balance);
+            frm.set_value("usd_balance", from_balance);
           } else {
             console.log("not found");
           }
@@ -301,113 +301,84 @@ frappe.ui.form.on("Entry Child", {
       });
       frappe.call({
         method:
-          "teller.teller_customization.doctype.sales_entry.sales_entry.paid_to_account_balance",
+          "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_to_balance",
         args: {
           paid_to: row.paid_to,
-          company: frm.doc.comapny,
+          company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
             let balance_to = r.message;
 
-            frm.set_value("balance_to", balance_to);
+            // frm.set_value("balance_to", balance_to);
           } else {
             console.log("not found");
           }
         },
-
-      })
+      });
     } else {
       frappe.throw("You must enter all required fields.");
     }
   },
-  // on_submit: function (frm, cdt, cdn) {
-  //   let row = locals[cdt][cdn];
-  //   if (row.paid_from && row.paid_to && row.usd_amount && row.received_amount) {
-  //     frappe.call({
-  //       method:
-  //         "teller.teller_customization.doctype.sales_entry.sales_entry.create_gl_entry",
-  //       args: {
-  //         account_from: row.paid_from,
-  //         account_to: row.paid_to,
-  //         usd_amount: row.usd_amount,
-  //         credit_amount: row.total_amount,
-  //         currency: row.currency,
-  //         currency_rate: row.rate,
-  //         voucher_no: frm.doc.name,
-  //       },
-  //       callback: function (r) {
-  //         if (r.message) {
-  //           // Update the UI or show a message if needed
-  //           console.log("create gl ");
-  //           console.log(r.message);
-  //           console.log("Account balances updated successfully.");
-  //         } else {
-  //           console.log("Failed to update account balances.");
-  //         }
-  //       },
-  //     });
-  //   }
-  // },
 });
 
 // items price table
-frappe.ui.form.on("Teller Items", {
-  item_code: function (frm, cdt, cdn) {
-    var row = locals[cdt][cdn];
-
-    if (row.item_code) {
-      frappe.call({
-        method: "frappe.client.get_value",
-        args: {
-          doctype: "Item Price",
-          filters: { item_code: row.item_code },
-          fieldname: "custom_selling_rate",
-        },
-        callback: function (response) {
-          console.log(response); // Log the entire response
-          if (response.message) {
-            let item_rate = response.message.custom_selling_rate;
-            console.log(item_rate);
-            frappe.model.set_value(cdt, cdn, "rate", item_rate);
-            if (row.quantity) {
-              frappe.model.set_value(
-                cdt,
-                cdn,
-                "amount",
-                item_rate * row.quantity
-              );
-              console.log(row.amount);
-            }
-          }
-        },
-      });
-    }
-  },
-
-  quantity: function (frm, cdt, cdn) {
-    var row = locals[cdt][cdn];
-    if (row.rate && row.quantity) {
-      frappe.model.set_value(cdt, cdn, "amount", row.rate * row.quantity);
-    }
-  },
-
-  amount: function (frm, cdt, cdn) {
-    var row = locals[cdt][cdn];
-    if (row.amount) {
-      let total = 0;
-      frm.doc.items.forEach(function (item) {
-        total += item.amount;
-      });
-      frm.set_value("total", total);
-    }
-  },
-  items_remove: function (frm) {
-    let total = 0;
-    frm.doc.items.forEach(function (item) {
-      total += item.amount;
-    });
-    frm.set_value("total", total);
-  },
-});
+//frappe.ui.form.on("Teller Items", {
+//  item_code: function (frm, cdt, cdn) {
+//    var row = locals[cdt][cdn];
+//
+//    if (row.item_code) {
+//      frappe.call({
+//        method: "frappe.client.get_value",
+//        args: {
+//          doctype: "Item Price",
+//          filters: { item_code: row.item_code },
+//          fieldname: "custom_selling_rate",
+//        },
+//        callback: function (response) {
+//          console.log(response); // Log the entire response
+//          if (response.message) {
+//            let item_rate = response.message.custom_selling_rate;
+//            console.log(item_rate);
+//            frappe.model.set_value(cdt, cdn, "rate", item_rate);
+//            if (row.quantity) {
+//              frappe.model.set_value(
+//                cdt,
+//                cdn,
+//                "amount",
+//                item_rate * row.quantity
+//              );
+//              console.log(row.amount);
+//            }
+//          }
+//        },
+//      });
+//    }
+//  },
+//
+//  quantity: function (frm, cdt, cdn) {
+//    var row = locals[cdt][cdn];
+//    if (row.rate && row.quantity) {
+//      frappe.model.set_value(cdt, cdn, "amount", row.rate * row.quantity);
+//    }
+//  },
+//
+//  amount: function (frm, cdt, cdn) {
+//    var row = locals[cdt][cdn];
+//    if (row.amount) {
+//      let total = 0;
+//      frm.doc.items.forEach(function (item) {
+//        total += item.amount;
+//      });
+//      frm.set_value("total", total);
+//    }
+//  },
+//  items_remove: function (frm) {
+//    let total = 0;
+//    frm.doc.items.forEach(function (item) {
+//      total += item.amount;
+//    });
+//    frm.set_value("total", total);
+//  },
+//});

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "Invoice_.####",
+ "autoname": "Teller-Sales-Invoice_.####",
  "creation": "2024-02-26 10:07:17.673734",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -39,19 +39,16 @@
   "test2",
   "set_speacial_price_section",
   "speacial_price",
-  "teller_item_section",
-  "items",
   "transctions_section",
   "transactions",
-  "section_break_sjfi",
-  "column_break_ddng",
-  "column_break_rnwq",
-  "total",
+  "section_break_hqcn",
+  "usd_balance",
   "section_break_hqmb",
   "notes",
   "invoice_information_section",
   "price_list",
   "cost_center_number",
+  "company",
   "column_break_cvci",
   "branch_number",
   "treasury_code",
@@ -188,22 +185,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "teller_item_section",
-   "fieldtype": "Section Break",
-   "label": "Teller Item"
-  },
-  {
-   "fieldname": "items",
-   "fieldtype": "Table",
-   "label": "Items",
-   "options": "Teller Items"
-  },
-  {
-   "fieldname": "total",
-   "fieldtype": "Currency",
-   "label": "Total"
-  },
-  {
    "fieldname": "column_break_racu",
    "fieldtype": "Column Break"
   },
@@ -227,19 +208,6 @@
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "Notes"
-  },
-  {
-   "fieldname": "section_break_sjfi",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_ddng",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_rnwq",
-   "fieldtype": "Column Break",
-   "read_only": 1
   },
   {
    "fieldname": "current_roll",
@@ -331,12 +299,28 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "section_break_hqcn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "usd_balance",
+   "fieldtype": "Currency",
+   "label": "USD Balance",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-16 16:32:30.912541",
+ "modified": "2024-04-17 11:30:38.548153",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

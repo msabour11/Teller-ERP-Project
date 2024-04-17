@@ -18,7 +18,26 @@ from frappe import _, utils
 
 class TellerInvoice(Document):
     def on_submit(self):
-        pass
+        for row in self.get("transactions"):
+            if row.paid_from and row.paid_to and row.usd_amount and row.received_amount:
+                # Call create_gl_entry function to create GL Entry for each row
+                gl_entry = create_gl_entry(
+                    account_from=row.paid_from,
+                    account_to=row.paid_to,
+                    usd_amount=row.usd_amount,
+                    credit_amount=row.total_amount,  # Assuming this is the credit amount in GL Entry
+                    currency=row.currency,
+                    currency_rate=row.rate,
+                    voucher_no=self.name,
+                    credit_in_transaction_currency=row.total_amount
+                    # Assuming the Sales Entry document name is used as the voucher number
+                )
+                if gl_entry:
+                    frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
+                else:
+                    frappe.msgprint(_("Failed to create GL Entry for row {0}").format(row.idx))
+            else:
+                frappe.throw(_("You must enter all required fields in row {0}").format(row.idx))
 
     def onload(self):
         self.set_treasury()
@@ -50,8 +69,6 @@ class TellerInvoice(Document):
         self.shift = shift
         self.teller = user
 
-
-
     # def get_printing_roll(self):
     # 	roll_code = frappe.db.get_value('Printing Roll',{'active':1},)
     # 	self.current_roll = roll_code
@@ -72,17 +89,12 @@ def get_currency(account):
     return currency, currency_rate
 
 
-@frappe.whitelist(allow_guest=True)
-def get_account_balance(paid_from, company):
+@frappe.whitelist()
+def account_from_balance(paid_from, company=None):
     try:
         balance = get_balance_on(
             account=paid_from,
             company=company,
-            # cost_center=cost_center,
-            # date=date,
-            # party_type=party_type,
-            # party=party,
-            # ignore_account_permission=True
         )
         return balance
     except Exception as e:
@@ -91,7 +103,22 @@ def get_account_balance(paid_from, company):
         return _("Error: Unable to fetch account balance.")  # Return a descriptive error message
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
+def account_to_balance(paid_to, company):
+    try:
+        balance = get_balance_on(
+            account=paid_to,
+            company=company,
+
+        )
+        return balance
+    except Exception as e:
+        error_message = f"Error fetching account balance: {str(e)}"
+        frappe.log_error(error_message)
+        return _("Error: Unable to fetch account balance.")  # Return a descriptive error message
+
+
+@frappe.whitelist()
 def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rate, voucher_no, credit_amount,
                     credit_in_transaction_currency):
     # Create a new GL Entry document
@@ -105,8 +132,8 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
         'credit_in_account_currency': usd_amount,
         'debit_in_account_currency': 0,  # Credit amount
         'account_currency': currency,  # Currency
-        'exchange_rate': currency_rate,
-        'voucher_type': 'Sales Entry',  # Currency rate
+        'exchange_rate': currency_rate,    # Currency rate
+        'voucher_type': 'Teller Invoice',
         'voucher_no': voucher_no,
         "credit_in_transaction_currency": credit_in_transaction_currency
     })
@@ -127,7 +154,7 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
         'credit_in_account_currency': 0,  # Credit amount
         # 'account_currency': currency,  # Currency
         # 'exchange_rate': currency_rate,  # Currency rate
-        'voucher_type': 'Sales Entry',  # Voucher Type
+        'voucher_type': 'Teller Invoice',  # Voucher Type
         'voucher_no': voucher_no,
         # Voucher No
     })
@@ -135,18 +162,3 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
     credit_gl_entry.submit()
 
     return gl_entry
-
-
-@frappe.whitelist(allow_guest=True)
-def paid_to_account_balance(paid_to, company):
-    try:
-        balance = get_balance_on(
-            account=paid_to,
-            company=company,
-
-        )
-        return balance
-    except Exception as e:
-        error_message = f"Error fetching account balance: {str(e)}"
-        frappe.log_error(error_message)
-        return _("Error: Unable to fetch account balance.")  # Return a descriptive error message

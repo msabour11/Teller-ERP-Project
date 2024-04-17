@@ -43,6 +43,8 @@
   "column_break_abeu",
   "column_break_flln",
   "total",
+  "transactions_section",
+  "transactions",
   "section_break_erkw",
   "notes",
   "amended_from",
@@ -302,12 +304,23 @@
    "fieldname": "speacial_price",
    "fieldtype": "Button",
    "label": "Set Speacial Price"
+  },
+  {
+   "fieldname": "transactions_section",
+   "fieldtype": "Section Break",
+   "label": "Transactions"
+  },
+  {
+   "fieldname": "transactions",
+   "fieldtype": "Table",
+   "label": "Transactions",
+   "options": "Entry Child"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-07 16:31:33.174893",
+ "modified": "2024-04-17 13:04:13.825278",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

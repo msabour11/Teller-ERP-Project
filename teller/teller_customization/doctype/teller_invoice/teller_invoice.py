@@ -149,7 +149,7 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
         'account': account_to,  # Debit account (To)
         "debit": credit_amount,
         "credit": 0,
-        'against_account': account_from,  # Credit account (From)
+        'against': account_from,  # Credit account (From)
         'debit_in_account_currency': credit_amount,  # Debit amount
         'credit_in_account_currency': 0,  # Credit amount
         # 'account_currency': currency,  # Currency

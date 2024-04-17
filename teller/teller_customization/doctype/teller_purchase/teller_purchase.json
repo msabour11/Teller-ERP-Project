@@ -45,6 +45,8 @@
   "total",
   "transactions_section",
   "transactions",
+  "section_break_icjb",
+  "usd_balance",
   "section_break_erkw",
   "notes",
   "amended_from",
@@ -314,13 +316,23 @@
    "fieldname": "transactions",
    "fieldtype": "Table",
    "label": "Transactions",
-   "options": "Entry Child"
+   "options": "Teller Purchase Child"
+  },
+  {
+   "fieldname": "section_break_icjb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "usd_balance",
+   "fieldtype": "Currency",
+   "label": "Usd Balance",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-17 13:04:13.825278",
+ "modified": "2024-04-17 16:35:12.105386",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

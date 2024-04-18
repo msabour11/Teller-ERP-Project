@@ -43,6 +43,8 @@
   "transactions",
   "section_break_hqcn",
   "usd_balance",
+  "column_break_ytji",
+  "total",
   "section_break_hqmb",
   "notes",
   "invoice_information_section",
@@ -315,12 +317,22 @@
    "fieldtype": "Currency",
    "label": "USD Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ytji",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-17 11:30:38.548153",
+ "modified": "2024-04-18 11:28:37.257083",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

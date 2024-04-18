@@ -37,12 +37,6 @@
   "end_registration_date",
   "speacial_price_section",
   "speacial_price",
-  "teller_item_section",
-  "items",
-  "section_break_pkqo",
-  "column_break_abeu",
-  "column_break_flln",
-  "total",
   "transactions_section",
   "transactions",
   "section_break_icjb",
@@ -183,17 +177,6 @@
    "label": "End Registration Date"
   },
   {
-   "fieldname": "teller_item_section",
-   "fieldtype": "Section Break",
-   "label": "Teller Item"
-  },
-  {
-   "fieldname": "items",
-   "fieldtype": "Table",
-   "label": "Items",
-   "options": "Teller Items"
-  },
-  {
    "collapsible": 1,
    "fieldname": "section_break_erkw",
    "fieldtype": "Section Break",
@@ -203,24 +186,6 @@
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "Notes"
-  },
-  {
-   "fieldname": "total",
-   "fieldtype": "Currency",
-   "label": "Total",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_pkqo",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_abeu",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_flln",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "amended_from",
@@ -332,7 +297,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-17 16:35:12.105386",
+ "modified": "2024-04-18 10:12:04.352174",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

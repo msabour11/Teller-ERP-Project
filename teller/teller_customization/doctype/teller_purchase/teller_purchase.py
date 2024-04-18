@@ -71,14 +71,15 @@ class TellerPurchase(Document):
 
 
 # transactions section
+# get currency and currency rate from each account
 @frappe.whitelist()
 def get_currency(account):
-    # currency = frappe.db.get_value("Payment Entry",{"paid_from":account}, "paid_from_account_currency")
+   
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
     currency_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "exchange_rate")
     return currency, currency_rate
 
-
+# Get the  Balance from the source account
 @frappe.whitelist()
 def account_from_balance(paid_from, company=None):
     try:

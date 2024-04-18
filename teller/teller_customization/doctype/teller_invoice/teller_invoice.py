@@ -83,10 +83,10 @@ class TellerInvoice(Document):
 
 @frappe.whitelist(allow_guest=True)
 def get_currency(account):
-    # currency = frappe.db.get_value("Payment Entry",{"paid_from":account}, "paid_from_account_currency")
+   
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
-    currency_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "exchange_rate")
-    return currency, currency_rate
+    selling_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate")
+    return currency, selling_rate
 
 
 @frappe.whitelist()
@@ -162,3 +162,10 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
     credit_gl_entry.submit()
 
     return gl_entry
+
+@frappe.whitelist(allow_guest=True)
+def get_currency1(account):
+   
+    currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
+    selling_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate")
+    return currency, selling_rate

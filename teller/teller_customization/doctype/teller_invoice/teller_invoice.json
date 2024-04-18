@@ -30,6 +30,15 @@
   "primary_contacts",
   "work_for",
   "mobile_number",
+  "foreigners_section",
+  "gender_copy",
+  "customer_name_copy",
+  "nationality_copy",
+  "national_id_copy",
+  "column_break_tlch",
+  "primary_contacts_copy",
+  "work_for__copy",
+  "mobile_number_copy",
   "companies_section",
   "comp",
   "company_activity",
@@ -100,7 +109,7 @@
    "label": "Individual"
   },
   {
-   "depends_on": "eval:doc.client_type=='Companies'",
+   "depends_on": "eval:doc.client_type=='Company'",
    "fieldname": "companies_section",
    "fieldtype": "Section Break",
    "label": "Companies"
@@ -324,12 +333,58 @@
    "fieldname": "branch_number",
    "fieldtype": "Data",
    "label": "Branch Number"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Foreigners'",
+   "fieldname": "foreigners_section",
+   "fieldtype": "Section Break",
+   "label": "Foreigners",
+   "mandatory_depends_on": "eval:doc.client_type=='Foreigners'"
+  },
+  {
+   "fieldname": "gender_copy",
+   "fieldtype": "Data",
+   "label": "Gender"
+  },
+  {
+   "fieldname": "customer_name_copy",
+   "fieldtype": "Data",
+   "label": "Customer Name "
+  },
+  {
+   "fieldname": "nationality_copy",
+   "fieldtype": "Data",
+   "label": "Nationality "
+  },
+  {
+   "fieldname": "national_id_copy",
+   "fieldtype": "Data",
+   "label": "National ID "
+  },
+  {
+   "fieldname": "column_break_tlch",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "primary_contacts_copy",
+   "fieldtype": "HTML",
+   "label": "Primary Contacts "
+  },
+  {
+   "fieldname": "work_for__copy",
+   "fieldtype": "Data",
+   "label": "Work For "
+  },
+  {
+   "fieldname": "mobile_number_copy",
+   "fieldtype": "Data",
+   "label": "Mobile Number "
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-18 15:17:49.460231",
+ "modified": "2024-04-18 16:55:42.554014",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

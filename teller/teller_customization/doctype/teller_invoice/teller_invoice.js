@@ -278,7 +278,7 @@ frappe.ui.form.on("Entry Child", {
             console.log(r.message);
             let balance_to = r.message;
 
-            // frm.set_value("balance_to", balance_to);
+            frm.set_value("egy_balance", balance_to);
           } else {
             console.log("not found");
           }

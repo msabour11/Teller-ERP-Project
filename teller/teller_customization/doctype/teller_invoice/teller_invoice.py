@@ -40,12 +40,13 @@ class TellerInvoice(Document):
                 frappe.throw(_("You must enter all required fields in row {0}").format(row.idx))
 
     def onload(self):
-        self.set_treasury()
-        self.set_branch()
-        self.set_price()
-        self.set_cost()
+        # self.set_treasury()
+        # self.set_branch()
+        # self.set_price()
+        # self.set_cost()
         # self.get_active_shift()
         # self.get_printing_roll()
+        pass
 
     def set_treasury(self):
         treasury_code = frappe.db.get_single_value('Teller Setting', 'treasury_code')

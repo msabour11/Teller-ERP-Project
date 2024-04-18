@@ -1,11 +1,10 @@
 # Copyright (c) 2024, Mohamed AbdElsabour and contributors
 # For license information, please see license.txt
 import frappe
-from frappe.model.document import Document
 from frappe.utils import add_days, cint, cstr, flt, formatdate, get_link_to_form, getdate, nowdate
 from frappe import get_doc
 from frappe.model.document import Document
-from frappe.utils import nowdate, nowtime
+from frappe.utils import nowdate
 from erpnext.accounts.utils import (
     cancel_exchange_gain_loss_journal,
     get_account_currency,
@@ -14,28 +13,56 @@ from erpnext.accounts.utils import (
     get_party_types_from_account_type,
 )
 from frappe import _, utils
+from erpnext.setup.utils import get_exchange_rate
 
 
 class TellerInvoice(Document):
     def on_submit(self):
+        # create Gl entry on submit
+
         for row in self.get("transactions"):
             if row.paid_from and row.paid_to and row.usd_amount and row.received_amount:
-                # Call create_gl_entry function to create GL Entry for each row
-                gl_entry = create_gl_entry(
-                    account_from=row.paid_from,
-                    account_to=row.paid_to,
-                    usd_amount=row.usd_amount,
-                    credit_amount=row.total_amount,  # Assuming this is the credit amount in GL Entry
-                    currency=row.currency,
-                    currency_rate=row.rate,
-                    voucher_no=self.name,
-                    credit_in_transaction_currency=row.total_amount
-                    # Assuming the Sales Entry document name is used as the voucher number
-                )
-                if gl_entry:
+                account_from = get_doc({
+                    "doctype": "GL Entry",
+                    "posting_date": nowdate(),
+                    "account": row.paid_from,
+                    "debit": 0,
+                    "credit": row.total_amount,
+                    "credit_in_account_currency": row.usd_amount,
+                    "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {row.paid_to}",
+                    "voucher_type": "Teller Invoice",
+                    "voucher_no": self.name,
+                    "against": row.paid_to,
+                    # "cost_center": row.cost_center,
+                    # "project": row.project,
+                    "credit_in_transaction_currency": row.total_amount
+                })
+                account_from.insert().submit()
+
+                account_to = get_doc({
+                    "doctype": "GL Entry",
+                    "posting_date": nowdate(),
+                    "account": row.paid_to,
+                    "debit": row.total_amount,
+                    "credit": 0,
+                    "debit_in_account_currency": row.total_amount,
+                    "credit_in_account_currency": 0,
+                    "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {row.paid_to}",
+                    "voucher_type": "Teller Invoice",
+                    "voucher_no": self.name,
+                    "against": row.paid_from,
+                    # "cost_center": row.cost_center,
+                    # "project": row.project,
+                    "debit_in_transaction_currency": row.total_amount,
+                    "credit_in_transaction_currency": 0
+                })
+                account_to.insert().submit()
+                if account_from and account_to:
                     frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
                 else:
                     frappe.msgprint(_("Failed to create GL Entry for row {0}").format(row.idx))
+
+
             else:
                 frappe.throw(_("You must enter all required fields in row {0}").format(row.idx))
 
@@ -82,9 +109,9 @@ class TellerInvoice(Document):
     # 	self.receipt_number = recp
 
 
+# get currency and exchange rate associated with each account
 @frappe.whitelist(allow_guest=True)
 def get_currency(account):
-   
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
     selling_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate")
     return currency, selling_rate
@@ -117,56 +144,3 @@ def account_to_balance(paid_to, company):
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
         return _("Error: Unable to fetch account balance.")  # Return a descriptive error message
-
-
-@frappe.whitelist()
-def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rate, voucher_no, credit_amount,
-                    credit_in_transaction_currency):
-    # Create a new GL Entry document
-    gl_entry = get_doc({
-        'doctype': 'GL Entry',
-        'posting_date': nowdate(),  # Use the current date
-        'account': account_from,  # Debit account (From)
-        'against': account_to,  # Credit account (To)
-        'debit': 0,
-        'credit': credit_amount,
-        'credit_in_account_currency': usd_amount,
-        'debit_in_account_currency': 0,  # Credit amount
-        'account_currency': currency,  # Currency
-        'exchange_rate': currency_rate,    # Currency rate
-        'voucher_type': 'Teller Invoice',
-        'voucher_no': voucher_no,
-        "credit_in_transaction_currency": credit_in_transaction_currency
-    })
-
-    # Insert the document into the database
-    gl_entry.insert()
-    gl_entry.submit()
-
-    # Create a new GL Entry document for the credit entry
-    credit_gl_entry = get_doc({
-        'doctype': 'GL Entry',
-        'posting_date': nowdate(),  # Use the current date
-        'account': account_to,  # Debit account (To)
-        "debit": credit_amount,
-        "credit": 0,
-        'against': account_from,  # Credit account (From)
-        'debit_in_account_currency': credit_amount,  # Debit amount
-        'credit_in_account_currency': 0,  # Credit amount
-        # 'account_currency': currency,  # Currency
-        # 'exchange_rate': currency_rate,  # Currency rate
-        'voucher_type': 'Teller Invoice',  # Voucher Type
-        'voucher_no': voucher_no,
-        # Voucher No
-    })
-    credit_gl_entry.insert()
-    credit_gl_entry.submit()
-
-    return gl_entry
-
-@frappe.whitelist(allow_guest=True)
-def get_currency1(account):
-   
-    currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
-    selling_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate")
-    return currency, selling_rate

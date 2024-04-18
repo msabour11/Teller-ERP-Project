@@ -260,7 +260,7 @@ frappe.ui.form.on("Entry Child", {
             console.log(r.message);
             let from_balance = r.message;
 
-            frm.set_value("usd_balance", from_balance);
+            frappe.model.set_value(cdt, cdn, "balance", from_balance);
           } else {
             console.log("not found");
           }

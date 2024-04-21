@@ -37,7 +37,7 @@ class TellerInvoice(Document):
                     # "project": row.project,
                     "credit_in_transaction_currency": row.total_amount
                 })
-                account_from.insert().submit()
+                account_from.insert(ignore_permissions=True).submit()
 
                 account_to = get_doc({
                     "doctype": "GL Entry",
@@ -56,7 +56,7 @@ class TellerInvoice(Document):
                     "debit_in_transaction_currency": row.total_amount,
                     "credit_in_transaction_currency": 0
                 })
-                account_to.insert().submit()
+                account_to.insert(ignore_permissions=True).submit()
                 if account_from and account_to:
                     frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
                 else:

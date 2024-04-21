@@ -120,7 +120,7 @@
    "label": "Company Legal Form"
   },
   {
-   "depends_on": "eval:doc.client_type=='Inter Bank'",
+   "depends_on": "eval:doc.client_type=='Interbank'",
    "fieldname": "inter_bank_section",
    "fieldtype": "Section Break",
    "label": "Inter Bank"
@@ -255,13 +255,13 @@
    "label": "Movement Number"
   },
   {
-   "depends_on": "eval:doc.client_type=='Company'",
+   "depends_on": "eval:doc.client_type=='Interbank'",
    "fieldname": "set_speacial_price_section",
    "fieldtype": "Section Break",
    "label": "Set Speacial Price"
   },
   {
-   "depends_on": "eval:doc.client_type=='Company'",
+   "depends_on": "eval:doc.client_type=='Interbank'",
    "fieldname": "speacial_price",
    "fieldtype": "Button",
    "label": " Speacial Price"
@@ -384,7 +384,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-18 16:55:42.554014",
+ "modified": "2024-04-21 10:00:26.620872",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

@@ -226,46 +226,66 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   // set Special sales rates
-  speacial_price: function (frm) {
-    // frappe.msgprint("Special price");
+//  speacial_price: function (frm) {
+//    // frappe.msgprint("Special price");
+//
+//    // Iterate over each item and set the rate to the special rate
+//    frm.doc.items.forEach((item) => {
+//      frappe.call({
+//        method: "frappe.client.get_value",
+//        args: {
+//          doctype: "Item Price",
+//          filters: { item_code: item.item_code },
+//          fieldname: "custom_selling_special_rate",
+//        },
+//
+//        callback: function (response) {
+//          console.log(response);
+//          if (response.message) {
+//            special_selling_rate = response.message.custom_selling_special_rate;
+//            // console.log(custom_selling_special_rate);
+//
+//            frappe.model.set_value(
+//              "Teller Items",
+//              item.name,
+//              "rate",
+//              special_selling_rate
+//            );
+//            special_amount = special_selling_rate * item.quantity;
+//            if (item.quantity) {
+//              frappe.model.set_value(
+//                "Teller Items",
+//                item.name,
+//                "amount",
+//                special_amount
+//              );
+//            }
+//            // console.log(special_amount);
+//          }
+//        },
+//      });
+//    });
+//  },
+speacial_price:function(frm){
 
-    // Iterate over each item and set the rate to the special rate
-    frm.doc.items.forEach((item) => {
-      frappe.call({
-        method: "frappe.client.get_value",
-        args: {
-          doctype: "Item Price",
-          filters: { item_code: item.item_code },
-          fieldname: "custom_selling_special_rate",
-        },
+  frm.doc.transactions.forEach(row=>{
+  if(row.paid_from)
+  {
+   frappe.call({
+    method:"teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
+    args:{
+    account:row.paid_from
+    },
+    callback:function(r){
+    console.log(r.message)
+    special_rate=r.message[2]
+    console.log(special_rate)
+    }
+    })
+  }
 
-        callback: function (response) {
-          console.log(response);
-          if (response.message) {
-            special_selling_rate = response.message.custom_selling_special_rate;
-            // console.log(custom_selling_special_rate);
-
-            frappe.model.set_value(
-              "Teller Items",
-              item.name,
-              "rate",
-              special_selling_rate
-            );
-            special_amount = special_selling_rate * item.quantity;
-            if (item.quantity) {
-              frappe.model.set_value(
-                "Teller Items",
-                item.name,
-                "amount",
-                special_amount
-              );
-            }
-            // console.log(special_amount);
-          }
-        },
-      });
-    });
-  },
+  })
+  }
 });
 
 //  Transactions currency table
@@ -284,8 +304,17 @@ frappe.ui.form.on("Entry Child", {
           console.log(r.message[0]);
           let curr = r.message[0];
           let currency_rate = r.message[1];
-          frappe.model.set_value(cdt, cdn, "currency", curr);
-          frappe.model.set_value(cdt, cdn, "rate", currency_rate);
+          let special_rate=r.message[2]
+          frappe.model.set_value(cdt, cdn, "currency", curr)
+          if (frm.doc.speacial_price)
+          {
+            frappe.model.set_value(cdt, cdn, "rate", special_rate);
+          }
+          else
+          {
+            frappe.model.set_value(cdt, cdn, "rate", currency_rate);
+          }
+
         },
       });
     }
@@ -359,4 +388,6 @@ frappe.ui.form.on("Entry Child", {
     });
     frm.set_value("total", total);
   },
+
 });
+

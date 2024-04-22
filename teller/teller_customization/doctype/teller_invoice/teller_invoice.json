@@ -6,17 +6,19 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "date",
   "movement_number",
+  "treasury_code",
   "column_break_beht",
   "receipt_number",
-  "cost_center",
-  "column_break_racu",
-  "current_roll",
   "branch_number",
-  "column_break_phqr",
-  "shift",
+  "column_break_racu",
+  "date",
+  "cost_center",
   "teller",
+  "column_break_phqr",
+  "current_roll",
+  "shift",
+  "special_price",
   "section_break_onwq",
   "client_type",
   "column_break_nlal",
@@ -48,8 +50,6 @@
   "end_registration_date",
   "inter_bank_section",
   "test2",
-  "set_speacial_price_section",
-  "speacial_price",
   "transctions_section",
   "transactions",
   "section_break_hqcn",
@@ -88,7 +88,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "default": "Individual",
+   "default": "\u0645\u0635\u0631\u064a\u064a\u0646",
    "fieldname": "client_type",
    "fieldtype": "Link",
    "label": "Client Type",
@@ -259,18 +259,6 @@
    "label": "Movement Number"
   },
   {
-   "depends_on": "eval:doc.client_type=='Interbank'",
-   "fieldname": "set_speacial_price_section",
-   "fieldtype": "Section Break",
-   "label": "Set Speacial Price"
-  },
-  {
-   "depends_on": "eval:doc.client_type=='Interbank'",
-   "fieldname": "speacial_price",
-   "fieldtype": "Button",
-   "label": " Speacial Price"
-  },
-  {
    "fieldname": "transctions_section",
    "fieldtype": "Section Break",
    "label": "Transctions"
@@ -385,12 +373,23 @@
    "fieldname": "mobile_number_copy",
    "fieldtype": "Data",
    "label": "Mobile Number "
+  },
+  {
+   "fieldname": "treasury_code",
+   "fieldtype": "Data",
+   "label": "Treasury Code"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Interbank' || doc.client_type==\"\u0627\u0646\u062a\u0631\u0628\u0646\u0643\"",
+   "fieldname": "special_price",
+   "fieldtype": "Button",
+   "label": "Special Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-22 12:35:39.083842",
+ "modified": "2024-04-22 14:59:00.979113",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

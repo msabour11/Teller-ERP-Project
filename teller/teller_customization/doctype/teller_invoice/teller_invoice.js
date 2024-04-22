@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Teller Invoice", {
   refresh(frm) {
-  // add ledger button in refresh
+    // add ledger button in refresh
     frm.events.show_general_ledger(frm);
     // filter customers based on  customer group
 
@@ -16,26 +16,26 @@ frappe.ui.form.on("Teller Invoice", {
     };
   },
   // add ledger report button on submit doctype
-  	show_general_ledger: function (frm) {
-	if (frm.doc.docstatus>0)
-	{frm.add_custom_button(
-				__("Ledger"),
-				function () {
-					frappe.route_options = {
-						voucher_no: frm.doc.name,
-						from_date: frm.doc.date,
-						to_date: moment(frm.doc.modified).format("YYYY-MM-DD"),
-						company: frm.doc.company,
-						group_by: "",
-						show_cancelled_entries: frm.doc.docstatus === 2,
-					};
-					frappe.set_route("query-report", "General Ledger");
-				},
-				"fa fa-table"
-			);}
-//
-
-	},
+  show_general_ledger: function (frm) {
+    if (frm.doc.docstatus > 0) {
+      frm.add_custom_button(
+        __("Ledger"),
+        function () {
+          frappe.route_options = {
+            voucher_no: frm.doc.name,
+            from_date: frm.doc.date,
+            to_date: moment(frm.doc.modified).format("YYYY-MM-DD"),
+            company: frm.doc.company,
+            group_by: "",
+            show_cancelled_entries: frm.doc.docstatus === 2,
+          };
+          frappe.set_route("query-report", "General Ledger");
+        },
+        "fa fa-table"
+      );
+    }
+    //
+  },
   onload(frm) {
     // Check if the document is newly created
     if (!frm.doc.__islocal) {
@@ -125,8 +125,8 @@ frappe.ui.form.on("Teller Invoice", {
 
   // Get customer information if exists
   client: function (frm) {
-  // get the information for Egyptian
-    if (frm.doc.client_type == "Egyptian" || frm.doc.client_type=="مصريين") {
+    // get the information for Egyptian
+    if (frm.doc.client_type == "Egyptian" || frm.doc.client_type == "مصريين") {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -157,7 +157,10 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
     // get the information for company
-    else if (frm.doc.client_type == "Company"|| frm.doc.client_type=="شركات") {
+    else if (
+      frm.doc.client_type == "Company" ||
+      frm.doc.client_type == "شركات"
+    ) {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -198,7 +201,10 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
     // get the data for Foreigners
-    else if (frm.doc.client_type == "Foreigners" || frm.doc.client_type=="اجانب") {
+    else if (
+      frm.doc.client_type == "Foreigners" ||
+      frm.doc.client_type == "اجانب"
+    ) {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -230,7 +236,10 @@ frappe.ui.form.on("Teller Invoice", {
     }
 
     //get data for interbank group
-     else if (frm.doc.client_type == "Interbank" || frm.doc.client_type=="انتربنك") {
+    else if (
+      frm.doc.client_type == "Interbank" ||
+      frm.doc.client_type == "انتربنك"
+    ) {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -240,89 +249,129 @@ frappe.ui.form.on("Teller Invoice", {
           },
           callback: function (r) {
             // set the fields with r.message.fieldname
-//            frm.set_value("customer_name_copy", r.message.customer_name);
-//            frm.set_value("gender_copy", r.message.gender);
-//            frm.set_value("nationality_copy", r.message.custom_nationality);
-//            frm.set_value("primary_contacts_copy", r.message.primary_address);
-//            frm.set_value("mobile_number_copy", r.message.mobile_no);
-//            frm.set_value("work_for__copy", r.message.custom_work_for);
-//            frm.set_value("national_id_copy", r.message.custom_national_id);
+            //            frm.set_value("customer_name_copy", r.message.customer_name);
+            //            frm.set_value("gender_copy", r.message.gender);
+            //            frm.set_value("nationality_copy", r.message.custom_nationality);
+            //            frm.set_value("primary_contacts_copy", r.message.primary_address);
+            //            frm.set_value("mobile_number_copy", r.message.mobile_no);
+            //            frm.set_value("work_for__copy", r.message.custom_work_for);
+            //            frm.set_value("national_id_copy", r.message.custom_national_id);
           },
         });
       } else {
         // clear the fields
-//        frm.set_value("test", "");
-//        frm.set_value("gender", "");
-//        frm.set_value("nationality", "");
-//        frm.set_value("primary_contacts", "");
-//        frm.set_value("mobile_number", "");
-//        frm.set_value("work_for", "");
-//        frm.set_value("national_id", "");
+        //        frm.set_value("test", "");
+        //        frm.set_value("gender", "");
+        //        frm.set_value("nationality", "");
+        //        frm.set_value("primary_contacts", "");
+        //        frm.set_value("mobile_number", "");
+        //        frm.set_value("work_for", "");
+        //        frm.set_value("national_id", "");
       }
     }
   },
 
   // set Special sales rates
-//  speacial_price: function (frm) {
-//    // frappe.msgprint("Special price");
-//
-//    // Iterate over each item and set the rate to the special rate
-//    frm.doc.items.forEach((item) => {
-//      frappe.call({
-//        method: "frappe.client.get_value",
-//        args: {
-//          doctype: "Item Price",
-//          filters: { item_code: item.item_code },
-//          fieldname: "custom_selling_special_rate",
-//        },
-//
-//        callback: function (response) {
-//          console.log(response);
-//          if (response.message) {
-//            special_selling_rate = response.message.custom_selling_special_rate;
-//            // console.log(custom_selling_special_rate);
-//
-//            frappe.model.set_value(
-//              "Teller Items",
-//              item.name,
-//              "rate",
-//              special_selling_rate
-//            );
-//            special_amount = special_selling_rate * item.quantity;
-//            if (item.quantity) {
-//              frappe.model.set_value(
-//                "Teller Items",
-//                item.name,
-//                "amount",
-//                special_amount
-//              );
-//            }
-//            // console.log(special_amount);
-//          }
-//        },
-//      });
-//    });
-//  },
-speacial_price:function(frm){
+  //  speacial_price: function (frm) {
+  //    // frappe.msgprint("Special price");
+  //
+  //    // Iterate over each item and set the rate to the special rate
+  //    frm.doc.items.forEach((item) => {
+  //      frappe.call({
+  //        method: "frappe.client.get_value",
+  //        args: {
+  //          doctype: "Item Price",
+  //          filters: { item_code: item.item_code },
+  //          fieldname: "custom_selling_special_rate",
+  //        },
+  //
+  //        callback: function (response) {
+  //          console.log(response);
+  //          if (response.message) {
+  //            special_selling_rate = response.message.custom_selling_special_rate;
+  //            // console.log(custom_selling_special_rate);
+  //
+  //            frappe.model.set_value(
+  //              "Teller Items",
+  //              item.name,
+  //              "rate",
+  //              special_selling_rate
+  //            );
+  //            special_amount = special_selling_rate * item.quantity;
+  //            if (item.quantity) {
+  //              frappe.model.set_value(
+  //                "Teller Items",
+  //                item.name,
+  //                "amount",
+  //                special_amount
+  //              );
+  //            }
+  //            // console.log(special_amount);
+  //          }
+  //        },
+  //      });
+  //    });
+  //  },
 
-  frm.doc.transactions.forEach(row=>{
-  if(row.paid_from)
-  {
-   frappe.call({
-    method:"teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
-    args:{
-    account:row.paid_from
-    },
-    callback:function(r){
-    console.log(r.message)
-    special_rate=r.message[2]
-    console.log(special_rate)
-    }
-    })
-  }
+  // speacial_price:async function(frm){
 
-  })
-  }
+  //    let total_currency_amount =0
+
+  //   frm.doc.transactions.forEach(row=>{
+  //   if(row.paid_from)
+  //   {
+  //   let r= await frappe.call({
+  //     method:"teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
+  //     args:{
+  //     account:row.paid_from
+  //     },
+  //     })
+  //     console.log(r.message[2]);
+  //       selling_special_rate = r.message[2];
+  //       row.rate = selling_special_rate;
+  //       console.log(r.message[2]);
+  //       row.total_amount = row.rate * row.usd_amount;
+
+  //       total_currency_amount += row.total;
+  //       frm.refresh_field("transactions");
+  //       console.log(total_currency_amount);
+  //   }
+
+  // })
+  // console.log(total_currency_amount);
+  //   frm.set_value('total', total_currency_amount);
+  // }
+
+  special_price: function (frm) {
+    let total_currency_amount = 0;
+
+    frappe.msgprint("Setting");
+
+    // frm.doc.transactions.forEach((row) => {
+    //   if (row.paid_from) {
+    //     frappe.call({
+    //       method:
+    //         "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
+    //       args: {
+    //         account: row.paid_from,
+    //       },
+    //       callback: function (r) {
+    //         console.log(r.message[2]);
+    //         selling_special_rate = r.message[2];
+    //         row.rate = selling_special_rate;
+    //         console.log(r.message[2]);
+    //         row.total_amount = row.rate * row.usd_amount;
+
+    //         total_currency_amount += row.total;
+    //         frm.refresh_field("transactions");
+    //         console.log(total_currency_amount);
+    //       },
+    //     });
+    //   }
+    // });
+  },
+
+  //vbbbb
 });
 
 //  Transactions currency table
@@ -341,17 +390,10 @@ frappe.ui.form.on("Entry Child", {
           console.log(r.message[0]);
           let curr = r.message[0];
           let currency_rate = r.message[1];
-          let special_rate=r.message[2]
-          frappe.model.set_value(cdt, cdn, "currency", curr)
-          if (frm.doc.speacial_price)
-          {
-            frappe.model.set_value(cdt, cdn, "rate", special_rate);
-          }
-          else
-          {
-            frappe.model.set_value(cdt, cdn, "rate", currency_rate);
-          }
 
+          frappe.model.set_value(cdt, cdn, "currency", curr);
+
+          frappe.model.set_value(cdt, cdn, "rate", currency_rate);
         },
       });
     }
@@ -425,6 +467,4 @@ frappe.ui.form.on("Entry Child", {
     });
     frm.set_value("total", total);
   },
-
 });
-

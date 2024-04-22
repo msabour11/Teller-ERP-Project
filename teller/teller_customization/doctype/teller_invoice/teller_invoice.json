@@ -8,6 +8,7 @@
  "field_order": [
   "movement_number",
   "treasury_code",
+  "invoice_name",
   "column_break_beht",
   "receipt_number",
   "branch_number",
@@ -57,13 +58,13 @@
   "egy_balance",
   "column_break_ytji",
   "total",
-  "section_break_hqmb",
-  "notes",
   "invoice_information_section",
   "company",
   "column_break_cvci",
   "branch",
-  "amended_from"
+  "amended_from",
+  "section_break_hqmb",
+  "notes"
  ],
  "fields": [
   {
@@ -384,12 +385,17 @@
    "fieldname": "special_price",
    "fieldtype": "Button",
    "label": "Special Price"
+  },
+  {
+   "fieldname": "invoice_name",
+   "fieldtype": "Data",
+   "label": "Invoice Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-22 14:59:00.979113",
+ "modified": "2024-04-23 00:11:39.993748",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

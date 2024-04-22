@@ -17,7 +17,33 @@ from erpnext.setup.utils import get_exchange_rate
 
 
 class TellerInvoice(Document):
+    def get_printing_roll(self):
+        acctive_roll = frappe.db.get("Printing Roll", {"active": 1})
+        roll_name = acctive_roll['name']
+        last_number = acctive_roll['last_printed_number']
+        start_letter = acctive_roll['starting_letters']
+        last_number += 1
+        receipt_num = f"{start_letter}-{last_number}"
+        self.receipt_number = receipt_num
+        current_roll = acctive_roll['name']
+        self.current_roll = current_roll
+        show_number = str(last_number)
+        show_number=len(show_number)
+
+        frappe.db.commit()
+        frappe.db.set_value('Printing Roll', roll_name, "last_printed_number", last_number)
+        frappe.db.set_value('Printing Roll', roll_name, "show_number", show_number)
+
+    def set_series_name(self):
+        self.invoice_name = self.name
+        frappe.db.commit()
+
+    def before_submit(self):
+        self.get_printing_roll()
+        self.set_series_name()
+
     def on_submit(self):
+
         # create Gl entry on submit
 
         for row in self.get("transactions"):
@@ -97,17 +123,6 @@ class TellerInvoice(Document):
         self.shift = shift
         self.teller = user
 
-    # def get_printing_roll(self):
-    # 	roll_code = frappe.db.get_value('Printing Roll',{'active':1},)
-    # 	self.current_roll = roll_code
-    # 	last_printed_no = frappe.db.get_value('Printing Roll',{'active':1},'last_printed_number')
-    # 	lettres = frappe.db.get_value('Printing Roll',{'active':1},'starting_letters')
-    # 	frappe.msgprint(roll_code)
-    #
-    # 	last_printed_no += 1
-    # 	recp=f"{lettres}-{last_printed_no}"
-    # 	self.receipt_number = recp
-
 
 # get currency and exchange rate associated with each account
 @frappe.whitelist(allow_guest=True)
@@ -117,7 +132,6 @@ def get_currency(account):
     special_selling_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency},
                                                "custom_special_selling")
     return currency, selling_rate, special_selling_rate
-
 
 
 @frappe.whitelist()
@@ -148,3 +162,11 @@ def account_to_balance(paid_to, company):
         frappe.log_error(error_message)
         return _("Error: Unable to fetch account balance.")  # Return a descriptive error message
 
+
+@frappe.whitelist(allow_guest=True)
+def get_printing_roll():
+    active_roll = frappe.db.get_list("Printing Roll", {"active": 1}, ["name", "last_printed_number"])
+    if active_roll:
+        return active_roll[0]['name'], active_roll[0]['last_printed_number']
+    else:
+        return None, None

@@ -234,8 +234,37 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Impacts",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "General Settings",
+   "link_count": 0,
+   "link_to": "Teller Setting",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Printing Roll",
+   "link_count": 0,
+   "link_to": "Printing Roll",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Master",
-   "link_count": 7,
+   "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -245,7 +274,7 @@
    "is_query_report": 0,
    "label": "Companies and Banks",
    "link_count": 0,
-   "link_to": "Customer Group",
+   "link_to": "Customer",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -283,16 +312,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Currency Exchange Rates",
-   "link_count": 0,
-   "link_to": "Currency Exchange",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Daily Currency Rates",
    "link_count": 0,
    "link_to": "Currency Exchange",
@@ -314,7 +333,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Transactions",
-   "link_count": 6,
+   "link_count": 8,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -352,19 +371,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Treasury",
-   "link_count": 0,
-   "link_to": "Mode of Payment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Cash Transfer Voucher",
    "link_count": 0,
-   "link_to": "GL Entry",
+   "link_to": "Payment Entry",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -374,7 +383,7 @@
    "is_query_report": 0,
    "label": "Cash Receipt Transfer Voucher",
    "link_count": 0,
-   "link_to": "GL Entry",
+   "link_to": "Payment Entry",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -382,18 +391,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Impacts",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "General Settings",
+   "label": "A receipt for cash from the bank",
    "link_count": 0,
-   "link_to": "Teller Setting",
+   "link_to": "Payment Entry",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -401,15 +401,25 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Printing Roll",
+   "label": "Bank transfer document",
    "link_count": 0,
-   "link_to": "Printing Roll",
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Cash voucher",
+   "link_count": 0,
+   "link_to": "Payment Entry",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2024-04-21 15:58:09.060839",
+ "modified": "2024-04-22 11:41:47.107507",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller System",

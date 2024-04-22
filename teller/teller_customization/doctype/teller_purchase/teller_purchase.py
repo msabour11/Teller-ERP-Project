@@ -74,10 +74,10 @@ class TellerPurchase(Document):
 # get currency and currency rate from each account
 @frappe.whitelist()
 def get_currency(account):
-   
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
     currency_rate = frappe.db.get_value("Currency Exchange", {"from_currency": currency}, "exchange_rate")
     return currency, currency_rate
+
 
 # Get the  Balance from the source account
 @frappe.whitelist()
@@ -127,7 +127,7 @@ def create_gl_entry(account_from, account_to, usd_amount, currency, currency_rat
         'voucher_type': 'Teller Purchase',
         'voucher_no': voucher_no,
         "credit_in_transaction_currency": 0,
-        "debit_in_transaction_currency":credit_in_transaction_currency
+        "debit_in_transaction_currency": credit_in_transaction_currency
     })
 
     # Insert the document into the database

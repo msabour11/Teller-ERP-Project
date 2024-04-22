@@ -271,107 +271,40 @@ frappe.ui.form.on("Teller Invoice", {
     }
   },
 
-  // set Special sales rates
-  //  speacial_price: function (frm) {
-  //    // frappe.msgprint("Special price");
-  //
-  //    // Iterate over each item and set the rate to the special rate
-  //    frm.doc.items.forEach((item) => {
-  //      frappe.call({
-  //        method: "frappe.client.get_value",
-  //        args: {
-  //          doctype: "Item Price",
-  //          filters: { item_code: item.item_code },
-  //          fieldname: "custom_selling_special_rate",
-  //        },
-  //
-  //        callback: function (response) {
-  //          console.log(response);
-  //          if (response.message) {
-  //            special_selling_rate = response.message.custom_selling_special_rate;
-  //            // console.log(custom_selling_special_rate);
-  //
-  //            frappe.model.set_value(
-  //              "Teller Items",
-  //              item.name,
-  //              "rate",
-  //              special_selling_rate
-  //            );
-  //            special_amount = special_selling_rate * item.quantity;
-  //            if (item.quantity) {
-  //              frappe.model.set_value(
-  //                "Teller Items",
-  //                item.name,
-  //                "amount",
-  //                special_amount
-  //              );
-  //            }
-  //            // console.log(special_amount);
-  //          }
-  //        },
-  //      });
-  //    });
-  //  },
-
-  // speacial_price:async function(frm){
-
-  //    let total_currency_amount =0
-
-  //   frm.doc.transactions.forEach(row=>{
-  //   if(row.paid_from)
-  //   {
-  //   let r= await frappe.call({
-  //     method:"teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
-  //     args:{
-  //     account:row.paid_from
-  //     },
-  //     })
-  //     console.log(r.message[2]);
-  //       selling_special_rate = r.message[2];
-  //       row.rate = selling_special_rate;
-  //       console.log(r.message[2]);
-  //       row.total_amount = row.rate * row.usd_amount;
-
-  //       total_currency_amount += row.total;
-  //       frm.refresh_field("transactions");
-  //       console.log(total_currency_amount);
-  //   }
-
-  // })
-  // console.log(total_currency_amount);
-  //   frm.set_value('total', total_currency_amount);
-  // }
-
+  // set special price
   special_price: function (frm) {
     let total_currency_amount = 0;
 
-    frappe.msgprint("Setting");
+    // frappe.msgprint("Setting");
 
-    // frm.doc.transactions.forEach((row) => {
-    //   if (row.paid_from) {
-    //     frappe.call({
-    //       method:
-    //         "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
-    //       args: {
-    //         account: row.paid_from,
-    //       },
-    //       callback: function (r) {
-    //         console.log(r.message[2]);
-    //         selling_special_rate = r.message[2];
-    //         row.rate = selling_special_rate;
-    //         console.log(r.message[2]);
-    //         row.total_amount = row.rate * row.usd_amount;
+    frm.doc.transactions.forEach((row) => {
+      if (row.paid_from) {
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
+          args: {
+            account: row.paid_from,
+          },
+          callback: function (r) {
+            console.log(r.message[2]);
+            selling_special_rate = r.message[2];
+            row.rate = selling_special_rate;
+            console.log(r.message[2]);
+            let currency_total = row.rate * row.usd_amount;
+            row.total_amount = currency_total;
 
-    //         total_currency_amount += row.total;
-    //         frm.refresh_field("transactions");
-    //         console.log(total_currency_amount);
-    //       },
-    //     });
-    //   }
-    // });
+            console.log(`the total of ${row.currency} is ${row.total_amount}`);
+
+            total_currency_amount += currency_total;
+            console.log("from loop: " + total_currency_amount);
+            frm.refresh_field("transactions");
+            frm.set_value("total", total_currency_amount);
+          },
+        });
+      }
+    });
+    console.log("from outer loop: " + total_currency_amount);
   },
-
-  //vbbbb
 });
 
 //  Transactions currency table

@@ -38,89 +38,88 @@ frappe.ui.form.on("Teller Invoice", {
   },
   onload(frm) {
     // Check if the document is newly created
-    if (!frm.doc.__islocal) {
-      return;
-    }
-
+    // if (!frm.doc.__islocal) {
+    //   return;
+    // }
     // add printing roll serial to each invoice
-//    frappe.call({
-//      method: "frappe.client.get_list",
-//      args: {
-//        doctype: "Printing Roll",
-//        filters: {
-//          active: 1, // Filter to get active Printing Roll
-//        },
-//        fields: ["name"],
-//        limit: 1, // Get only one active Printing Roll
-//        order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-//      },
-//      callback: function (response) {
-//        if (response && response.message && response.message.length > 0) {
-//          let current_active_roll = response.message[0].name;
-//
-//          // Set the current_roll field in the Teller Purchase doctype to the current active Printing Roll
-//          frm.set_value("current_roll", current_active_roll);
-//
-//          // Fetch additional details of the active Printing Roll and update receipt number and last printed number
-//          frappe.call({
-//            method: "frappe.client.get",
-//            args: {
-//              doctype: "Printing Roll",
-//              name: current_active_roll,
-//            },
-//            callback: function (response) {
-//              if (response.message) {
-//                let lpn = response.message.last_printed_number;
-//                let start_letters = response.message.starting_letters;
-//                lpn = parseInt(lpn);
-//                lpn += 1;
-//
-//                // Set receipt number
-//                frm.set_value("receipt_number", start_letters + "-" + lpn);
-//
-//                // Update last printed number in Printing Roll document
-//                frappe.call({
-//                  method: "frappe.client.set_value",
-//                  args: {
-//                    doctype: "Printing Roll",
-//                    name: current_active_roll,
-//                    fieldname: "last_printed_number",
-//                    value: lpn,
-//                  },
-//                  callback: function (response) {
-//                    if (!response.exc) {
-//                      // Success
-//                      refresh_field("last_printed_number");
-//                      console.log("Last printed number updated successfully.");
-//                    } else {
-//                      // Handle error
-//                      console.error(
-//                        "Error updating last printed number:",
-//                        response.exc
-//                      );
-//                    }
-//                  },
-//                });
-//              }
-//            },
-//          });
-//        }
-//      },
-//    });
+    // if (!frm.doc.receipt_number) {
+    //   frappe.call({
+    //     method: "frappe.client.get_list",
+    //     args: {
+    //       doctype: "Printing Roll",
+    //       filters: {
+    //         active: 1, // Filter to get active Printing Roll
+    //       },
+    //       fields: ["name"],
+    //       limit: 1, // Get only one active Printing Roll
+    //       order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+    //     },
+    //     callback: function (response) {
+    //       if (response && response.message && response.message.length > 0) {
+    //         let current_active_roll = response.message[0].name;
+    //         // Set the current_roll field in the Teller Purchase doctype to the current active Printing Roll
+    //         frm.set_value("current_roll", current_active_roll);
+    //         // Fetch additional details of the active Printing Roll and update receipt number and last printed number
+    //         frappe.call({
+    //           method: "frappe.client.get",
+    //           args: {
+    //             doctype: "Printing Roll",
+    //             name: current_active_roll,
+    //           },
+    //           callback: function (response) {
+    //             if (response.message) {
+    //               let lpn = response.message.last_printed_number;
+    //               let start_letters = response.message.starting_letters;
+    //               lpn = parseInt(lpn);
+    //               lpn += 1;
+    //               // Set receipt number
+    //               frm.set_value("receipt_number", start_letters + "-" + lpn);
+    //               // Update last printed number in Printing Roll document
+    //               frappe.call({
+    //                 method: "frappe.client.set_value",
+    //                 args: {
+    //                   doctype: "Printing Roll",
+    //                   name: current_active_roll,
+    //                   fieldname: "last_printed_number",
+    //                   value: lpn,
+    //                 },
+    //                 callback: function (response) {
+    //                   if (!response.exc) {
+    //                     // Success
+    //                     refresh_field("last_printed_number");
+    //                     console.log(
+    //                       "Last printed number updated successfully."
+    //                     );
+    //                   } else {
+    //                     // Handle error
+    //                     console.error(
+    //                       "Error updating last printed number:",
+    //                       response.exc
+    //                     );
+    //                   }
+    //                 },
+    //               });
+    //             }
+    //           },
+    //         });
+    //       }
+    //     },
+    //   });
+    // }
     // get the active open shift and the associated teller user
-    frappe.call({
-      method: "frappe.client.get_value",
-      args: {
-        doctype: "OPen Shift",
-        filters: { active: 1 },
-        fieldname: ["name", "current_user"],
-      },
-      callback: function (response) {
-        console.log(response.message);
-        frm.set_value("shift", response.message.name);
-        frm.set_value("teller", response.message.current_user);
-      },
-    });
+    //    frappe.call({
+    //      method: "frappe.client.get_value",
+    //      args: {
+    //        doctype: "OPen Shift",
+    //        filters: { active: 1 },
+    //        fieldname: ["name", "current_user"],
+    //      },
+    //      callback: function (response) {
+    //        console.log(response.message);
+    //        frm.set_value("shift", response.message.name);
+    //        frm.set_value("teller", response.message.current_user);
+    //      },
+    //    });
   },
 
   // Get customer information if exists
@@ -273,36 +272,39 @@ frappe.ui.form.on("Teller Invoice", {
 
   // set special price
   special_price: function (frm) {
-    let total_currency_amount = 0;
+    if (frm.doc.docstatus == 0) {
+      let total_currency_amount = 0;
 
-   
-    frm.doc.transactions.forEach((row) => {
-      if (row.paid_from) {
-        frappe.call({
-          method:
-            "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
-          args: {
-            account: row.paid_from,
-          },
-          callback: function (r) {
-            console.log(r.message[2]);
-            selling_special_rate = r.message[2];
-            row.rate = selling_special_rate;
-            console.log(r.message[2]);
-            let currency_total = row.rate * row.usd_amount;
-            row.total_amount = currency_total;
+      frm.doc.transactions.forEach((row) => {
+        if (row.paid_from) {
+          frappe.call({
+            method:
+              "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_currency",
+            args: {
+              account: row.paid_from,
+            },
+            callback: function (r) {
+              console.log(r.message[2]);
+              selling_special_rate = r.message[2];
+              row.rate = selling_special_rate;
+              console.log(r.message[2]);
+              let currency_total = row.rate * row.usd_amount;
+              row.total_amount = currency_total;
 
-            console.log(`the total of ${row.currency} is ${row.total_amount}`);
+              console.log(
+                `the total of ${row.currency} is ${row.total_amount}`
+              );
 
-            total_currency_amount += currency_total;
-            console.log("from loop: " + total_currency_amount);
-            frm.refresh_field("transactions");
-            frm.set_value("total", total_currency_amount);
-          },
-        });
-      }
-    });
-    console.log("from outer loop: " + total_currency_amount);
+              total_currency_amount += currency_total;
+              console.log("from loop: " + total_currency_amount);
+              frm.refresh_field("transactions");
+              frm.set_value("total", total_currency_amount);
+            },
+          });
+        }
+      });
+      console.log("from outer loop: " + total_currency_amount);
+    }
   },
 });
 

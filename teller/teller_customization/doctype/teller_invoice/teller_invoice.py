@@ -17,30 +17,29 @@ from erpnext.setup.utils import get_exchange_rate
 
 
 class TellerInvoice(Document):
+    def set_current_shift(self):
+        shift = frappe.db.get_value('OPen Shift', {'active': 1})
+        self.shift = shift
+
     def get_printing_roll(self):
-        acctive_roll = frappe.db.get("Printing Roll", {"active": 1})
-        roll_name = acctive_roll['name']
-        last_number = acctive_roll['last_printed_number']
-        start_letter = acctive_roll['starting_letters']
+        active_roll = frappe.db.get("Printing Roll", {"active": 1})
+        roll_name = active_roll['name']
+        last_number = active_roll['last_printed_number']
+        start_letter = active_roll['starting_letters']
         last_number += 1
         receipt_num = f"{start_letter}-{last_number}"
         self.receipt_number = receipt_num
-        current_roll = acctive_roll['name']
-        self.current_roll = current_roll
+        # current_roll = active_roll['name']
+        # self.current_roll = current_roll
         show_number = str(last_number)
-        show_number=len(show_number)
+        show_number = len(show_number)
 
         frappe.db.commit()
         frappe.db.set_value('Printing Roll', roll_name, "last_printed_number", last_number)
         frappe.db.set_value('Printing Roll', roll_name, "show_number", show_number)
 
-    def set_series_name(self):
-        self.invoice_name = self.name
-        frappe.db.commit()
-
     def before_submit(self):
         self.get_printing_roll()
-        self.set_series_name()
 
     def on_submit(self):
 
@@ -84,7 +83,8 @@ class TellerInvoice(Document):
                 })
                 account_to.insert(ignore_permissions=True).submit()
                 if account_from and account_to:
-                    frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
+                    # frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
+                    frappe.msgprint(_("Teller Invoice created successfully with  Total {0}").format(self.total))
                 else:
                     frappe.msgprint(_("Failed to create GL Entry for row {0}").format(row.idx))
 
@@ -92,36 +92,45 @@ class TellerInvoice(Document):
             else:
                 frappe.throw(_("You must enter all required fields in row {0}").format(row.idx))
 
-    def onload(self):
-        # self.set_treasury()
-        # self.set_branch()
-        # self.set_price()
-        # self.set_cost()
-        # self.get_active_shift()
-        # self.get_printing_roll()
-        pass
-
-    def set_treasury(self):
-        treasury_code = frappe.db.get_single_value('Teller Setting', 'treasury_code')
-        self.treasury_code = treasury_code
+    def before_save(self):
+        self.set_branch()
+        self.set_current_shift()
+        self.set_branch_number()
+        self.set_cost()
+        self.set_active_shift()
+        self.set_current_roll()
+        # self.set_series_name()
+        self.set_closing_date()
 
     def set_branch(self):
-        branch = frappe.db.get_single_value('Teller Setting', 'branch')
-        self.branch_number = branch
-
-    def set_price(self):
-        price_lst = frappe.db.get_single_value('Teller Setting', 'price_list')
-        self.price_list = price_lst
+        branch = frappe.db.get_value('Branch', {'custom_active': 1}, 'branch')
+        self.branch = branch
+        frappe.db.commit()
 
     def set_cost(self):
-        cost = frappe.db.get_single_value('Teller Setting', 'cost_center')
-        self.cost_center_number = cost
+        cost = frappe.db.get_value('Branch', {'custom_active': 1}, 'branch')
+        self.cost_center = cost
 
-    def get_active_shift(self):
+    def set_branch_number(self):
+        branch_no = frappe.db.get_value('Branch', {'custom_active': 1}, 'custom_branch_no')
+        self.branch_number = branch_no
+
+    def set_active_shift(self):
         shift = frappe.db.get_value('OPen Shift', {'active': 1})
-        user = frappe.db.get_value('OPen Shift', {'active': 1}, 'current_user')
+        # user = frappe.db.get_value('OPen Shift', {'active': 1}, 'current_user')
         self.shift = shift
-        self.teller = user
+
+    def set_current_roll(self):
+        roll = frappe.db.get_value('Printing Roll', {'active': 1}, "name")
+        self.current_roll = roll
+
+    # def set_series_name(self):
+    #     self.invoice_name = self.name
+
+    def set_closing_date(self):
+
+        shift_closing = frappe.db.get_value('OPen Shift', {'active': 1}, 'end_date')
+        self.closing_date = shift_closing
 
 
 # get currency and exchange rate associated with each account
@@ -170,3 +179,9 @@ def get_printing_roll():
         return active_roll[0]['name'], active_roll[0]['last_printed_number']
     else:
         return None, None
+
+
+@frappe.whitelist(allow_guest=True)
+def get_current_shift():
+    branch = frappe.db.get_value('Branch', {'custom_active': 1}, 'branch')
+    return branch

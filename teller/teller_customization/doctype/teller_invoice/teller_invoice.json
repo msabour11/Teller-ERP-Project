@@ -8,17 +8,18 @@
  "field_order": [
   "movement_number",
   "treasury_code",
-  "invoice_name",
   "column_break_beht",
   "receipt_number",
   "branch_number",
   "column_break_racu",
   "date",
-  "cost_center",
+  "shift",
   "teller",
   "column_break_phqr",
   "current_roll",
-  "shift",
+  "cost_center",
+  "column_break_nkql",
+  "closing_date",
   "special_price",
   "section_break_onwq",
   "client_type",
@@ -72,6 +73,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "\"Roll-####\"",
    "fieldname": "receipt_number",
    "fieldtype": "Data",
    "label": "Receipt number",
@@ -80,8 +82,8 @@
   {
    "default": "Now",
    "fieldname": "date",
-   "fieldtype": "Datetime",
-   "label": "Date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
    "read_only": 1
   },
   {
@@ -255,9 +257,11 @@
    "label": "Customer Name"
   },
   {
+   "default": "00076",
    "fieldname": "movement_number",
    "fieldtype": "Data",
-   "label": "Movement Number"
+   "label": "Movement Number",
+   "read_only": 1
   },
   {
    "fieldname": "transctions_section",
@@ -313,7 +317,8 @@
    "fetch_from": "branch.custom_cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Data",
-   "label": "Cost Center"
+   "label": "Cost Center",
+   "read_only": 1
   },
   {
    "fieldname": "branch",
@@ -325,7 +330,8 @@
    "fetch_from": "branch.custom_branch_no",
    "fieldname": "branch_number",
    "fieldtype": "Data",
-   "label": "Branch Number"
+   "label": "Branch Number",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -376,9 +382,11 @@
    "label": "Mobile Number "
   },
   {
+   "default": "07766",
    "fieldname": "treasury_code",
    "fieldtype": "Data",
-   "label": "Treasury Code"
+   "label": "Treasury Code",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.client_type=='Interbank' || doc.client_type==\"\u0627\u0646\u062a\u0631\u0628\u0646\u0643\"",
@@ -387,15 +395,20 @@
    "label": "Special Price"
   },
   {
-   "fieldname": "invoice_name",
+   "fieldname": "column_break_nkql",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closing_date",
    "fieldtype": "Data",
-   "label": "Invoice Name"
+   "label": "Closing Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-23 00:11:39.993748",
+ "modified": "2024-04-23 16:09:21.125763",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

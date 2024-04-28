@@ -127,7 +127,6 @@
    "read_only": 1
   },
   {
-   "collapsible": 1,
    "fieldname": "sales_invoices_section",
    "fieldtype": "Section Break",
    "label": "Sales Invoices"
@@ -136,8 +135,7 @@
    "fieldname": "sales_table",
    "fieldtype": "Table",
    "label": "Sales Table",
-   "options": "Sales Table",
-   "read_only": 1
+   "options": "Sales Table"
   },
   {
    "fieldname": "invoices_sales_total_section",
@@ -162,7 +160,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-06 00:22:16.410822",
+ "modified": "2024-04-28 12:27:04.491860",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

@@ -104,7 +104,7 @@ frappe.ui.form.on("Teller Purchase", {
   },
   // get customer information if exists
   buyer: function (frm) {
-    if (frm.doc.category_of_buyer == "Individual") {
+    if (frm.doc.client_type == "Egyptian" || frm.doc.client_type == "مصريين") {
       if (frm.doc.buyer) {
         frappe.call({
           method: "frappe.client.get",
@@ -123,7 +123,7 @@ frappe.ui.form.on("Teller Purchase", {
           },
         });
       } else {
-        // clear the fields if the customer not exists
+      // clear the fields if the customer not exists
         frm.set_value("customer_name", "");
         frm.set_value("gender", "");
         frm.set_value("nationality", "");
@@ -240,7 +240,6 @@ frappe.ui.form.on("Teller Purchase Child", {
     }
   },
 
-  
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
@@ -292,4 +291,3 @@ frappe.ui.form.on("Teller Purchase Child", {
     }
   },
 });
-

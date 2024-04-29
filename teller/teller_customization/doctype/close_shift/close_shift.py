@@ -126,6 +126,7 @@ def get_active_shift():
 
 @whitelist()
 def get_sales_invoice(close_shift_name, current_open_shift):
+    total = 0
     child_list = []
     invoice_list = []
     currency_list = []
@@ -163,9 +164,8 @@ def get_sales_invoice(close_shift_name, current_open_shift):
 
                 parent.append("sales_table", child)
                 child_list.append(child)
-    total = 0
-    for c in child_list:
-        currency_list.append(c.currency)
+                if transaction.total_amount:
+                    total += transaction.total_amount
 
     parent.save()
-    return f"the list is {currency_list}"
+    return total, child_list

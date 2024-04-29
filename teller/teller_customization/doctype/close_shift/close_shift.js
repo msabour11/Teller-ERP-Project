@@ -31,10 +31,35 @@ frappe.ui.form.on("Close Shift", {
         current_open_shift: frm.doc.open_shift,
       },
       callback: function (r) {
-        console.log(r);
+        // console.log(r.message[0]);
+        // console.log(r.message[1]);
+        console.log("total is ", r.message[0]);
+        let total = r.message[0];
+        console.log("type is ", typeof total);
+
+        frm.set_value("total_sales", total);
       },
     });
   },
+
+  // on_save: function (frm) {
+  //   frappe.call({
+  //     method:
+  //       "teller.teller_customization.doctype.close_shift.close_shift.get_sales_invoice",
+  //     args: {
+  //       close_shift_name: frm.doc.name,
+  //       current_open_shift: frm.doc.open_shift,
+  //     },
+  //     callback: function (r) {
+  //       console.log(r.message[0]);
+  //       console.log("total is ", r.message[1]);
+  //       let total = r.message[1];
+  //       console.log("type is ", typeof total);
+
+  //       frm.set_value("total_sales", total);
+  //     },
+  //   });
+  // },
 
   //  async get_invoices(frm) {
   //    try {

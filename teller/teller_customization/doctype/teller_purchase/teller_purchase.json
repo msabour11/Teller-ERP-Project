@@ -50,6 +50,8 @@
   "primary_contacts_copy",
   "work_for__copy",
   "mobile_number_copy",
+  "inter_bank_section",
+  "test",
   "speacial_price_section",
   "speacial_price",
   "transactions_section",
@@ -246,6 +248,7 @@
   {
    "fieldname": "teller",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Teller",
    "options": "User"
   },
@@ -322,6 +325,7 @@
    "label": "Closing Date"
   },
   {
+   "depends_on": "eval:doc.category_of_buyer==\"Interbank\"",
    "fieldname": "special_price",
    "fieldtype": "Button",
    "label": "Special Price"
@@ -372,12 +376,25 @@
    "fieldname": "mobile_number_copy",
    "fieldtype": "Data",
    "label": "Mobile Number "
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.category_of_buyer=='Interbank'",
+   "depends_on": "eval:doc.category_of_buyer=='Interbank'",
+   "fieldname": "inter_bank_section",
+   "fieldtype": "Section Break",
+   "label": "Inter Bank"
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Data",
+   "label": "Test"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-30 14:06:36.016218",
+ "modified": "2024-04-30 14:30:58.878744",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

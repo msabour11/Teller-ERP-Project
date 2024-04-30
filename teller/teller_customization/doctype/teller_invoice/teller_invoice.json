@@ -257,7 +257,6 @@
    "label": "Customer Name"
   },
   {
-   "default": "00076",
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number",
@@ -408,7 +407,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-23 16:09:21.125763",
+ "modified": "2024-04-30 11:25:06.992016",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

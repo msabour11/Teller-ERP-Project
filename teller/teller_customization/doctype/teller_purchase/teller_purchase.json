@@ -47,13 +47,13 @@
   "transactions",
   "section_break_icjb",
   "usd_balance",
-  "section_break_erkw",
-  "notes",
-  "amended_from",
   "invoice_information_section",
   "company",
   "column_break_oxye",
-  "branch"
+  "branch",
+  "section_break_erkw",
+  "notes",
+  "amended_from"
  ],
  "fields": [
   {
@@ -217,8 +217,7 @@
    "fieldname": "branch",
    "fieldtype": "Link",
    "label": "Branch",
-   "options": "Branch",
-   "read_only": 1
+   "options": "Branch"
   },
   {
    "fieldname": "national_id",
@@ -280,9 +279,11 @@
    "read_only": 1
   },
   {
+   "fetch_from": "branch.custom_cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Data",
-   "label": "Cost Center"
+   "label": "Cost Center",
+   "read_only": 1
   },
   {
    "fieldname": "company",
@@ -296,9 +297,11 @@
    "label": "Treasury Code"
   },
   {
+   "fetch_from": "branch.custom_branch_no",
    "fieldname": "branch_number",
    "fieldtype": "Data",
-   "label": "Branch Number"
+   "label": "Branch Number",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_idhd",
@@ -318,7 +321,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-29 16:18:32.087855",
+ "modified": "2024-04-30 09:45:37.598005",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

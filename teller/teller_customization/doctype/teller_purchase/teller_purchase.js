@@ -2,6 +2,60 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Purchase", {
+  setup: function (frm) {
+    // set the branch 
+    frappe.call({
+      method: "frappe.client.get",
+      args: {
+        doctype: "Branch",
+        filters: {
+          custom_active: 1,
+        },
+      },
+      callback: function (r) {
+        if (!r.exc) {
+          let branch = r.message.name;
+          frm.set_value("branch", branch);
+        }
+      },
+    }),
+      // Set the the active open shift and current user
+      frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+          doctype: "OPen Shift",
+          filters: { active: 1 },
+          fieldname: ["name", "current_user"],
+        },
+        callback: function (r) {
+          if (!r.exc) {
+            let shift = r.message.name;
+            let current_user = r.message.current_user;
+
+            frm.set_value("shift", shift);
+            frm.set_value("teller", current_user);
+          }
+        },
+      }),
+      // set the current active Printing roll
+      frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+          doctype: "Printing Roll",
+          filters: {
+            active: 1, // Filter to get active Printing Roll
+          },
+          limit: 1, // Get only one active Printing Roll
+          order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+        },
+        callback: (r) => {
+          if (!r.exc && r.message && r.message.length > 0) {
+            active_roll = r.message[0].name;
+            frm.set_value("current_roll", active_roll);
+          }
+        },
+      });
+  },
   refresh(frm) {
     // filter customers based on  customer category
     frm.set_query("buyer", function (doc) {
@@ -35,9 +89,6 @@ frappe.ui.form.on("Teller Purchase", {
         // check if there is response and there is at least one active roll
         if (response && response.message && response.message.length > 0) {
           let current_active_roll = response.message[0].name;
-
-          // Set the current_roll field in the Teller Purchase doctype to the current active Printing Roll
-          frm.set_value("current_roll", current_active_roll);
 
           // Fetch additional details of the active Printing Roll and update receipt number and last printed number
           frappe.call({
@@ -88,19 +139,19 @@ frappe.ui.form.on("Teller Purchase", {
 
     // get the active open shift and the associated teller user
 
-    frappe.call({
-      method: "frappe.client.get_value",
-      args: {
-        doctype: "OPen Shift",
-        filters: { active: 1 },
-        fieldname: ["name", "current_user"],
-      },
-      callback: function (response) {
-        console.log(response.message);
-        frm.set_value("shift", response.message.name);
-        frm.set_value("teller", response.message.current_user);
-      },
-    });
+    // frappe.call({
+    //   method: "frappe.client.get_value",
+    //   args: {
+    //     doctype: "OPen Shift",
+    //     filters: { active: 1 },
+    //     fieldname: ["name", "current_user"],
+    //   },
+    //   callback: function (response) {
+    //     console.log(response.message);
+    //     frm.set_value("shift", response.message.name);
+    //     frm.set_value("teller", response.message.current_user);
+    //   },
+    // });
   },
   // get customer information if exists
   buyer: function (frm) {
@@ -123,7 +174,7 @@ frappe.ui.form.on("Teller Purchase", {
           },
         });
       } else {
-      // clear the fields if the customer not exists
+        // clear the fields if the customer not exists
         frm.set_value("customer_name", "");
         frm.set_value("gender", "");
         frm.set_value("nationality", "");

@@ -41,6 +41,15 @@
   "column_break_ndtu",
   "start_registration_date",
   "end_registration_date",
+  "foreigners_section",
+  "customer_name_copy",
+  "gender_copy",
+  "nationality_copy",
+  "national_id_copy",
+  "column_break_gpot",
+  "primary_contacts_copy",
+  "work_for__copy",
+  "mobile_number_copy",
   "speacial_price_section",
   "speacial_price",
   "transactions_section",
@@ -316,12 +325,59 @@
    "fieldname": "special_price",
    "fieldtype": "Button",
    "label": "Special Price"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:doc.category_of_buyer=='Foreigners'",
+   "depends_on": "eval:doc.category_of_buyer=='Foreigners'",
+   "fieldname": "foreigners_section",
+   "fieldtype": "Section Break",
+   "label": "Foreigners"
+  },
+  {
+   "fieldname": "customer_name_copy",
+   "fieldtype": "Data",
+   "label": "Customer Name "
+  },
+  {
+   "fieldname": "gender_copy",
+   "fieldtype": "Data",
+   "label": "Gender "
+  },
+  {
+   "fieldname": "nationality_copy",
+   "fieldtype": "Data",
+   "label": "Nationality "
+  },
+  {
+   "fieldname": "column_break_gpot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "national_id_copy",
+   "fieldtype": "Data",
+   "label": "National ID "
+  },
+  {
+   "fieldname": "primary_contacts_copy",
+   "fieldtype": "Small Text",
+   "label": "Primary Contacts "
+  },
+  {
+   "fieldname": "work_for__copy",
+   "fieldtype": "Data",
+   "label": "Work For  "
+  },
+  {
+   "fieldname": "mobile_number_copy",
+   "fieldtype": "Data",
+   "label": "Mobile Number "
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-30 09:45:37.598005",
+ "modified": "2024-04-30 14:06:36.016218",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

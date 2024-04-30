@@ -3,7 +3,7 @@
 
 frappe.ui.form.on("Teller Purchase", {
   setup: function (frm) {
-    // set the branch 
+    // set the branch
     frappe.call({
       method: "frappe.client.get",
       args: {
@@ -136,22 +136,6 @@ frappe.ui.form.on("Teller Purchase", {
         }
       },
     });
-
-    // get the active open shift and the associated teller user
-
-    // frappe.call({
-    //   method: "frappe.client.get_value",
-    //   args: {
-    //     doctype: "OPen Shift",
-    //     filters: { active: 1 },
-    //     fieldname: ["name", "current_user"],
-    //   },
-    //   callback: function (response) {
-    //     console.log(response.message);
-    //     frm.set_value("shift", response.message.name);
-    //     frm.set_value("teller", response.message.current_user);
-    //   },
-    // });
   },
   // get customer information if exists
   buyer: function (frm) {
@@ -183,7 +167,10 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("work_for", "");
         frm.set_value("national_id", "");
       }
-    } else if (frm.doc.category_of_buyer == "Companies") {
+    } else if (
+      frm.doc.category_of_buyer === "Company" ||
+      frm.doc.category_of_buyer === "شركات"
+    ) {
       if (frm.doc.buyer) {
         frappe.call({
           method: "frappe.client.get",
@@ -221,6 +208,38 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("company_commercial_no", "");
         frm.set_value("start_registration_date", "");
         frm.set_value("end_registration_date", "");
+      }
+    } else if (
+      frm.doc.category_of_buyer == "Foreigners" ||
+      frm.doc.category_of_buyer == "اجانب"
+    ) {
+      if (frm.doc.buyer) {
+        frappe.call({
+          method: "frappe.client.get",
+          args: {
+            doctype: "Customer",
+            name: frm.doc.buyer,
+          },
+          callback: function (r) {
+            // set the fields with r.message.fieldname
+            frm.set_value("customer_name_copy", r.message.customer_name);
+            frm.set_value("gender_copy", r.message.gender);
+            frm.set_value("nationality_copy", r.message.custom_nationality);
+            frm.set_value("primary_contacts_copy", r.message.primary_address);
+            frm.set_value("mobile_number_copy", r.message.mobile_no);
+            frm.set_value("work_for__copy", r.message.custom_work_for);
+            frm.set_value("national_id_copy", r.message.custom_national_id);
+          },
+        });
+      } else {
+        // clear the fields
+        frm.set_value("test", "");
+        frm.set_value("gender", "");
+        frm.set_value("nationality", "");
+        frm.set_value("primary_contacts", "");
+        frm.set_value("mobile_number", "");
+        frm.set_value("work_for", "");
+        frm.set_value("national_id", "");
       }
     }
   },

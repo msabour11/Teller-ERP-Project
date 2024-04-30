@@ -245,8 +245,6 @@ frappe.ui.form.on("Teller Purchase", {
   },
   // set special purchaase rates
   speacial_price: function (frm) {
-   
-
     // Iterate over each item and set the rate to the special rate
     // frm.doc.items.forEach((item) => {
     //   frappe.call({
@@ -256,14 +254,12 @@ frappe.ui.form.on("Teller Purchase", {
     //       filters: { item_code: item.item_code },
     //       fieldname: "custom_purchase_special_rate",
     //     },
-
     //     callback: function (response) {
     //       console.log(response);
     //       if (response.message) {
     //         special_purchase_rate =
     //           response.message.custom_purchase_special_rate;
     //         console.log(special_purchase_rate);
-
     //         frappe.model.set_value(
     //           "Teller Items",
     //           item.name,
@@ -318,21 +314,21 @@ frappe.ui.form.on("Teller Purchase Child", {
 
       frappe.model.set_value(cdt, cdn, "total_amount", total);
 
-      // Update account balances
+      // Update currency balances
 
       frappe.call({
         method:
           "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_from_balance",
         args: {
           paid_from: row.paid_from,
-          company: frm.doc.company,
+          // company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
             let from_balance = r.message;
 
-            frm.set_value("usd_balance", from_balance);
+            frappe.model.set_value(cdt, cdn, "balance", from_balance);
           } else {
             console.log("not found");
           }
@@ -343,14 +339,14 @@ frappe.ui.form.on("Teller Purchase Child", {
           "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
         args: {
           paid_to: row.paid_to,
-          company: frm.doc.company,
+          // company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
-            let balance_to = r.message;
+            let egy_balance = r.message;
 
-            // frm.set_value("balance_to", balance_to);
+            frm.set_value("egy_balance", egy_balance);
           } else {
             console.log("not found");
           }

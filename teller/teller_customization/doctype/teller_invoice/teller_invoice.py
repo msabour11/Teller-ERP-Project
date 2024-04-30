@@ -26,7 +26,9 @@ from erpnext.setup.utils import get_exchange_rate
 
 
 class TellerInvoice(Document):
- 
+    def validate(self):
+        if len(self.get("transactions")) > 3:
+            frappe.throw("Can not Buy more than three currency")
 
     def set_current_shift(self):
         shift = frappe.db.get_value("OPen Shift", {"active": 1})

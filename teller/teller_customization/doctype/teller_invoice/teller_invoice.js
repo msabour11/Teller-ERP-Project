@@ -60,104 +60,48 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   refresh(frm) {
-    // add ledger button in refresh To Teller Invoice
-    frm.events.show_general_ledger(frm);
-    // filter customers based on  customer group
-
-    frm.fields_dict["client"].get_query = function (doc) {
+    frm.set_query("client", function (doc) {
       return {
         filters: {
           customer_group: doc.client_type,
         },
       };
-    };
+    });
+    // add ledger button in refresh To Teller Invoice
+    frm.events.show_general_ledger(frm);
+    // filter customers based on  customer group
+
+    // frm.fields_dict["client"].get_query = function (doc) {
+    //   return {
+    //     filters: {
+    //       customer_group: doc.client_type,
+    //     },
+    //   };
+    // };
   },
 
-  onload(frm) {
-    // Check if the document is newly created
-    // if (!frm.doc.__islocal) {
-    //   return;
-    // }
-    // add printing roll serial to each invoice
-    // if (!frm.doc.receipt_number) {
-    //   frappe.call({
-    //     method: "frappe.client.get_list",
-    //     args: {
-    //       doctype: "Printing Roll",
-    //       filters: {
-    //         active: 1, // Filter to get active Printing Roll
-    //       },
-    //       fields: ["name"],
-    //       limit: 1, // Get only one active Printing Roll
-    //       order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-    //     },
-    //     callback: function (response) {
-    //       if (response && response.message && response.message.length > 0) {
-    //         let current_active_roll = response.message[0].name;
-    //         // Set the current_roll field in the Teller Purchase doctype to the current active Printing Roll
-    //         frm.set_value("current_roll", current_active_roll);
-    //         // Fetch additional details of the active Printing Roll and update receipt number and last printed number
-    //         frappe.call({
-    //           method: "frappe.client.get",
-    //           args: {
-    //             doctype: "Printing Roll",
-    //             name: current_active_roll,
-    //           },
-    //           callback: function (response) {
-    //             if (response.message) {
-    //               let lpn = response.message.last_printed_number;
-    //               let start_letters = response.message.starting_letters;
-    //               lpn = parseInt(lpn);
-    //               lpn += 1;
-    //               // Set receipt number
-    //               frm.set_value("receipt_number", start_letters + "-" + lpn);
-    //               // Update last printed number in Printing Roll document
-    //               frappe.call({
-    //                 method: "frappe.client.set_value",
-    //                 args: {
-    //                   doctype: "Printing Roll",
-    //                   name: current_active_roll,
-    //                   fieldname: "last_printed_number",
-    //                   value: lpn,
-    //                 },
-    //                 callback: function (response) {
-    //                   if (!response.exc) {
-    //                     // Success
-    //                     refresh_field("last_printed_number");
-    //                     console.log(
-    //                       "Last printed number updated successfully."
-    //                     );
-    //                   } else {
-    //                     // Handle error
-    //                     console.error(
-    //                       "Error updating last printed number:",
-    //                       response.exc
-    //                     );
-    //                   }
-    //                 },
-    //               });
-    //             }
-    //           },
-    //         });
-    //       }
-    //     },
-    //   });
-    // }
-    // get the active open shift and the associated teller user
-    //    frappe.call({
-    //      method: "frappe.client.get_value",
-    //      args: {
-    //        doctype: "OPen Shift",
-    //        filters: { active: 1 },
-    //        fieldname: ["name", "current_user"],
-    //      },
-    //      callback: function (response) {
-    //        console.log(response.message);
-    //        frm.set_value("shift", response.message.name);
-    //        frm.set_value("teller", response.message.current_user);
-    //      },
-    //    });
+  show_general_ledger: function (frm) {
+    if (frm.doc.docstatus > 0) {
+      frm.add_custom_button(
+        __("Ledger"),
+        function () {
+          frappe.route_options = {
+            voucher_no: frm.doc.name,
+            from_date: frm.doc.date,
+            to_date: moment(frm.doc.modified).format("YYYY-MM-DD"),
+            company: frm.doc.company,
+            group_by: "",
+            show_cancelled_entries: frm.doc.docstatus === 2,
+          };
+          frappe.set_route("query-report", "General Ledger");
+        },
+        "fa fa-table"
+      );
+    }
+    //
   },
+
+  onload(frm) {},
 
   // Get customer information if exists
   client: function (frm) {

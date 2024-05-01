@@ -32,10 +32,6 @@ class TellerInvoice(Document):
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
 
-    def set_current_shift(self):
-        shift = frappe.db.get_value("OPen Shift", {"active": 1})
-        self.shift = shift
-
     def get_printing_roll(self):
         active_roll = frappe.db.get("Printing Roll", {"active": 1})
         roll_name = active_roll["name"]
@@ -121,14 +117,15 @@ class TellerInvoice(Document):
                 )
 
     def before_save(self):
-        self.set_current_shift()
-        self.set_branch_number()
-        self.set_cost()
-        self.set_active_shift()
-        self.set_current_roll()
-        self.set_branch()
-        # self.set_series_name()
-        self.set_closing_date()
+        pass
+        # self.set_current_shift()
+        # self.set_branch_number()
+        # self.set_cost()
+        # self.set_active_shift()
+        # self.set_current_roll()
+        # self.set_branch()
+        # # self.set_series_name()
+        # self.set_closing_date()
 
     def set_branch(self):
         branch = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")
@@ -161,6 +158,10 @@ class TellerInvoice(Document):
 
         shift_closing = frappe.db.get_value("OPen Shift", {"active": 1}, "end_date")
         self.closing_date = shift_closing
+
+    def set_current_shift(self):
+        shift = frappe.db.get_value("OPen Shift", {"active": 1})
+        self.shift = shift
 
 
 # get currency and exchange rate associated with each account

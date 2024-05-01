@@ -2,6 +2,63 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Invoice", {
+  // setup basic inforamation
+
+  setup: function (frm) {
+    // set the branch
+    frappe.call({
+      method: "frappe.client.get",
+      args: {
+        doctype: "Branch",
+        filters: {
+          custom_active: 1,
+        },
+      },
+      callback: function (r) {
+        if (!r.exc) {
+          let branch = r.message.name;
+          frm.set_value("branch", branch);
+        }
+      },
+    }),
+      // Set the the active open shift and current user
+      frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+          doctype: "OPen Shift",
+          filters: { active: 1 },
+          fieldname: ["name", "current_user"],
+        },
+        callback: function (r) {
+          if (!r.exc) {
+            let shift = r.message.name;
+            let current_user = r.message.current_user;
+
+            frm.set_value("shift", shift);
+            frm.set_value("teller", current_user);
+          }
+        },
+      }),
+      // set the current active Printing roll
+      frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+          doctype: "Printing Roll",
+          filters: {
+            active: 1, // Filter to get active Printing Roll
+          },
+          limit: 1, // Get only one active Printing Roll
+          order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+        },
+        callback: (r) => {
+          if (!r.exc && r.message && r.message.length > 0) {
+            active_roll = r.message[0].name;
+            frm.set_value("current_roll", active_roll);
+          }
+        },
+      });
+  },
+
   refresh(frm) {
     // add ledger button in refresh
     frm.events.show_general_ledger(frm);
@@ -201,7 +258,7 @@ frappe.ui.form.on("Teller Invoice", {
     }
     // get the data for Foreigners
     else if (
-      frm.doc.client_type == "Foreigners" ||
+      frm.doc.client_type == "Foreigner" ||
       frm.doc.client_type == "اجانب"
     ) {
       if (frm.doc.client) {
@@ -224,13 +281,13 @@ frappe.ui.form.on("Teller Invoice", {
         });
       } else {
         // clear the fields
-        frm.set_value("test", "");
-        frm.set_value("gender", "");
-        frm.set_value("nationality", "");
-        frm.set_value("primary_contacts", "");
-        frm.set_value("mobile_number", "");
-        frm.set_value("work_for", "");
-        frm.set_value("national_id", "");
+        frm.set_value("customer_name_copy", "");
+        frm.set_value("gender_copy", "");
+        frm.set_value("nationality_copy", "");
+        frm.set_value("primary_contacts_copy", "");
+        frm.set_value("mobile_number_copy", "");
+        frm.set_value("work_for__copy", "");
+        frm.set_value("national_id_copy", "");
       }
     }
 

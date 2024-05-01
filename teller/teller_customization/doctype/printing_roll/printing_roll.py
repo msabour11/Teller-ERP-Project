@@ -3,7 +3,10 @@
 
 # import frappe
 from frappe.model.document import Document
+from frappe.utils import nowdate
 
 
 class PrintingRoll(Document):
-	pass
+    pass
+    # def validate(self):
+    #     self.starting_letters += f"{nowdate}"

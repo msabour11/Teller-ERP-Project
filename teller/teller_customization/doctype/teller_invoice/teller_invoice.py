@@ -27,6 +27,8 @@ from erpnext.setup.utils import get_exchange_rate
 
 class TellerInvoice(Document):
     def validate(self):
+        # prevent to buy more than three currency
+
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
 

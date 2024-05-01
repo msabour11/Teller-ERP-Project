@@ -28,6 +28,7 @@ from frappe import _, utils
 
 class TellerPurchase(Document):
     def on_submit(self):
+        self.get_printing_roll()
         for row in self.get("transactions"):
             if row.paid_from and row.paid_to and row.usd_amount and row.received_amount:
                 account_from = get_doc(
@@ -72,7 +73,7 @@ class TellerPurchase(Document):
                 )
                 account_to.insert(ignore_permissions=True).submit()
                 if account_from and account_to:
-                    
+
                     frappe.msgprint(
                         _("Teller Invoice created successfully with  Total {0}").format(
                             self.egy_balance
@@ -89,7 +90,27 @@ class TellerPurchase(Document):
                 )
 
     def onload(self):
+
         pass
+
+    def get_printing_roll(self):
+        active_roll = frappe.db.get("Printing Roll", {"active": 1})
+        roll_name = active_roll["name"]
+        last_number = active_roll["last_printed_number"]
+        start_letter = active_roll["starting_letters"]
+        last_number += 1
+        receipt_num = f"{start_letter}-{last_number}"
+        self.receipt_number = receipt_num
+        # current_roll = active_roll['name']
+        # self.current_roll = current_roll
+        show_number = str(last_number)
+        show_number = len(show_number)
+
+        frappe.db.commit()
+        frappe.db.set_value(
+            "Printing Roll", roll_name, "last_printed_number", last_number
+        )
+        frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
 
 # get currency and currency rate from each account
@@ -114,9 +135,8 @@ def account_from_balance(paid_from):
     except Exception as e:
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
-        return _(
-            "Error: Unable to fetch account balance."
-        ) 
+        return _("Error: Unable to fetch account balance.")
+
 
 @frappe.whitelist()
 def account_to_balance(paid_to):
@@ -129,9 +149,4 @@ def account_to_balance(paid_to):
     except Exception as e:
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
-        return _(
-            "Error: Unable to fetch account balance."
-        )  
-
-
-
+        return _("Error: Unable to fetch account balance.")

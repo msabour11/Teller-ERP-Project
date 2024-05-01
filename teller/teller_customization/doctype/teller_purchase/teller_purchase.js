@@ -70,72 +70,69 @@ frappe.ui.form.on("Teller Purchase", {
   },
   onload(frm) {
     // Check if the document is newly created
-    if (!frm.doc.__islocal) {
-      return;
-    }
+    // if (!frm.doc.__islocal) {
+    //   return;
+    // }
     // add printing roll serial to each invoice
-    frappe.call({
-      method: "frappe.client.get_list",
-      args: {
-        doctype: "Printing Roll",
-        filters: {
-          active: 1, // Filter to get active Printing Roll
-        },
-        fields: ["name"],
-        limit: 1, // Get only one active Printing Roll
-        order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-      },
-      callback: function (response) {
-        // check if there is response and there is at least one active roll
-        if (response && response.message && response.message.length > 0) {
-          let current_active_roll = response.message[0].name;
-
-          // Fetch additional details of the active Printing Roll and update receipt number and last printed number
-          frappe.call({
-            method: "frappe.client.get",
-            args: {
-              doctype: "Printing Roll",
-              name: current_active_roll,
-            },
-            callback: function (response) {
-              if (response.message) {
-                let lpn = response.message.last_printed_number;
-                let start_letters = response.message.starting_letters;
-                lpn = parseInt(lpn);
-                lpn += 1;
-
-                // Set receipt number
-                frm.set_value("receipt_number", start_letters + "-" + lpn);
-
-                // Update last printed number in Printing Roll document
-                frappe.call({
-                  method: "frappe.client.set_value",
-                  args: {
-                    doctype: "Printing Roll",
-                    name: current_active_roll,
-                    fieldname: "last_printed_number",
-                    value: lpn,
-                  },
-                  callback: function (response) {
-                    if (!response.exc) {
-                      // Success
-                      refresh_field("last_printed_number");
-                      console.log("Last printed number updated successfully.");
-                    } else {
-                      // Handle error
-                      console.error(
-                        "Error updating last printed number:",
-                        response.exc
-                      );
-                    }
-                  },
-                });
-              }
-            },
-          });
-        }
-      },
-    });
+    // frappe.call({
+    //   method: "frappe.client.get_list",
+    //   args: {
+    //     doctype: "Printing Roll",
+    //     filters: {
+    //       active: 1, // Filter to get active Printing Roll
+    //     },
+    //     fields: ["name"],
+    //     limit: 1, // Get only one active Printing Roll
+    //     order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+    //   },
+    //   callback: function (response) {
+    //     // check if there is response and there is at least one active roll
+    //     if (response && response.message && response.message.length > 0) {
+    //       let current_active_roll = response.message[0].name;
+    //       // Fetch additional details of the active Printing Roll and update receipt number and last printed number
+    //       frappe.call({
+    //         method: "frappe.client.get",
+    //         args: {
+    //           doctype: "Printing Roll",
+    //           name: current_active_roll,
+    //         },
+    //         callback: function (response) {
+    //           if (response.message) {
+    //             let lpn = response.message.last_printed_number;
+    //             let start_letters = response.message.starting_letters;
+    //             lpn = parseInt(lpn);
+    //             lpn += 1;
+    //             // Set receipt number
+    //             frm.set_value("receipt_number", start_letters + "-" + lpn);
+    //             // Update last printed number in Printing Roll document
+    //             frappe.call({
+    //               method: "frappe.client.set_value",
+    //               args: {
+    //                 doctype: "Printing Roll",
+    //                 name: current_active_roll,
+    //                 fieldname: "last_printed_number",
+    //                 value: lpn,
+    //               },
+    //               callback: function (response) {
+    //                 if (!response.exc) {
+    //                   // Success
+    //                   refresh_field("last_printed_number");
+    //                   console.log("Last printed number updated successfully.");
+    //                 } else {
+    //                   // Handle error
+    //                   console.error(
+    //                     "Error updating last printed number:",
+    //                     response.exc
+    //                   );
+    //                 }
+    //               },
+    //             });
+    //           }
+    //         },
+    //       });
+    //     }
+    //   },
+    // });
   },
   // get customer information if exists
   buyer: function (frm) {

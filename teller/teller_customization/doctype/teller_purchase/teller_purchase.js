@@ -406,7 +406,7 @@ frappe.ui.form.on("Teller Purchase Child", {
       //   },
       // });
     } else {
-      frappe.throw("You must enter all required fields.");
+      frappe.throw("Amount and Account From  are required");
     }
   },
   total_amount: (frm, cdt, cdn) => {

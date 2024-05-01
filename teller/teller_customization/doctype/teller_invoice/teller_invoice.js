@@ -314,40 +314,14 @@ frappe.ui.form.on("Entry Child", {
     }
   },
 
-  usd_amount: function (frm, cdt, cdn) {
+  paid_to: (frm, cdt, cdn) => {
     var row = locals[cdt][cdn];
-
-    if (row.paid_from && row.paid_to && row.usd_amount) {
-      let total = row.usd_amount * row.rate;
-
-      frappe.model.set_value(cdt, cdn, "total_amount", total);
-
-      // Update account balances
-
-      frappe.call({
-        method:
-          "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_from_balance",
-        args: {
-          paid_from: row.paid_from,
-          company: frm.doc.company,
-        },
-        callback: function (r) {
-          if (r.message) {
-            console.log(r.message);
-            let from_balance = r.message;
-
-            frappe.model.set_value(cdt, cdn, "balance", from_balance);
-          } else {
-            console.log("not found");
-          }
-        },
-      });
+    if (row.paid_to) {
       frappe.call({
         method:
           "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_to_balance",
         args: {
           paid_to: row.paid_to,
-          company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
@@ -360,6 +334,54 @@ frappe.ui.form.on("Entry Child", {
           }
         },
       });
+    }
+  },
+
+  usd_amount: function (frm, cdt, cdn) {
+    var row = locals[cdt][cdn];
+
+    if (row.paid_from && row.usd_amount) {
+      let total = row.usd_amount * row.rate;
+
+      frappe.model.set_value(cdt, cdn, "total_amount", total);
+
+      // Update account balances
+
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_from_balance",
+        args: {
+          paid_from: row.paid_from,
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message);
+            let from_balance = r.message;
+
+            frappe.model.set_value(cdt, cdn, "balance", from_balance);
+          } else {
+            console.log("not found");
+          }
+        },
+      });
+      // frappe.call({
+      //   method:
+      //     "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_to_balance",
+      //   args: {
+      //     paid_to: row.paid_to,
+      //     company: frm.doc.company,
+      //   },
+      //   callback: function (r) {
+      //     if (r.message) {
+      //       console.log(r.message);
+      //       let balance_to = r.message;
+
+      //       frm.set_value("egy_balance", balance_to);
+      //     } else {
+      //       console.log("not found");
+      //     }
+      //   },
+      // });
     } else {
       frappe.throw("You must enter all required fields.");
     }

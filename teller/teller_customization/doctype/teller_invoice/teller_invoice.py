@@ -178,11 +178,11 @@ def get_currency(account):
 
 
 @frappe.whitelist()
-def account_from_balance(paid_from, company=None):
+def account_from_balance(paid_from):
     try:
         balance = get_balance_on(
             account=paid_from,
-            company=company,
+            # company=company,
         )
         return balance
     except Exception as e:
@@ -194,11 +194,11 @@ def account_from_balance(paid_from, company=None):
 
 
 @frappe.whitelist()
-def account_to_balance(paid_to, company):
+def account_to_balance(paid_to):
     try:
         balance = get_balance_on(
             account=paid_to,
-            company=company,
+            # company=company,
         )
         return balance
     except Exception as e:

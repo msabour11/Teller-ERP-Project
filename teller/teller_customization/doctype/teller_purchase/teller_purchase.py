@@ -86,7 +86,7 @@ class TellerPurchase(Document):
 
             else:
                 frappe.throw(
-                    _("You must enter all required fields in row {0}").format(row.idx)
+                    _("You must enter all required fFields in row {0}").format(row.idx)
                 )
 
     def onload(self):
@@ -120,7 +120,10 @@ def get_currency(account):
     currency_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "exchange_rate"
     )
-    return currency, currency_rate
+    special_purchase_rate = frappe.db.get_value(
+        "Currency Exchange", {"from_currency": currency}, "custom_special_purchasing"
+    )
+    return currency, currency_rate, special_purchase_rate
 
 
 # Get the  Balance from the source account

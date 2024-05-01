@@ -265,42 +265,49 @@ frappe.ui.form.on("Teller Purchase", {
     }
   },
   // set special purchaase rates
-  speacial_price: function (frm) {
-    // Iterate over each item and set the rate to the special rate
-    // frm.doc.items.forEach((item) => {
-    //   frappe.call({
-    //     method: "frappe.client.get_value",
-    //     args: {
-    //       doctype: "Item Price",
-    //       filters: { item_code: item.item_code },
-    //       fieldname: "custom_purchase_special_rate",
-    //     },
-    //     callback: function (response) {
-    //       console.log(response);
-    //       if (response.message) {
-    //         special_purchase_rate =
-    //           response.message.custom_purchase_special_rate;
-    //         console.log(special_purchase_rate);
-    //         frappe.model.set_value(
-    //           "Teller Items",
-    //           item.name,
-    //           "rate",
-    //           special_purchase_rate
-    //         );
-    //         special_amount = special_purchase_rate * item.quantity;
-    //         if (item.quantity) {
-    //           frappe.model.set_value(
-    //             "Teller Items",
-    //             item.name,
-    //             "amount",
-    //             special_amount
-    //           );
-    //         }
-    //         console.log(special_amount);
-    //       }
-    //     },
-    //   });
-    // });
+  special_price: (frm) => {
+    if (frm.doc.docstatus == 0) {
+      let total_currency_amount = 0;
+
+      frm.doc.transactions.forEach((row) => {
+        if (row.paid_from && row.currency) {
+          frappe.call({
+            method:
+              "teller.teller_customization.doctype.teller_purchase.teller_purchase.get_currency",
+            args: {
+              account: row.paid_from,
+            },
+            callback: function (r) {
+              console.log("all rates", r.message);
+              let purchase_special_rate = r.message[2];
+              if (purchase_special_rate) {
+                row.rate = purchase_special_rate;
+                console.log("special purchase ", purchase_special_rate);
+                let currency_total = row.rate * row.usd_amount;
+                row.total_amount = currency_total;
+
+                console.log(
+                  `the total of ${row.currency} is ${row.total_amount}`
+                );
+
+                total_currency_amount += currency_total;
+                console.log("from loop: " + total_currency_amount);
+                frm.refresh_field("transactions");
+                frm.set_value("total", total_currency_amount);
+              }
+            },
+          });
+        } else {
+          console.log("error occure");
+          // frappe.throw(__("please insert all fields"));
+          frappe.throw(
+            __("Special Rate Error Please Insert All Required Fields")
+          );
+          return;
+        }
+      });
+      // console.log("from outer loop: " + total_currency_amount);
+    }
   },
 });
 // currency transactions table
@@ -327,10 +334,35 @@ frappe.ui.form.on("Teller Purchase Child", {
     }
   },
 
+  paid_to: (frm, cdt, cdn) => {
+    var row = locals[cdt][cdn];
+
+    if (row.paid_to) {
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
+        args: {
+          paid_to: row.paid_to,
+          // company: frm.doc.company,
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message);
+            let egy_balance = r.message;
+
+            frm.set_value("egy_balance", egy_balance);
+          } else {
+            console.log("not found");
+          }
+        },
+      });
+    }
+  },
+
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
-    if (row.paid_from && row.paid_to && row.usd_amount) {
+    if (row.paid_from && row.usd_amount) {
       let total = row.usd_amount * row.rate;
 
       frappe.model.set_value(cdt, cdn, "total_amount", total);
@@ -355,24 +387,24 @@ frappe.ui.form.on("Teller Purchase Child", {
           }
         },
       });
-      frappe.call({
-        method:
-          "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
-        args: {
-          paid_to: row.paid_to,
-          // company: frm.doc.company,
-        },
-        callback: function (r) {
-          if (r.message) {
-            console.log(r.message);
-            let egy_balance = r.message;
+      // frappe.call({
+      //   method:
+      //     "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
+      //   args: {
+      //     paid_to: row.paid_to,
+      //     // company: frm.doc.company,
+      //   },
+      //   callback: function (r) {
+      //     if (r.message) {
+      //       console.log(r.message);
+      //       let egy_balance = r.message;
 
-            frm.set_value("egy_balance", egy_balance);
-          } else {
-            console.log("not found");
-          }
-        },
-      });
+      //       frm.set_value("egy_balance", egy_balance);
+      //     } else {
+      //       console.log("not found");
+      //     }
+      //   },
+      // });
     } else {
       frappe.throw("You must enter all required fields.");
     }

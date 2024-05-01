@@ -72,7 +72,7 @@ class TellerPurchase(Document):
                 )
                 account_to.insert(ignore_permissions=True).submit()
                 if account_from and account_to:
-                    # frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
+                    
                     frappe.msgprint(
                         _("Teller Invoice created successfully with  Total {0}").format(
                             self.egy_balance
@@ -116,8 +116,7 @@ def account_from_balance(paid_from):
         frappe.log_error(error_message)
         return _(
             "Error: Unable to fetch account balance."
-        )  # Return a descriptive error message
-
+        ) 
 
 @frappe.whitelist()
 def account_to_balance(paid_to):
@@ -132,7 +131,7 @@ def account_to_balance(paid_to):
         frappe.log_error(error_message)
         return _(
             "Error: Unable to fetch account balance."
-        )  # Return a descriptive error message
+        )  
 
 
 

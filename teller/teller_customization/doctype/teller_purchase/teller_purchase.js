@@ -356,4 +356,19 @@ frappe.ui.form.on("Teller Purchase Child", {
       frappe.throw("You must enter all required fields.");
     }
   },
+  total_amount: (frm, cdt, cdn) => {
+    let total = 0;
+    frm.doc.transactions.forEach((item) => {
+      total += item.total_amount;
+    });
+    frm.set_value("total", total);
+  },
+  transactions_remove: (frm, cdt, cdn) => {
+    let total = 0;
+    frm.doc.transactions.forEach((item) => {
+      total += item.total_amount;
+    });
+    frm.set_value("total", total);
+    console.log(`after remove ${total}`);
+  },
 });

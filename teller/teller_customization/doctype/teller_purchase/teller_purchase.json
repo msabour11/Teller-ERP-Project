@@ -58,6 +58,8 @@
   "transactions",
   "section_break_icjb",
   "egy_balance",
+  "column_break_ynum",
+  "total",
   "invoice_information_section",
   "company",
   "column_break_oxye",
@@ -388,12 +390,21 @@
    "fieldname": "egy_balance",
    "fieldtype": "Currency",
    "label": "Egy Balance"
+  },
+  {
+   "fieldname": "column_break_ynum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-30 16:14:30.889348",
+ "modified": "2024-05-01 10:23:22.818159",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

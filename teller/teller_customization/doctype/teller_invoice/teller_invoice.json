@@ -18,6 +18,7 @@
   "column_break_phqr",
   "current_roll",
   "cost_center",
+  "egy",
   "column_break_nkql",
   "closing_date",
   "special_price",
@@ -403,12 +404,20 @@
    "fieldtype": "Data",
    "label": "Closing Date",
    "read_only": 1
+  },
+  {
+   "fetch_from": "teller.egy_account",
+   "fieldname": "egy",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "EGY",
+   "options": "Account"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-01 13:55:38.672058",
+ "modified": "2024-05-01 21:45:37.044825",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

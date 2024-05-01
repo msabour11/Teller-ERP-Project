@@ -309,6 +309,29 @@ frappe.ui.form.on("Teller Purchase", {
       // console.log("from outer loop: " + total_currency_amount);
     }
   },
+
+  egy: (frm) => {
+    if (frm.doc.egy) {
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
+        args: {
+          paid_to: frm.doc.egy,
+          // company: frm.doc.company,
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message);
+            let egy_balance = r.message;
+
+            frm.set_value("egy_balance", egy_balance);
+          } else {
+            console.log("not found");
+          }
+        },
+      });
+    }
+  },
 });
 // currency transactions table
 
@@ -334,30 +357,30 @@ frappe.ui.form.on("Teller Purchase Child", {
     }
   },
 
-  paid_to: (frm, cdt, cdn) => {
-    var row = locals[cdt][cdn];
+  // paid_to: (frm, cdt, cdn) => {
+  //   var row = locals[cdt][cdn];
 
-    if (row.paid_to) {
-      frappe.call({
-        method:
-          "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
-        args: {
-          paid_to: row.paid_to,
-          // company: frm.doc.company,
-        },
-        callback: function (r) {
-          if (r.message) {
-            console.log(r.message);
-            let egy_balance = r.message;
+  //   if (row.paid_to) {
+  //     frappe.call({
+  //       method:
+  //         "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
+  //       args: {
+  //         paid_to: row.paid_to,
+  //         // company: frm.doc.company,
+  //       },
+  //       callback: function (r) {
+  //         if (r.message) {
+  //           console.log(r.message);
+  //           let egy_balance = r.message;
 
-            frm.set_value("egy_balance", egy_balance);
-          } else {
-            console.log("not found");
-          }
-        },
-      });
-    }
-  },
+  //           frm.set_value("egy_balance", egy_balance);
+  //         } else {
+  //           console.log("not found");
+  //         }
+  //       },
+  //     });
+  //   }
+  // },
 
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];

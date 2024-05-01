@@ -59,7 +59,7 @@ class TellerInvoice(Document):
         # create Gl entry on submit
 
         for row in self.get("transactions"):
-            if row.paid_from and row.paid_to and row.usd_amount and row.received_amount:
+            if row.paid_from and self.egy and row.usd_amount and row.received_amount:
                 account_from = get_doc(
                     {
                         "doctype": "GL Entry",
@@ -68,10 +68,10 @@ class TellerInvoice(Document):
                         "debit": 0,
                         "credit": row.total_amount,
                         "credit_in_account_currency": row.usd_amount,
-                        "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {row.paid_to}",
+                        "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {self.egy}",
                         "voucher_type": "Teller Invoice",
                         "voucher_no": self.name,
-                        "against": row.paid_to,
+                        "against": self.egy,
                         # "cost_center": row.cost_center,
                         # "project": row.project,
                         "credit_in_transaction_currency": row.total_amount,
@@ -83,12 +83,12 @@ class TellerInvoice(Document):
                     {
                         "doctype": "GL Entry",
                         "posting_date": nowdate(),
-                        "account": row.paid_to,
+                        "account": self.egy,
                         "debit": row.total_amount,
                         "credit": 0,
                         "debit_in_account_currency": row.total_amount,
                         "credit_in_account_currency": 0,
-                        "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {row.paid_to}",
+                        "remarks": f"Amount {row.currency} {row.usd_amount} transferred from {row.paid_from} to {self.egy}",
                         "voucher_type": "Teller Invoice",
                         "voucher_no": self.name,
                         "against": row.paid_from,

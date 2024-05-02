@@ -21,6 +21,67 @@ frappe.ui.form.on("Close Shift", {
     });
   },
 
+  // get_invoices: function (frm) {
+  //   console.log(frm.doc.name);
+  //   frappe.call({
+  //     method:
+  //       "teller.teller_customization.doctype.close_shift.close_shift.get_sales_invoice",
+  //     args: {
+  //       close_shift_name: frm.doc.name,
+  //       current_open_shift: frm.doc.open_shift,
+  //     },
+  //     callback: function (r) {
+  //       // console.log(r.message[0]);
+  //       // console.log(r.message[1]);
+  //       // frappe.publish_progress(
+  //       //   25,
+  //       //   (title = "Some title"),
+  //       //   (description = "Some description")
+  //       // );
+  //       // frappe.publish_progress(100, "from JS");
+  //       console.log("total is ", r.message[0]);
+  //       let total = r.message[0];
+  //       console.log("type is ", typeof total);
+  //       frm.set_value("total_sales", total);
+
+  //       // Calculate progress based on array length
+  //       let arr = r.message[1];
+
+  //       let progressStep = 100 / arr.length;
+  //       let currentProgress = 0;
+
+  //       for (let i = 0; i < arr.length; i++) {
+  //         // Simulate processing time for each item
+  //         setTimeout(() => {
+  //           currentProgress += progressStep;
+  //           frappe.show_progress(
+  //             "Getting Invoices...",
+  //             currentProgress,
+  //             "Please wait"
+  //           );
+  //         }, 500 * i); // Adjust delay as needed
+  //       }
+
+  //       // let arr = r.message[1];
+  //       // console.log("arr is", arr);
+  //       // for (let i = 0; i < arr.length; i++) {
+  //       //   frappe.show_progress(
+  //       //     "Getting Contacts..",
+  //       //     (i + 1) * 10,
+  //       //     "Please wait"
+  //       //   );
+  //       // }
+
+  //       // frappe.show_progress("Getting Contacts..", 90, 100, "Please wait");
+  //       // frappe.hide_progress();
+  //     },
+  //     // freeze: true,
+  //     // freeze_message: "Processing data...",
+  //     // progress: function (progress) {
+  //     //   frappe.show_progress("Processing data", 90, 100, "wait");
+  //     // },
+  //   });
+  // },
   get_invoices: function (frm) {
     console.log(frm.doc.name);
     frappe.call({
@@ -31,13 +92,33 @@ frappe.ui.form.on("Close Shift", {
         current_open_shift: frm.doc.open_shift,
       },
       callback: function (r) {
-        // console.log(r.message[0]);
-        // console.log(r.message[1]);
         console.log("total is ", r.message[0]);
         let total = r.message[0];
         console.log("type is ", typeof total);
-
         frm.set_value("total_sales", total);
+
+        // Calculate progress based on array length
+        let arr = r.message[1];
+
+        let progressStep = 100 / arr.length;
+        let currentProgress = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+          // Simulate processing time for each item
+          setTimeout(() => {
+            currentProgress += progressStep;
+            frappe.show_progress(
+              "Getting Invoices...",
+              currentProgress,
+              "Please wait"
+            );
+          }, 500 * i); // Adjust delay as needed
+        }
+
+        // Hide the progress bar after all invoices have been processed
+        setTimeout(() => {
+          frappe.hide_progress();
+        }, 500 * arr.length);
       },
     });
   },

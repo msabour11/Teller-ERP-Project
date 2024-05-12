@@ -27,7 +27,7 @@
   "section_break_nbda",
   "get_invoices",
   "sales_invoices_section",
-  "sales_table",
+  "sales_invoice",
   "invoices_sales_total_section",
   "column_break_lsit",
   "column_break_ibdu",
@@ -129,12 +129,6 @@
    "label": "Sales Invoices"
   },
   {
-   "fieldname": "sales_table",
-   "fieldtype": "Table",
-   "label": "Sales Table",
-   "options": "Sales Table"
-  },
-  {
    "fieldname": "invoices_sales_total_section",
    "fieldtype": "Section Break",
    "label": "Invoices Sales Total"
@@ -171,12 +165,18 @@
   {
    "fieldname": "section_break_nbda",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Table",
+   "label": "Sales Invoice",
+   "options": "Shift Sales Child"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-09 15:28:05.858273",
+ "modified": "2024-05-12 12:21:56.830152",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

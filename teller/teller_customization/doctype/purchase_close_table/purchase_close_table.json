@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-03 21:17:00.057183",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "reference",
+  "currency_amount",
+  "currency",
+  "rate",
+  "egyptian_price"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference",
+   "fieldtype": "Link",
+   "label": "Reference",
+   "options": "Teller Purchase"
+  },
+  {
+   "fieldname": "currency_amount",
+   "fieldtype": "Currency",
+   "label": "currency Amount"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Float",
+   "label": "Rate"
+  },
+  {
+   "fieldname": "egyptian_price",
+   "fieldtype": "Currency",
+   "label": "Egyptian Price"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-03 23:18:18.471966",
+ "modified_by": "Administrator",
+ "module": "Teller Customization",
+ "name": "Purchase Close Table",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -12,17 +12,20 @@
   "start_date",
   "serial",
   "status",
-  "get_invoices",
   "column_break_cdxp",
   "end_date",
   "current_user",
   "open_shift",
+  "section_break_ganr",
+  "get_purchase",
   "section_break_xmut",
-  "invoices_tables",
+  "purchase_close_table",
   "invoices_purchase_total_section",
   "column_break_vtfs",
   "column_break_pzqx",
   "total_purchase",
+  "section_break_nbda",
+  "get_invoices",
   "sales_invoices_section",
   "sales_table",
   "invoices_sales_total_section",
@@ -101,13 +104,6 @@
    "label": "Purchase Invoices"
   },
   {
-   "fieldname": "invoices_tables",
-   "fieldtype": "Table",
-   "label": "Invoices tables",
-   "options": "Invoice Table",
-   "read_only": 1
-  },
-  {
    "fieldname": "invoices_purchase_total_section",
    "fieldtype": "Section Break",
    "label": "Invoices Purchase Total"
@@ -127,6 +123,7 @@
    "read_only": 1
   },
   {
+   "collapsible": 1,
    "fieldname": "sales_invoices_section",
    "fieldtype": "Section Break",
    "label": "Sales Invoices"
@@ -155,12 +152,31 @@
    "fieldtype": "Data",
    "label": "Total Sales",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ganr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_purchase",
+   "fieldtype": "Button",
+   "label": "Get Purchase "
+  },
+  {
+   "fieldname": "purchase_close_table",
+   "fieldtype": "Table",
+   "label": "Purchase Close Table",
+   "options": "Purchase Close Table"
+  },
+  {
+   "fieldname": "section_break_nbda",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-29 10:46:45.240337",
+ "modified": "2024-05-09 15:28:05.858273",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

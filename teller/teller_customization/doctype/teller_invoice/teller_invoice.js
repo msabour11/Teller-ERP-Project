@@ -426,5 +426,6 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
+
   },
 });

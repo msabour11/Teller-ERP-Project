@@ -10,8 +10,8 @@
   "reference",
   "currency",
   "currency_amount",
-  "egy_amount",
-  "currency_balance"
+  "rate",
+  "egyptian_price"
  ],
  "fields": [
   {
@@ -33,20 +33,20 @@
    "label": "Currency Amount"
   },
   {
-   "fieldname": "egy_amount",
+   "fieldname": "rate",
    "fieldtype": "Data",
-   "label": "Egy Amount"
+   "label": "Rate"
   },
   {
-   "fieldname": "currency_balance",
-   "fieldtype": "Data",
-   "label": "Currency Balance"
+   "fieldname": "egyptian_price",
+   "fieldtype": "Currency",
+   "label": "Egyptian Price"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-28 14:06:32.048397",
+ "modified": "2024-05-12 11:38:38.869698",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Sales Table",

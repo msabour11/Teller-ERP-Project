@@ -67,8 +67,6 @@ frappe.ui.form.on("Teller Purchase", {
         },
       };
     });
-
-    // get the current active Printing Roll from the Value doctype
   },
 
   // add ledger report button on submit doctype
@@ -292,31 +290,6 @@ frappe.ui.form.on("Teller Purchase Child", {
     }
   },
 
-  // paid_to: (frm, cdt, cdn) => {
-  //   var row = locals[cdt][cdn];
-
-  //   if (row.paid_to) {
-  //     frappe.call({
-  //       method:
-  //         "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
-  //       args: {
-  //         paid_to: row.paid_to,
-  //         // company: frm.doc.company,
-  //       },
-  //       callback: function (r) {
-  //         if (r.message) {
-  //           console.log(r.message);
-  //           let egy_balance = r.message;
-
-  //           frm.set_value("egy_balance", egy_balance);
-  //         } else {
-  //           console.log("not found");
-  //         }
-  //       },
-  //     });
-  //   }
-  // },
-
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
@@ -345,24 +318,6 @@ frappe.ui.form.on("Teller Purchase Child", {
           }
         },
       });
-      // frappe.call({
-      //   method:
-      //     "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
-      //   args: {
-      //     paid_to: row.paid_to,
-      //     // company: frm.doc.company,
-      //   },
-      //   callback: function (r) {
-      //     if (r.message) {
-      //       console.log(r.message);
-      //       let egy_balance = r.message;
-
-      //       frm.set_value("egy_balance", egy_balance);
-      //     } else {
-      //       console.log("not found");
-      //     }
-      //   },
-      // });
     } else {
       frappe.throw("Amount and Account From  are required");
     }

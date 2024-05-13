@@ -101,8 +101,6 @@ class TellerPurchase(Document):
         last_number += 1
         receipt_num = f"{start_letter}-{last_number}"
         self.receipt_number = receipt_num
-        # current_roll = active_roll['name']
-        # self.current_roll = current_roll
         show_number = str(last_number)
         show_number = len(show_number)
 
@@ -132,7 +130,6 @@ def account_from_balance(paid_from):
     try:
         balance = get_balance_on(
             account=paid_from,
-            # company=company,
         )
         return balance
     except Exception as e:

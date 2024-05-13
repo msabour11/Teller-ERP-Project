@@ -69,15 +69,7 @@ frappe.ui.form.on("Teller Invoice", {
     });
     // add ledger button in refresh To Teller Invoice
     frm.events.show_general_ledger(frm);
-    // filter customers based on  customer group
-
-    // frm.fields_dict["client"].get_query = function (doc) {
-    //   return {
-    //     filters: {
-    //       customer_group: doc.client_type,
-    //     },
-    //   };
-    // };
+  
   },
 
   show_general_ledger: function (frm) {

@@ -357,24 +357,7 @@ frappe.ui.form.on("Entry Child", {
           }
         },
       });
-      // frappe.call({
-      //   method:
-      //     "teller.teller_customization.doctype.teller_invoice.teller_invoice.account_to_balance",
-      //   args: {
-      //     paid_to: row.paid_to,
-      //     company: frm.doc.company,
-      //   },
-      //   callback: function (r) {
-      //     if (r.message) {
-      //       console.log(r.message);
-      //       let balance_to = r.message;
-
-      //       frm.set_value("egy_balance", balance_to);
-      //     } else {
-      //       console.log("not found");
-      //     }
-      //   },
-      // });
+    
     } else {
       frappe.throw("You must enter all required fields.");
     }

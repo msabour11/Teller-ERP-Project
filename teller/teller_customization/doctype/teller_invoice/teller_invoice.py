@@ -100,7 +100,6 @@ class TellerInvoice(Document):
                 )
                 account_to.insert(ignore_permissions=True).submit()
                 if account_from and account_to:
-                    # frappe.msgprint(_("GL Entry created successfully for row {0}").format(row.idx))
                     frappe.msgprint(
                         _("Teller Invoice created successfully with  Total {0}").format(
                             self.total
@@ -118,50 +117,15 @@ class TellerInvoice(Document):
 
     def before_save(self):
         pass
-        # self.set_current_shift()
-        # self.set_branch_number()
-        # self.set_cost()
-        # self.set_active_shift()
-        # self.set_current_roll()
-        # self.set_branch()
-        # # self.set_series_name()
-        # self.set_closing_date()
-
-    def set_branch(self):
-        branch = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")
-        self.branch = branch
-        frappe.db.commit()
 
     def set_cost(self):
         cost = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")
         self.cost_center = cost
 
-    def set_branch_number(self):
-        branch_no = frappe.db.get_value(
-            "Branch", {"custom_active": 1}, "custom_branch_no"
-        )
-        self.branch_number = branch_no
-
-    def set_active_shift(self):
-        shift = frappe.db.get_value("OPen Shift", {"active": 1})
-        # user = frappe.db.get_value('OPen Shift', {'active': 1}, 'current_user')
-        self.shift = shift
-
-    def set_current_roll(self):
-        roll = frappe.db.get_value("Printing Roll", {"active": 1}, "name")
-        self.current_roll = roll
-
-    # def set_series_name(self):
-    #     self.invoice_name = self.name
-
     def set_closing_date(self):
 
         shift_closing = frappe.db.get_value("OPen Shift", {"active": 1}, "end_date")
         self.closing_date = shift_closing
-
-    def set_current_shift(self):
-        shift = frappe.db.get_value("OPen Shift", {"active": 1})
-        self.shift = shift
 
 
 # get currency and exchange rate associated with each account

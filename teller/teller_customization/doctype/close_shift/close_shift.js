@@ -119,6 +119,4 @@ frappe.ui.form.on("Close Shift", {
       },
     });
   },
-
-  
 });

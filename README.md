@@ -1,6 +1,6 @@
 ## Teller
 
-teller app
+Bank Teller app
 
 #### License
 

@@ -47,6 +47,7 @@ def execute(filters=None):
             "fieldname": "total",
             "fieldtype": "Currency",
             "width": 150,
+            "precision": 2,  # Ensure the number is displayed with full precision
         },
     ]
 
@@ -65,4 +66,15 @@ def execute(filters=None):
         },
         as_dict=True,
     )
-    return columns, data
+
+    chart = {
+        "data": {
+            "labels": [d["name"] for d in data],
+            "datasets": [
+                {"name": "Invoice Total", "values": [d["total"] for d in data]}
+            ],
+        },
+        "type": "line",
+    }
+
+    return columns, data, None, chart

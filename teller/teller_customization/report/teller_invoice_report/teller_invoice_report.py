@@ -47,7 +47,7 @@ def execute(filters=None):
             "fieldname": "total",
             "fieldtype": "Currency",
             "width": 150,
-            "precision": 2,  # Ensure the number is displayed with full precision
+            "precision": 2,  
         },
     ]
 

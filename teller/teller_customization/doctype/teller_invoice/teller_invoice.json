@@ -96,7 +96,8 @@
    "fieldname": "client_type",
    "fieldtype": "Link",
    "label": "Client Type",
-   "options": "Customer Group"
+   "options": "Customer Group",
+   "reqd": 1
   },
   {
    "fieldname": "client",
@@ -273,7 +274,8 @@
    "fieldname": "transactions",
    "fieldtype": "Table",
    "label": "Transactions",
-   "options": "Entry Child"
+   "options": "Entry Child",
+   "reqd": 1
   },
   {
    "fieldname": "amended_from",
@@ -417,7 +419,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-01 21:45:37.044825",
+ "modified": "2024-05-19 12:55:45.920801",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

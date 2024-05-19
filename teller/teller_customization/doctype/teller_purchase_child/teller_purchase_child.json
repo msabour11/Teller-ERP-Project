@@ -7,7 +7,6 @@
  "engine": "InnoDB",
  "field_order": [
   "paid_from",
-  "paid_to",
   "currency",
   "usd_amount",
   "rate",
@@ -20,12 +19,6 @@
    "fieldname": "paid_from",
    "fieldtype": "Link",
    "label": "Paid From",
-   "options": "Account"
-  },
-  {
-   "fieldname": "paid_to",
-   "fieldtype": "Link",
-   "label": "Paid To",
    "options": "Account"
   },
   {
@@ -64,7 +57,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-30 15:09:38.487752",
+ "modified": "2024-05-19 12:46:52.165492",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase Child",

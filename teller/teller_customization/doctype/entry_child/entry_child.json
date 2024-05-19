@@ -7,7 +7,6 @@
  "engine": "InnoDB",
  "field_order": [
   "paid_from",
-  "paid_to",
   "currency",
   "usd_amount",
   "rate",
@@ -21,13 +20,6 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Paid From",
-   "options": "Account"
-  },
-  {
-   "fieldname": "paid_to",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Paid To",
    "options": "Account"
   },
   {
@@ -74,7 +66,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-18 14:09:59.540174",
+ "modified": "2024-05-19 12:55:09.458115",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Entry Child",

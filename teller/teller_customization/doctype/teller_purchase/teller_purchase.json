@@ -99,8 +99,10 @@
   {
    "fieldname": "category_of_buyer",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Category of buyer",
-   "options": "Customer Group"
+   "options": "Customer Group",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_gkcv",
@@ -282,7 +284,8 @@
    "fieldname": "transactions",
    "fieldtype": "Table",
    "label": "Transactions",
-   "options": "Teller Purchase Child"
+   "options": "Teller Purchase Child",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_icjb",
@@ -406,6 +409,7 @@
    "fetch_from": "teller.egy_account",
    "fieldname": "egy",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "EGY",
    "options": "Account"
   }
@@ -413,7 +417,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-01 21:45:04.257708",
+ "modified": "2024-05-19 12:49:13.218762",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

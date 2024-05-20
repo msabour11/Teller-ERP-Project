@@ -18,7 +18,7 @@
   {
    "fieldname": "paid_from",
    "fieldtype": "Link",
-   "label": "Paid From",
+   "label": "Teller ",
    "options": "Account"
   },
   {
@@ -57,7 +57,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-19 12:46:52.165492",
+ "modified": "2024-05-20 09:49:35.447997",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase Child",

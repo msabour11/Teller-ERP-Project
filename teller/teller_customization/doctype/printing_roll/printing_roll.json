@@ -6,7 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "printing_package",
+  "start_count",
   "starting_letters",
   "description",
   "column_break_elnm",
@@ -16,11 +16,6 @@
   "active"
  ],
  "fields": [
-  {
-   "fieldname": "printing_package",
-   "fieldtype": "Data",
-   "label": "Printing Roll"
-  },
   {
    "fieldname": "starting_letters",
    "fieldtype": "Data",
@@ -57,11 +52,16 @@
    "fieldname": "active",
    "fieldtype": "Check",
    "label": "Active"
+  },
+  {
+   "fieldname": "start_count",
+   "fieldtype": "Int",
+   "label": "Start Count"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-04 17:01:09.962099",
+ "modified": "2024-05-21 16:28:42.498047",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

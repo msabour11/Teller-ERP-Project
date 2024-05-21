@@ -94,10 +94,12 @@ class TellerPurchase(Document):
         pass
 
     def get_printing_roll(self):
+        # check_count
         active_roll = frappe.db.get("Printing Roll", {"active": 1})
         roll_name = active_roll["name"]
         last_number = active_roll["last_printed_number"]
         start_letter = active_roll["starting_letters"]
+
         last_number += 1
         receipt_num = f"{start_letter}-{last_number}"
         self.receipt_number = receipt_num

@@ -11,6 +11,7 @@
   "column_break_beht",
   "receipt_number",
   "branch_number",
+  "branch",
   "column_break_racu",
   "date",
   "shift",
@@ -63,7 +64,6 @@
   "invoice_information_section",
   "company",
   "column_break_cvci",
-  "branch",
   "amended_from",
   "section_break_hqmb",
   "notes"
@@ -124,7 +124,8 @@
   {
    "fieldname": "comp",
    "fieldtype": "Data",
-   "label": "Company Legal Form"
+   "label": "Company Legal Form",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -137,32 +138,38 @@
   {
    "fieldname": "test2",
    "fieldtype": "Data",
-   "label": "Test2"
+   "label": "Test2",
+   "read_only": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Data",
-   "label": "Gender"
+   "label": "Gender",
+   "read_only": 1
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality"
+   "label": "Nationality",
+   "read_only": 1
   },
   {
    "fieldname": "primary_contacts",
    "fieldtype": "HTML",
-   "label": "Primary Contacts"
+   "label": "Primary Contacts",
+   "read_only": 1
   },
   {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
-   "label": "Mobile Number"
+   "label": "Mobile Number",
+   "read_only": 1
   },
   {
    "fieldname": "work_for",
    "fieldtype": "Data",
-   "label": "Work For "
+   "label": "Work For ",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_vdaf",
@@ -171,22 +178,26 @@
   {
    "fieldname": "company_activity",
    "fieldtype": "Data",
-   "label": "Company Activity"
+   "label": "Company Activity",
+   "read_only": 1
   },
   {
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
-   "label": "Company Commercial No "
+   "label": "Company Commercial No ",
+   "read_only": 1
   },
   {
    "fieldname": "start_registration_date",
    "fieldtype": "Data",
-   "label": "Start Registration Date"
+   "label": "Start Registration Date",
+   "read_only": 1
   },
   {
    "fieldname": "end_registration_date",
    "fieldtype": "Data",
-   "label": "End Registration Date"
+   "label": "End Registration Date",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_nqxf",
@@ -247,7 +258,8 @@
   {
    "fieldname": "national_id",
    "fieldtype": "Data",
-   "label": "National ID"
+   "label": "National ID",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_phqr",
@@ -256,10 +268,11 @@
   {
    "fieldname": "test",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
-   "default": "3",
+   "default": "89999",
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number",
@@ -314,7 +327,8 @@
   {
    "fieldname": "egy_balance",
    "fieldtype": "Currency",
-   "label": "EGY Balance"
+   "label": "EGY Balance",
+   "read_only": 1
   },
   {
    "fetch_from": "branch.custom_cost_center",
@@ -326,14 +340,15 @@
   {
    "fieldname": "branch",
    "fieldtype": "Link",
-   "label": "Branch",
-   "options": "Branch"
+   "label": "Branch No",
+   "options": "Branch",
+   "read_only": 1
   },
   {
    "fetch_from": "branch.custom_branch_no",
    "fieldname": "branch_number",
    "fieldtype": "Data",
-   "label": "Branch Number",
+   "label": "Branch Name",
    "read_only": 1
   },
   {
@@ -348,22 +363,26 @@
   {
    "fieldname": "gender_copy",
    "fieldtype": "Data",
-   "label": "Gender"
+   "label": "Gender",
+   "read_only": 1
   },
   {
    "fieldname": "customer_name_copy",
    "fieldtype": "Data",
-   "label": "Customer Name "
+   "label": "Customer Name ",
+   "read_only": 1
   },
   {
    "fieldname": "nationality_copy",
    "fieldtype": "Data",
-   "label": "Nationality "
+   "label": "Nationality ",
+   "read_only": 1
   },
   {
    "fieldname": "national_id_copy",
    "fieldtype": "Data",
-   "label": "National ID "
+   "label": "National ID ",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_tlch",
@@ -372,17 +391,20 @@
   {
    "fieldname": "primary_contacts_copy",
    "fieldtype": "HTML",
-   "label": "Primary Contacts "
+   "label": "Primary Contacts ",
+   "read_only": 1
   },
   {
    "fieldname": "work_for__copy",
    "fieldtype": "Data",
-   "label": "Work For "
+   "label": "Work For ",
+   "read_only": 1
   },
   {
    "fieldname": "mobile_number_copy",
    "fieldtype": "Data",
-   "label": "Mobile Number "
+   "label": "Mobile Number ",
+   "read_only": 1
   },
   {
    "default": "07766",
@@ -402,10 +424,10 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Today",
    "fieldname": "closing_date",
-   "fieldtype": "Data",
-   "label": "Closing Date",
-   "read_only": 1
+   "fieldtype": "Date",
+   "label": "Closing Date"
   },
   {
    "fetch_from": "teller.egy_account",
@@ -413,13 +435,14 @@
    "fieldtype": "Link",
    "hidden": 1,
    "label": "EGY",
-   "options": "Account"
+   "options": "Account",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-19 12:55:45.920801",
+ "modified": "2024-05-22 11:32:54.392114",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

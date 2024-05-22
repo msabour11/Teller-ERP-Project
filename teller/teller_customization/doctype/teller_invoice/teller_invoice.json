@@ -9,9 +9,9 @@
   "movement_number",
   "treasury_code",
   "column_break_beht",
+  "branch_no",
+  "branch_name",
   "receipt_number",
-  "branch_number",
-  "branch",
   "column_break_racu",
   "date",
   "shift",
@@ -74,7 +74,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "\"Roll-####\"",
+   "default": "Roll Series",
    "fieldname": "receipt_number",
    "fieldtype": "Data",
    "label": "Receipt number",
@@ -332,24 +332,10 @@
    "read_only": 1
   },
   {
-   "fetch_from": "branch.custom_cost_center",
+   "fetch_from": "branch_no.custom_cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Data",
    "label": "Cost Center",
-   "read_only": 1
-  },
-  {
-   "fieldname": "branch",
-   "fieldtype": "Link",
-   "label": "Branch No",
-   "options": "Branch",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "branch.custom_branch_no",
-   "fieldname": "branch_number",
-   "fieldtype": "Data",
-   "label": "Branch Name",
    "read_only": 1
   },
   {
@@ -438,12 +424,26 @@
    "label": "EGY",
    "options": "Account",
    "read_only": 1
+  },
+  {
+   "fieldname": "branch_no",
+   "fieldtype": "Link",
+   "label": "Branch No",
+   "options": "Branch",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "branch_no.custom_branch_no",
+   "fieldname": "branch_name",
+   "fieldtype": "Data",
+   "label": "Branch Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-22 11:43:35.755014",
+ "modified": "2024-05-22 16:05:44.003701",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

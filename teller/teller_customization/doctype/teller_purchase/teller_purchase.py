@@ -107,7 +107,7 @@ class TellerPurchase(Document):
         last_move = last_move["movement_number"]
         print(last_move)
 
-        if last_move:
+        if last_move and "-" in last_move:
             last_move_num = last_move.split("-")[1]
             last_move_num = int(last_move_num)
             last_move_num += 1

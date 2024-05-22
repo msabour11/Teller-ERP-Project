@@ -11,6 +11,7 @@
   "column_break_tvyk",
   "receipt_number",
   "branch_number",
+  "branch",
   "column_break_sgyq",
   "date",
   "shift",
@@ -64,7 +65,6 @@
   "invoice_information_section",
   "company",
   "column_break_oxye",
-  "branch",
   "section_break_erkw",
   "notes",
   "amended_from"
@@ -233,8 +233,9 @@
   {
    "fieldname": "branch",
    "fieldtype": "Link",
-   "label": "Branch",
-   "options": "Branch"
+   "label": "Branch No",
+   "options": "Branch",
+   "read_only": 1
   },
   {
    "fieldname": "national_id",
@@ -256,9 +257,11 @@
    "fieldtype": "Link",
    "hidden": 1,
    "label": "Teller",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
+   "default": "09999",
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number"
@@ -305,6 +308,7 @@
    "options": "Company"
   },
   {
+   "default": "5635536",
    "fieldname": "treasury_code",
    "fieldtype": "Data",
    "label": "Treasury Code"
@@ -313,7 +317,7 @@
    "fetch_from": "branch.custom_branch_no",
    "fieldname": "branch_number",
    "fieldtype": "Data",
-   "label": "Branch Number",
+   "label": "Branch Name",
    "read_only": 1
   },
   {
@@ -321,8 +325,9 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Today",
    "fieldname": "closing_date",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Closing Date"
   },
   {
@@ -417,7 +422,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-19 12:49:13.218762",
+ "modified": "2024-05-22 11:06:18.460441",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

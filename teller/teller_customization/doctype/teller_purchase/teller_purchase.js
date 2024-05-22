@@ -16,6 +16,7 @@ frappe.ui.form.on("Teller Purchase", {
         if (!r.exc) {
           let branch = r.message.name;
           frm.set_value("branch", branch);
+          console.log("the branch is ", branch);
         }
       },
     }),

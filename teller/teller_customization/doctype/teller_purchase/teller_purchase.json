@@ -10,8 +10,8 @@
   "treasury_code",
   "column_break_tvyk",
   "receipt_number",
-  "branch_number",
-  "branch",
+  "branch_no",
+  "branch_name",
   "column_break_sgyq",
   "date",
   "shift",
@@ -231,13 +231,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "branch",
-   "fieldtype": "Link",
-   "label": "Branch No",
-   "options": "Branch",
-   "read_only": 1
-  },
-  {
    "fieldname": "national_id",
    "fieldtype": "Data",
    "label": "National ID"
@@ -295,7 +288,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "fetch_from": "branch.custom_cost_center",
+   "fetch_from": "branch_no.custom_cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Data",
    "label": "Cost Center",
@@ -312,13 +305,6 @@
    "fieldname": "treasury_code",
    "fieldtype": "Data",
    "label": "Treasury Code"
-  },
-  {
-   "fetch_from": "branch.custom_branch_no",
-   "fieldname": "branch_number",
-   "fieldtype": "Data",
-   "label": "Branch Name",
-   "read_only": 1
   },
   {
    "fieldname": "column_break_idhd",
@@ -417,12 +403,26 @@
    "hidden": 1,
    "label": "EGY",
    "options": "Account"
+  },
+  {
+   "fieldname": "branch_no",
+   "fieldtype": "Link",
+   "label": "Branch No",
+   "options": "Branch",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "branch_no.custom_branch_no",
+   "fieldname": "branch_name",
+   "fieldtype": "Data",
+   "label": "Branch Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-22 11:06:18.460441",
+ "modified": "2024-05-22 15:04:57.459805",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

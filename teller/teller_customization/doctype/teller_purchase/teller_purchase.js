@@ -302,7 +302,7 @@ function set_branch_and_shift(frm) {
     callback: function (r) {
       if (!r.exc) {
         let branch = r.message.name;
-        frm.set_value("branch", branch);
+        frm.set_value("branch_no", branch);
         console.log("the branch is ", branch);
       }
     },

@@ -5,58 +5,7 @@ frappe.ui.form.on("Teller Invoice", {
   // setup basic inforamation
 
   setup: function (frm) {
-    // set the branch
-    frappe.call({
-      method: "frappe.client.get",
-      args: {
-        doctype: "Branch",
-        filters: {
-          custom_active: 1,
-        },
-      },
-      callback: function (r) {
-        if (!r.exc) {
-          let branch = r.message.name;
-          frm.set_value("branch", branch);
-        }
-      },
-    }),
-      // Set the the active open shift and current user
-      frappe.call({
-        method: "frappe.client.get_value",
-        args: {
-          doctype: "OPen Shift",
-          filters: { active: 1 },
-          fieldname: ["name", "current_user"],
-        },
-        callback: function (r) {
-          if (!r.exc) {
-            let shift = r.message.name;
-            let current_user = r.message.current_user;
-
-            frm.set_value("shift", shift);
-            frm.set_value("teller", current_user);
-          }
-        },
-      }),
-      // set the current active Printing roll
-      frappe.call({
-        method: "frappe.client.get_list",
-        args: {
-          doctype: "Printing Roll",
-          filters: {
-            active: 1, // Filter to get active Printing Roll
-          },
-          limit: 1, // Get only one active Printing Roll
-          order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-        },
-        callback: (r) => {
-          if (!r.exc && r.message && r.message.length > 0) {
-            active_roll = r.message[0].name;
-            frm.set_value("current_roll", active_roll);
-          }
-        },
-      });
+    set_branch_and_shift(frm);
   },
 
   refresh(frm) {
@@ -69,7 +18,7 @@ frappe.ui.form.on("Teller Invoice", {
     });
     // add ledger button in refresh To Teller Invoice
     frm.events.show_general_ledger(frm);
-  
+    set_branch_and_shift(frm);
   },
 
   show_general_ledger: function (frm) {
@@ -329,7 +278,6 @@ frappe.ui.form.on("Entry Child", {
     }
   },
 
-
   usd_amount: function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
@@ -357,7 +305,6 @@ frappe.ui.form.on("Entry Child", {
           }
         },
       });
-    
     } else {
       frappe.throw("You must enter all required fields.");
     }
@@ -379,6 +326,58 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
-
   },
 });
+function set_branch_and_shift(frm) {
+  frappe.call({
+    method: "frappe.client.get",
+    args: {
+      doctype: "Branch",
+      filters: {
+        custom_active: 1,
+      },
+    },
+    callback: function (r) {
+      if (!r.exc) {
+        let branch = r.message.name;
+        frm.set_value("branch", branch);
+      }
+    },
+  });
+  // Set the the active open shift and current user
+  frappe.call({
+    method: "frappe.client.get_value",
+    args: {
+      doctype: "OPen Shift",
+      filters: { active: 1 },
+      fieldname: ["name", "current_user"],
+    },
+    callback: function (r) {
+      if (!r.exc) {
+        let shift = r.message.name;
+        let current_user = r.message.current_user;
+
+        frm.set_value("shift", shift);
+        frm.set_value("teller", current_user);
+      }
+    },
+  });
+  // set the current active Printing roll
+  frappe.call({
+    method: "frappe.client.get_list",
+    args: {
+      doctype: "Printing Roll",
+      filters: {
+        active: 1, // Filter to get active Printing Roll
+      },
+      limit: 1, // Get only one active Printing Roll
+      order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+    },
+    callback: (r) => {
+      if (!r.exc && r.message && r.message.length > 0) {
+        active_roll = r.message[0].name;
+        frm.set_value("current_roll", active_roll);
+      }
+    },
+  });
+}

@@ -103,7 +103,8 @@
    "fieldname": "client",
    "fieldtype": "Link",
    "label": "Client",
-   "options": "Customer"
+   "options": "Customer",
+   "reqd": 1
   },
   {
    "collapsible": 1,
@@ -442,7 +443,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-22 11:32:54.392114",
+ "modified": "2024-05-22 11:43:35.755014",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

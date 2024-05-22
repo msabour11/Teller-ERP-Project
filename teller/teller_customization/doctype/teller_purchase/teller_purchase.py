@@ -27,8 +27,12 @@ from frappe import _, utils
 
 
 class TellerPurchase(Document):
-    def on_submit(self):
+    def before_submit(self):
+        self.set_move_number()
         self.get_printing_roll()
+
+    def on_submit(self):
+
         for row in self.get("transactions"):
             if row.paid_from and self.egy and row.usd_amount and row.received_amount:
                 account_from = get_doc(
@@ -92,6 +96,24 @@ class TellerPurchase(Document):
     def onload(self):
 
         pass
+
+    def set_move_number(self):
+
+        last_move = frappe.db.get("Teller Purchase", {"docstatus": 1})
+        last_move = last_move["movement_number"]
+        print(last_move)
+
+        if last_move:
+            last_move_num = last_move.split("-")[1]
+            last_move_num = int(last_move_num)
+            last_move_num += 1
+        else:
+            last_move_num = 1
+
+        move = f"{self.branch_no}-{last_move_num}"
+        self.movement_number = move
+        frappe.db.commit()
+        print(self.movement_number)
 
     def get_printing_roll(self):
         # check_count

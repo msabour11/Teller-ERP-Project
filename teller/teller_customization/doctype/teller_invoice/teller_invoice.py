@@ -51,8 +51,25 @@ class TellerInvoice(Document):
         )
         frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
+    def set_move_number(self):
+
+        last_move = frappe.db.get("Teller Invoice", {"docstatus": 1})
+        last_move = last_move["movement_number"]
+
+        if last_move:
+            last_move_num = last_move.split("-")[1]
+            last_move_num = int(last_move_num)
+            last_move_num += 1
+        else:
+            last_move_num = 1
+
+        move = f"{self.branch_no}-{last_move_num}"
+        self.movement_number = move
+        frappe.db.commit()
+
     def before_submit(self):
         self.get_printing_roll()
+        self.set_move_number()
 
     def on_submit(self):
 

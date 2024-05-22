@@ -101,7 +101,7 @@ class TellerPurchase(Document):
         start_letter = active_roll["starting_letters"]
 
         last_number += 1
-        receipt_num = f"{start_letter}--{self.branch_no}--{last_number}"
+        receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
         self.receipt_number = receipt_num
         show_number = str(last_number)
         show_number = len(show_number)

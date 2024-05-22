@@ -6,8 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "start_count",
   "starting_letters",
+  "start_count",
   "description",
   "column_break_elnm",
   "last_printed_number",
@@ -26,21 +26,17 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "last_printed_number",
-   "fieldtype": "Int",
-   "label": "Last Printed Number",
-   "read_only": 1
-  },
-  {
    "fieldname": "branch",
    "fieldtype": "Link",
    "label": "Branch",
-   "options": "Branch"
+   "options": "Branch",
+   "read_only": 1
   },
   {
    "fieldname": "show_number",
    "fieldtype": "Data",
-   "label": "Show Number"
+   "label": "Show Number",
+   "read_only": 1
   },
   {
    "fieldname": "description",
@@ -54,6 +50,11 @@
    "label": "Active"
   },
   {
+   "fieldname": "last_printed_number",
+   "fieldtype": "Int",
+   "label": "Last Printed Number"
+  },
+  {
    "fieldname": "start_count",
    "fieldtype": "Int",
    "label": "Start Count"
@@ -61,7 +62,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-21 16:28:42.498047",
+ "modified": "2024-05-22 13:15:20.155998",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

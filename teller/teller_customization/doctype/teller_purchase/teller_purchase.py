@@ -97,6 +97,10 @@ class TellerPurchase(Document):
 
         pass
 
+    # def set_current_printing_roll(self):
+    #     active_roll = frappe.db.get("Printing Roll", {"active": 1})
+    #     last_printed_number = active_roll['last_printed_number']
+
     def set_move_number(self):
 
         last_move = frappe.db.get("Teller Purchase", {"docstatus": 1})
@@ -125,6 +129,8 @@ class TellerPurchase(Document):
         last_number += 1
         receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
         self.receipt_number = receipt_num
+        self.current_roll = last_number
+
         show_number = str(last_number)
         show_number = len(show_number)
 

@@ -40,6 +40,7 @@ class TellerInvoice(Document):
         last_number += 1
         receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
         self.receipt_number = receipt_num
+        self.current_roll = last_number
         # current_roll = active_roll['name']
         # self.current_roll = current_roll
         show_number = str(last_number)

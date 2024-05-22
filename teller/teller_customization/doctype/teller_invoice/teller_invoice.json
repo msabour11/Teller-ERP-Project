@@ -17,8 +17,8 @@
   "shift",
   "teller",
   "column_break_phqr",
-  "current_roll",
   "cost_center",
+  "current_roll",
   "egy",
   "column_break_nkql",
   "closing_date",
@@ -222,13 +222,6 @@
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "Notes"
-  },
-  {
-   "fieldname": "current_roll",
-   "fieldtype": "Link",
-   "label": "Current Roll",
-   "options": "Printing Roll",
-   "read_only": 1
   },
   {
    "fieldname": "teller",
@@ -437,12 +430,18 @@
    "fieldtype": "Data",
    "label": "Branch Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "current_roll",
+   "fieldtype": "Data",
+   "label": "Current Roll",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-22 17:11:16.646974",
+ "modified": "2024-05-22 23:13:54.056895",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

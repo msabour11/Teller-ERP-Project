@@ -17,8 +17,8 @@
   "shift",
   "teller",
   "column_break_nwfq",
-  "current_roll",
   "cost_center",
+  "current_roll",
   "egy",
   "column_break_idhd",
   "closing_date",
@@ -204,13 +204,6 @@
    "fieldtype": "Link",
    "label": "Shift",
    "options": "OPen Shift",
-   "read_only": 1
-  },
-  {
-   "fieldname": "current_roll",
-   "fieldtype": "Link",
-   "label": "Current Roll",
-   "options": "Printing Roll",
    "read_only": 1
   },
   {
@@ -409,19 +402,26 @@
    "default": "Roll Series",
    "fieldname": "receipt_number",
    "fieldtype": "Data",
-   "label": "Receipt number"
+   "label": "Receipt number",
+   "read_only": 1
   },
   {
    "fieldname": "movement_number",
    "fieldtype": "Data",
    "label": "Movement Number",
    "read_only": 1
+  },
+  {
+   "fieldname": "current_roll",
+   "fieldtype": "Data",
+   "label": "Current Roll",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-22 17:44:15.121189",
+ "modified": "2024-05-22 23:14:27.147904",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

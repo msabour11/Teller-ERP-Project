@@ -326,21 +326,21 @@ function set_branch_and_shift(frm) {
     },
   });
   // set the current active Printing roll
-  frappe.call({
-    method: "frappe.client.get_list",
-    args: {
-      doctype: "Printing Roll",
-      filters: {
-        active: 1, // Filter to get active Printing Roll
-      },
-      limit: 1, // Get only one active Printing Roll
-      order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-    },
-    callback: (r) => {
-      if (!r.exc && r.message && r.message.length > 0) {
-        active_roll = r.message[0].name;
-        frm.set_value("current_roll", active_roll);
-      }
-    },
-  });
+  // frappe.call({
+  //   method: "frappe.client.get_list",
+  //   args: {
+  //     doctype: "Printing Roll",
+  //     filters: {
+  //       active: 1, // Filter to get active Printing Roll
+  //     },
+  //     limit: 1, // Get only one active Printing Roll
+  //     order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
+  //   },
+  //   callback: (r) => {
+  //     if (!r.exc && r.message && r.message.length > 0) {
+  //       active_roll = r.message[0].name;
+  //       frm.set_value("current_roll", active_roll);
+  //     }
+  //   },
+  // });
 }

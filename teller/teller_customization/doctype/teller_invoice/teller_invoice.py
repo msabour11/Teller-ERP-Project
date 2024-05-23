@@ -58,7 +58,7 @@ class TellerInvoice(Document):
     def set_move_number(self):
 
         last_invoice = frappe.db.get("Teller Invoice", {"docstatus": 1})
-        if last_invoice:
+        if last_invoice is not None:
 
             last_move = last_invoice["movement_number"]
             last_move_num = last_move.split("-")[1]

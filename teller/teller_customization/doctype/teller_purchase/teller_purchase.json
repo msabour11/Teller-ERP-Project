@@ -30,21 +30,31 @@
   "individual_section",
   "customer_name",
   "card_type",
+  "card_info",
   "nationality",
   "gender",
   "phone",
   "job_title",
   "column_break_djgb",
-  "primary_contacts",
   "work_for",
+  "issue_date",
+  "address",
+  "expired",
   "mobile_number",
+  "place_of_birth",
+  "date_of_birth",
   "companies_section",
   "company_legal_form",
+  "company_name",
+  "company_number",
   "company_activity",
   "company_commercial_no",
+  "comoany_address",
   "column_break_ndtu",
   "start_registration_date",
   "end_registration_date",
+  "is_expired",
+  "interbank",
   "foreigners_section",
   "customer_name_copy",
   "gender_copy",
@@ -104,67 +114,68 @@
    "fieldtype": "Column Break"
   },
   {
-   "collapsible": 1,
-   "collapsible_depends_on": "eval:doc.category_of_buyer==\"Egyptian\" || doc.category_of_buyer=='\u0645\u0635\u0631\u064a\u064a\u0646'",
-   "depends_on": "eval:doc.category_of_buyer==\"Egyptian\" || doc.category_of_buyer=='\u0645\u0635\u0631\u064a\u064a\u0646'",
+   "depends_on": "eval:doc.category_of_buyer=='Egyptian' || doc.category_of_buyer==\"Foreigner\"",
    "fieldname": "individual_section",
    "fieldtype": "Section Break",
-   "label": "Egyptian"
+   "label": "Individual"
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Data",
-   "label": "Gender"
+   "label": "Gender",
+   "read_only": 1
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality"
+   "label": "Nationality",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_djgb",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "primary_contacts",
-   "fieldtype": "Small Text",
-   "label": "Primary Contacts"
-  },
-  {
    "fieldname": "work_for",
    "fieldtype": "Data",
-   "label": "Work For "
+   "label": "Work For ",
+   "read_only": 1
   },
   {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
-   "label": "Mobile Number"
+   "label": "Mobile Number",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.category_of_buyer=='Company'",
    "fieldname": "companies_section",
    "fieldtype": "Section Break",
-   "label": "Companies"
+   "label": "Company"
   },
   {
    "fieldname": "company_legal_form",
    "fieldtype": "Data",
-   "label": "Company Legal Form"
+   "label": "Company Legal Form",
+   "read_only": 1
   },
   {
    "fieldname": "company_activity",
    "fieldtype": "Data",
-   "label": "Company Activity"
+   "label": "Company Activity",
+   "read_only": 1
   },
   {
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
-   "label": "Company Commercial No "
+   "label": "Company Commercial No ",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ndtu",
@@ -173,12 +184,14 @@
   {
    "fieldname": "start_registration_date",
    "fieldtype": "Data",
-   "label": "Start Registration Date"
+   "label": "Start Registration Date",
+   "read_only": 1
   },
   {
    "fieldname": "end_registration_date",
    "fieldtype": "Data",
-   "label": "End Registration Date"
+   "label": "End Registration Date",
+   "read_only": 1
   },
   {
    "collapsible": 1,
@@ -417,23 +430,94 @@
   {
    "fieldname": "card_type",
    "fieldtype": "Data",
-   "label": "Card Type"
+   "label": "Card Type",
+   "read_only": 1
   },
   {
    "fieldname": "phone",
    "fieldtype": "Data",
-   "label": "Phone"
+   "label": "Phone",
+   "read_only": 1
   },
   {
    "fieldname": "job_title",
    "fieldtype": "Data",
-   "label": "Job Title"
+   "label": "Job Title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "card_info",
+   "fieldtype": "Data",
+   "label": "Card Info",
+   "read_only": 1
+  },
+  {
+   "fieldname": "issue_date",
+   "fieldtype": "Data",
+   "label": "Issue Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Data",
+   "label": "Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expired",
+   "fieldtype": "Data",
+   "label": "Expired",
+   "read_only": 1
+  },
+  {
+   "fieldname": "place_of_birth",
+   "fieldtype": "Data",
+   "label": "Place Of Birth",
+   "read_only": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Data",
+   "label": "Date Of Birth",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_name",
+   "fieldtype": "Data",
+   "label": "Company Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company_number",
+   "fieldtype": "Data",
+   "label": "Company Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "comoany_address",
+   "fieldtype": "Data",
+   "label": "Comoany Address",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_expired",
+   "fieldtype": "Check",
+   "label": "Is Expired",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "interbank",
+   "fieldtype": "Check",
+   "label": "InterBank",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-23 17:26:58.425887",
+ "modified": "2024-05-24 02:47:14.873359",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

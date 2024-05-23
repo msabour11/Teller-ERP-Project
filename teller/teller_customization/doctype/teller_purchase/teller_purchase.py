@@ -101,23 +101,49 @@ class TellerPurchase(Document):
     #     active_roll = frappe.db.get("Printing Roll", {"active": 1})
     #     last_printed_number = active_roll['last_printed_number']
 
+    # def set_move_number(self):
+    #
+    #     last_move = frappe.db.get("Teller Purchase", {"docstatus": 1})
+    #     last_move = last_move["movement_number"]
+    #     print(last_move)
+    #
+    #     if last_move and "-" in last_move:
+    #         last_move_num = last_move.split("-")[1]
+    #         last_move_num = int(last_move_num)
+    #         last_move_num += 1
+    #     else:
+    #         last_move_num = 1
+    #
+    #     move = f"{self.branch_no}-{last_move_num}"
+    #     self.movement_number = move
+    #     frappe.db.commit()
+    #     print(self.movement_number)
     def set_move_number(self):
+        # Fetch the last submitted Teller Invoice
+        last_invoice = frappe.db.get("Teller Purchase", {"docstatus": 1})
 
-        last_move = frappe.db.get("Teller Purchase", {"docstatus": 1})
-        last_move = last_move["movement_number"]
-        print(last_move)
+        # Check if the last_invoice exists and has the expected field
+        if last_invoice is not None and "movement_number" in last_invoice:
+            # Get the last movement number and increment it
+            last_move = last_invoice["movement_number"]
+            try:
+                last_move_num = int(last_move.split("-")[1])
+            except (IndexError, ValueError):
+                frappe.throw(
+                    _("Invalid format for movement number in the last invoice.")
+                )
 
-        if last_move and "-" in last_move:
-            last_move_num = last_move.split("-")[1]
-            last_move_num = int(last_move_num)
             last_move_num += 1
+            move = f"{self.branch_no}-{last_move_num}"
         else:
-            last_move_num = 1
+            # If no last invoice, start the movement number from 1
+            move = f"{self.branch_no}-1"
 
-        move = f"{self.branch_no}-{last_move_num}"
+        # Set the new movement number
         self.movement_number = move
+
+        # Commit the changes to the database
         frappe.db.commit()
-        print(self.movement_number)
 
     def get_printing_roll(self):
         # check_count

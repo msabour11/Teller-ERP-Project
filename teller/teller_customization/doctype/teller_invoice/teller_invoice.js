@@ -47,7 +47,7 @@ frappe.ui.form.on("Teller Invoice", {
   // Get customer information if exists
   client: function (frm) {
     // get the information for Egyptian
-    if (frm.doc.client_type == "Egyptian" || frm.doc.client_type == "مصريين") {
+    if (frm.doc.client_type == "Egyptian") {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -93,10 +93,7 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
     // get the information for company
-    else if (
-      frm.doc.client_type == "Company" ||
-      frm.doc.client_type == "شركات"
-    ) {
+    else if (frm.doc.client_type == "Company") {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -106,7 +103,7 @@ frappe.ui.form.on("Teller Invoice", {
           },
           callback: function (r) {
             // set the fields with r.message.fieldname
-            frm.set_value("comp", r.message.custom_legal_form);
+            frm.set_value("company_name", r.message.customer_name);
             frm.set_value(
               "company_activity",
               r.message.custom_company_activity
@@ -125,15 +122,25 @@ frappe.ui.form.on("Teller Invoice", {
               "end_registration_date",
               r.message.custom_end_registration_date
             );
+            frm.set_value("company_number", r.message.custom_company_no);
+            frm.set_value("comoany_address", r.message.custom_comany_address1);
+            frm.set_value("is_expired", r.message.custom_is_expired);
+            frm.set_value("interbank", r.message.custom_interbank);
+            frm.set_value("company_legal_form", r.message.custom_legal_form);
           },
         });
       } else {
         // clear the fields
-        frm.set_value("comp", "");
+        frm.set_value("company_name", "");
         frm.set_value("company_activity", "");
         frm.set_value("company_commercial_no", "");
-        frm.set_value("start_registration_date", "");
+        frm.set_value("company_number", "");
         frm.set_value("end_registration_date", "");
+        frm.set_value("start_registration_date", "");
+        frm.set_value("comoany_address", "");
+        frm.set_value("is_expired", "");
+        frm.set_value("interbank", "");
+        frm.set_value("company_legal_form", "");
       }
     }
     // get the data for Foreigners

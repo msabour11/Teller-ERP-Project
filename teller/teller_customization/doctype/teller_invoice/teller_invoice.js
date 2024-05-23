@@ -57,24 +57,39 @@ frappe.ui.form.on("Teller Invoice", {
           },
           callback: function (r) {
             // set the fields with r.message.fieldname
-            frm.set_value("test", r.message.customer_name);
+            frm.set_value("customer_name", r.message.customer_name);
             frm.set_value("gender", r.message.gender);
-            frm.set_value("nationality", r.message.custom_nationality);
-            frm.set_value("primary_contacts", r.message.primary_address);
-            frm.set_value("mobile_number", r.message.mobile_no);
+            frm.set_value("card_type", r.message.custom_card_type);
+            frm.set_value("card_info", r.message.custom_military_number);
+            frm.set_value("mobile_number", r.message.custom_mobile_number);
             frm.set_value("work_for", r.message.custom_work_for);
-            frm.set_value("national_id", r.message.custom_national_id);
+            frm.set_value("phone", r.message.custom_national_id);
+            frm.set_value("address", r.message.custom_address);
+            frm.set_value("nationality", r.message.custom_nationality);
+            frm.set_value("issue_date", r.message.custom_issue_date);
+            frm.set_value("address", r.message.custom_address);
+            frm.set_value("expired", r.message.custom_expired);
+            frm.set_value("place_of_birth", r.message.custom_place_of_birth);
+            frm.set_value("date_of_birth", r.message.custom_date_of_birth);
+            frm.set_value("job_title", r.message.custom_job_title);
           },
         });
       } else {
         // clear the fields
-        frm.set_value("test", "");
+        frm.set_value("customer_name", "");
         frm.set_value("gender", "");
-        frm.set_value("nationality", "");
-        frm.set_value("primary_contacts", "");
+        frm.set_value("card_type", "");
+        frm.set_value("card_info", "");
         frm.set_value("mobile_number", "");
         frm.set_value("work_for", "");
-        frm.set_value("national_id", "");
+        frm.set_value("phone", "");
+        frm.set_value("address", "");
+        frm.set_value("nationality", "");
+        frm.set_value("issue_date", "");
+        frm.set_value("expired", "");
+        frm.set_value("place_of_birth", "");
+        frm.set_value("date_of_birth", "");
+        frm.set_value("job_title", "");
       }
     }
     // get the information for company

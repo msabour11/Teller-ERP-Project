@@ -57,17 +57,18 @@ class TellerInvoice(Document):
 
     def set_move_number(self):
 
-        last_move = frappe.db.get("Teller Invoice", {"docstatus": 1})
-        last_move = last_move["movement_number"]
+        last_invoice = frappe.db.get("Teller Invoice", {"docstatus": 1})
+        if last_invoice:
 
-        if last_move and "-" in last_move:
+            last_move = last_invoice["movement_number"]
             last_move_num = last_move.split("-")[1]
             last_move_num = int(last_move_num)
             last_move_num += 1
-        else:
-            last_move_num = 1
+            move = f"{self.branch_no}-{last_move_num}"
 
-        move = f"{self.branch_no}-{last_move_num}"
+        else:
+            move = f"{self.branch_no}-{1}"
+
         self.movement_number = move
         frappe.db.commit()
 

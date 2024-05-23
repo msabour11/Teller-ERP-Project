@@ -125,11 +125,12 @@ class TellerPurchase(Document):
         roll_name = active_roll["name"]
         last_number = active_roll["last_printed_number"]
         start_letter = active_roll["starting_letters"]
+        start_count = active_roll["start_count"]
 
         last_number += 1
         receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
         self.receipt_number = receipt_num
-        self.current_roll = last_number
+        self.current_roll = start_count
 
         show_number = str(last_number)
         show_number = len(show_number)

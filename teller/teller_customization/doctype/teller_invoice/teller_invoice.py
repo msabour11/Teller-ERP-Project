@@ -55,21 +55,48 @@ class TellerInvoice(Document):
         )
         frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
+    # def set_move_number(self):
+
+    #     last_invoice = frappe.db.get("Teller Invoice", {"docstatus": 1})
+    #     if last_invoice is not None:
+
+    #         last_move = last_invoice["movement_number"]
+    #         last_move_num = last_move.split("-")[1]
+    #         last_move_num = int(last_move_num)
+    #         last_move_num += 1
+    #         move = f"{self.branch_no}-{last_move_num}"
+
+    #     else:
+    #         move = f"{self.branch_no}-{1}"
+
+    #     self.movement_number = move
+    #     frappe.db.commit()
+
     def set_move_number(self):
-
+        # Fetch the last submitted Teller Invoice
         last_invoice = frappe.db.get("Teller Invoice", {"docstatus": 1})
-        if last_invoice is not None:
 
+        # Check if the last_invoice exists and has the expected field
+        if last_invoice is not None and "movement_number" in last_invoice:
+            # Get the last movement number and increment it
             last_move = last_invoice["movement_number"]
-            last_move_num = last_move.split("-")[1]
-            last_move_num = int(last_move_num)
+            try:
+                last_move_num = int(last_move.split("-")[1])
+            except (IndexError, ValueError):
+                frappe.throw(
+                    _("Invalid format for movement number in the last invoice.")
+                )
+
             last_move_num += 1
             move = f"{self.branch_no}-{last_move_num}"
-
         else:
-            move = f"{self.branch_no}-{1}"
+            # If no last invoice, start the movement number from 1
+            move = f"{self.branch_no}-1"
 
+        # Set the new movement number
         self.movement_number = move
+
+        # Commit the changes to the database
         frappe.db.commit()
 
     def before_submit(self):

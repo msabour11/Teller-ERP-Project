@@ -101,23 +101,7 @@ class TellerPurchase(Document):
     #     active_roll = frappe.db.get("Printing Roll", {"active": 1})
     #     last_printed_number = active_roll['last_printed_number']
 
-    # def set_move_number(self):
-    #
-    #     last_move = frappe.db.get("Teller Purchase", {"docstatus": 1})
-    #     last_move = last_move["movement_number"]
-    #     print(last_move)
-    #
-    #     if last_move and "-" in last_move:
-    #         last_move_num = last_move.split("-")[1]
-    #         last_move_num = int(last_move_num)
-    #         last_move_num += 1
-    #     else:
-    #         last_move_num = 1
-    #
-    #     move = f"{self.branch_no}-{last_move_num}"
-    #     self.movement_number = move
-    #     frappe.db.commit()
-    #     print(self.movement_number)
+  
     def set_move_number(self):
         # Fetch the last submitted Teller Invoice
         last_invoice = frappe.db.get("Teller Purchase", {"docstatus": 1})

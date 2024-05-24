@@ -64,7 +64,7 @@ frappe.ui.form.on("Teller Invoice", {
             frm.set_value("gender", r.message.gender);
             frm.set_value("card_type", r.message.custom_card_type);
             frm.set_value("card_info", r.message.custom_military_number);
-            frm.set_value("mobile_number", r.message.custom_mobile_number);
+            frm.set_value("mobile_number", r.message.custom_mobile);
             frm.set_value("work_for", r.message.custom_work_for);
             frm.set_value("phone", r.message.custom_national_id);
             frm.set_value("address", r.message.custom_address);

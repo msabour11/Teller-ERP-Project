@@ -47,7 +47,10 @@ frappe.ui.form.on("Teller Invoice", {
   // Get customer information if exists
   client: function (frm) {
     // get the information for Egyptian
-    if (frm.doc.client_type == "Egyptian") {
+    if (
+      frm.doc.client_type == "Egyptian" ||
+      frm.doc.client_type == "Foreigner"
+    ) {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -93,7 +96,10 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
     // get the information for company
-    else if (frm.doc.client_type == "Company") {
+    else if (
+      frm.doc.client_type == "Company" ||
+      frm.doc.client_type == "Interbank"
+    ) {
       if (frm.doc.client) {
         frappe.call({
           method: "frappe.client.get",
@@ -144,74 +150,74 @@ frappe.ui.form.on("Teller Invoice", {
       }
     }
     // get the data for Foreigners
-    else if (
-      frm.doc.client_type == "Foreigner" ||
-      frm.doc.client_type == "اجانب"
-    ) {
-      if (frm.doc.client) {
-        frappe.call({
-          method: "frappe.client.get",
-          args: {
-            doctype: "Customer",
-            name: frm.doc.client,
-          },
-          callback: function (r) {
-            // set the fields with r.message.fieldname
-            frm.set_value("customer_name_copy", r.message.customer_name);
-            frm.set_value("gender_copy", r.message.gender);
-            frm.set_value("nationality_copy", r.message.custom_nationality);
-            frm.set_value("primary_contacts_copy", r.message.primary_address);
-            frm.set_value("mobile_number_copy", r.message.mobile_no);
-            frm.set_value("work_for__copy", r.message.custom_work_for);
-            frm.set_value("national_id_copy", r.message.custom_national_id);
-          },
-        });
-      } else {
-        // clear the fields
-        frm.set_value("customer_name_copy", "");
-        frm.set_value("gender_copy", "");
-        frm.set_value("nationality_copy", "");
-        frm.set_value("primary_contacts_copy", "");
-        frm.set_value("mobile_number_copy", "");
-        frm.set_value("work_for__copy", "");
-        frm.set_value("national_id_copy", "");
-      }
-    }
+    // else if (
+    //   frm.doc.client_type == "Foreigner" ||
+    //   frm.doc.client_type == "اجانب"
+    // ) {
+    //   if (frm.doc.client) {
+    //     frappe.call({
+    //       method: "frappe.client.get",
+    //       args: {
+    //         doctype: "Customer",
+    //         name: frm.doc.client,
+    //       },
+    //       callback: function (r) {
+    //         // set the fields with r.message.fieldname
+    //         frm.set_value("customer_name_copy", r.message.customer_name);
+    //         frm.set_value("gender_copy", r.message.gender);
+    //         frm.set_value("nationality_copy", r.message.custom_nationality);
+    //         frm.set_value("primary_contacts_copy", r.message.primary_address);
+    //         frm.set_value("mobile_number_copy", r.message.mobile_no);
+    //         frm.set_value("work_for__copy", r.message.custom_work_for);
+    //         frm.set_value("national_id_copy", r.message.custom_national_id);
+    //       },
+    //     });
+    //   } else {
+    //     // clear the fields
+    //     frm.set_value("customer_name_copy", "");
+    //     frm.set_value("gender_copy", "");
+    //     frm.set_value("nationality_copy", "");
+    //     frm.set_value("primary_contacts_copy", "");
+    //     frm.set_value("mobile_number_copy", "");
+    //     frm.set_value("work_for__copy", "");
+    //     frm.set_value("national_id_copy", "");
+    //   }
+    // }
 
     //get data for interbank group
-    else if (
-      frm.doc.client_type == "Interbank" ||
-      frm.doc.client_type == "انتربنك"
-    ) {
-      if (frm.doc.client) {
-        frappe.call({
-          method: "frappe.client.get",
-          args: {
-            doctype: "Customer",
-            name: frm.doc.client,
-          },
-          callback: function (r) {
-            // set the fields with r.message.fieldname
-            //            frm.set_value("customer_name_copy", r.message.customer_name);
-            //            frm.set_value("gender_copy", r.message.gender);
-            //            frm.set_value("nationality_copy", r.message.custom_nationality);
-            //            frm.set_value("primary_contacts_copy", r.message.primary_address);
-            //            frm.set_value("mobile_number_copy", r.message.mobile_no);
-            //            frm.set_value("work_for__copy", r.message.custom_work_for);
-            //            frm.set_value("national_id_copy", r.message.custom_national_id);
-          },
-        });
-      } else {
-        // clear the fields
-        //        frm.set_value("test", "");
-        //        frm.set_value("gender", "");
-        //        frm.set_value("nationality", "");
-        //        frm.set_value("primary_contacts", "");
-        //        frm.set_value("mobile_number", "");
-        //        frm.set_value("work_for", "");
-        //        frm.set_value("national_id", "");
-      }
-    }
+    // else if (
+    //   frm.doc.client_type == "Interbank" ||
+    //   frm.doc.client_type == "انتربنك"
+    // ) {
+    //   if (frm.doc.client) {
+    //     frappe.call({
+    //       method: "frappe.client.get",
+    //       args: {
+    //         doctype: "Customer",
+    //         name: frm.doc.client,
+    //       },
+    //       callback: function (r) {
+    //         // set the fields with r.message.fieldname
+    //         //            frm.set_value("customer_name_copy", r.message.customer_name);
+    //         //            frm.set_value("gender_copy", r.message.gender);
+    //         //            frm.set_value("nationality_copy", r.message.custom_nationality);
+    //         //            frm.set_value("primary_contacts_copy", r.message.primary_address);
+    //         //            frm.set_value("mobile_number_copy", r.message.mobile_no);
+    //         //            frm.set_value("work_for__copy", r.message.custom_work_for);
+    //         //            frm.set_value("national_id_copy", r.message.custom_national_id);
+    //       },
+    //     });
+    //   } else {
+    //     // clear the fields
+    //     //        frm.set_value("test", "");
+    //     //        frm.set_value("gender", "");
+    //     //        frm.set_value("nationality", "");
+    //     //        frm.set_value("primary_contacts", "");
+    //     //        frm.set_value("mobile_number", "");
+    //     //        frm.set_value("work_for", "");
+    //     //        frm.set_value("national_id", "");
+    //   }
+    // }
   },
 
   // set special price

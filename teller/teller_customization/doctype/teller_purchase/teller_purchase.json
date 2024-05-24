@@ -154,7 +154,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.category_of_buyer=='Company'",
+   "depends_on": "eval:doc.category_of_buyer=='Company'||doc.category_of_buyer==\"Interbank\"",
    "fieldname": "companies_section",
    "fieldtype": "Section Break",
    "label": "Company"
@@ -361,10 +361,9 @@
   },
   {
    "collapsible": 1,
-   "collapsible_depends_on": "eval:doc.category_of_buyer=='Interbank'",
-   "depends_on": "eval:doc.category_of_buyer=='Interbank'",
    "fieldname": "inter_bank_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Inter Bank"
   },
   {
@@ -517,7 +516,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-24 02:47:14.873359",
+ "modified": "2024-05-24 11:23:55.411984",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

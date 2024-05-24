@@ -1,6 +1,6 @@
 frappe.ui.form.on("Customer", {
   validate: function (frm) {
-    if (frm.doc.customer_group === "Egyptian" && !frm.doc.place_of_birth) {
+    if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_place_of_birth) {
       frappe.msgprint(__("Place of birth is required for Egyptian customers"));
       frappe.validated = false;
     }
@@ -13,51 +13,48 @@ frappe.ui.form.on("Customer", {
       frappe.validated = false;
     }
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_address) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("address is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (
       frm.doc.customer_group === "Egyptian" &&
       !frm.doc.custom_date_of_birth
     ) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("birth date is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_job_title) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("job is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_work_for) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("work is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_issue_date) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("issue date is required for Egyptian customers"));
       frappe.validated = false;
     }
-    if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_expired) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
-      frappe.validated = false;
-    }
+
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.gender) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("gender is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (
       frm.doc.customer_group === "Egyptian" &&
-      !frm.doc.custom_mobile_number
+      !frm.doc.custom_mobile
     ) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("mobile is required for Egyptian customers"));
       frappe.validated = false;
     }
     if (frm.doc.customer_group === "Egyptian" && !frm.doc.custom_phone) {
-      frappe.msgprint(__("Nationality is required for Egyptian customers"));
+      frappe.msgprint(__("phone is required for Egyptian customers"));
       frappe.validated = false;
     }
 
     // validate company
     if (frm.doc.customer_group === "Company" && !frm.doc.custom_company_no) {
-      frappe.msgprint(__("Company no is required for company "));
+      frappe.msgprint(__("Company no is required for company!! "));
       frappe.validated = false;
     }
     if (
@@ -67,10 +64,7 @@ frappe.ui.form.on("Customer", {
       frappe.msgprint(__("start reg date  is required for company "));
       frappe.validated = false;
     }
-    if (frm.doc.customer_group === "Company" && !frm.doc.custom_is_expired) {
-      frappe.msgprint(__("Expired is required for company "));
-      frappe.validated = false;
-    }
+
     if (frm.doc.customer_group === "Company" && !frm.doc.custom_commercial_no) {
       frappe.msgprint(__("Commerical no is required for company "));
       frappe.validated = false;

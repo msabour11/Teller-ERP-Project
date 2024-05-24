@@ -61,6 +61,7 @@
   "column_break_nqxf",
   "start_registration_date",
   "end_registration_date",
+  "is_expired1",
   "interbank",
   "inter_bank_section",
   "test2",
@@ -497,12 +498,18 @@
    "fieldtype": "Data",
    "label": "Company Legal Form",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_expired1",
+   "fieldtype": "Check",
+   "label": "Is Expired1"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-24 11:28:58.247321",
+ "modified": "2024-05-24 17:51:28.030821",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

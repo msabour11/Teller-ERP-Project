@@ -130,7 +130,7 @@ frappe.ui.form.on("Teller Invoice", {
             );
             frm.set_value("company_number", r.message.custom_company_no);
             frm.set_value("comoany_address", r.message.custom_comany_address1);
-            frm.set_value("is_expired", r.message.custom_is_expired);
+            frm.set_value("is_expired1", r.message.custom_is_expired);
             frm.set_value("interbank", r.message.custom_interbank);
             frm.set_value("company_legal_form", r.message.custom_legal_form);
           },
@@ -144,7 +144,7 @@ frappe.ui.form.on("Teller Invoice", {
         frm.set_value("end_registration_date", "");
         frm.set_value("start_registration_date", "");
         frm.set_value("comoany_address", "");
-        frm.set_value("is_expired", "");
+        frm.set_value("is_expired1", "");
         frm.set_value("interbank", "");
         frm.set_value("company_legal_form", "");
       }

@@ -167,6 +167,22 @@ class TellerInvoice(Document):
     def before_save(self):
         pass
 
+ 
+
+    # def on_cancel(self):
+    #     # Fetch all Journal Entries related to this Teller Invoice
+    #     journal_entries = frappe.get_all(
+    #         "Journal Entry", filters={"voucher_no": self.name}, fields=["name"]
+    #     )
+
+    #     # Cancel each Journal Entry
+    #     for entry in journal_entries:
+    #         journal_entry_doc = frappe.get_doc("Journal Entry", entry["name"])
+    #         if journal_entry_doc.docstatus == 1:
+    #             journal_entry_doc.cancel()
+
+    #     frappe.msgprint(_("All related Journal Entries have been cancelled."))
+
     def set_cost(self):
         cost = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")
         self.cost_center = cost

@@ -1,5 +1,6 @@
 frappe.ui.form.on("Customer", {
   validate: function (frm) {
+    // Check if customer group is Egyptian and if the required fields are filled
     if (
       frm.doc.customer_group === "Egyptian" &&
       !frm.doc.custom_place_of_birth
@@ -52,8 +53,7 @@ frappe.ui.form.on("Customer", {
       frappe.validated = false;
     }
 
-
-    //validate foreign
+    //check if customer group is Foreigner and if the required fields are filled
 
     if (
       frm.doc.customer_group === "Foreigner" &&
@@ -107,14 +107,7 @@ frappe.ui.form.on("Customer", {
       frappe.validated = false;
     }
 
-
-
-
-
-
-
-
-    // validate company
+    // check if customer group is Company and if the required fields are filled
     if (frm.doc.customer_group === "Company" && !frm.doc.custom_company_no) {
       frappe.msgprint(__("Company no is required for company!! "));
       frappe.validated = false;
@@ -157,7 +150,24 @@ frappe.ui.form.on("Customer", {
       frappe.validated = false;
     }
 
-    //validate interbnk
+    // check end date is after start date
+    if (
+      (frm.doc.customer_group === "Company" ||
+        frm.doc.customer_group === "Interbank") &&
+      frm.doc.custom_end_registration_date &&
+      frm.doc.custom_start_registration_date &&
+      frm.doc.custom_start_registration_date >
+        frm.doc.custom_end_registration_date
+    ) {
+      frappe.msgprint(
+        __(
+          "end registration date must be after start date reistration for company and Interbank "
+        )
+      );
+      frappe.validated = false;
+    }
+
+    //check if customer group is Interbank and if the required fields are filled
     if (frm.doc.customer_group === "Interbank" && !frm.doc.custom_company_no) {
       frappe.msgprint(__("Company no is required for Interbank!! "));
       frappe.validated = false;

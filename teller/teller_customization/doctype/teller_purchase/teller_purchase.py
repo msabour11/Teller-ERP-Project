@@ -102,7 +102,6 @@ class TellerPurchase(Document):
                 )
 
     def on_cancel(self):
-        print("Cancelled")
         self.ignore_linked_doctypes = (
             "GL Entry",
             "Stock Ledger Entry",

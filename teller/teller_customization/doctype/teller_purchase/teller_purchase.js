@@ -2,31 +2,11 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Purchase", {
-  setup: function (frm) {
-    set_branch_and_shift(frm);
-  },
+  // setup: function (frm) {
+  //   set_branch_and_shift(frm);
+  // },
 
   refresh(frm) {
-    ////////////////
-    frappe.call({
-      method: "frappe.client.get_list",
-      args: {
-        doctype: "GL Entry",
-        filters: {
-          docstatus: 1,
-          voucher_type: "Teller Purchase",
-          voucher_no: frm.doc.name,
-        },
-        fields: ["name"],
-      },
-      callback: function (r) {
-        if (!r.exc) {
-          console.log(r.message);
-        }
-      },
-    });
-
-    ///////////////////
     //add ledger button in refresh To Purchase invoice
     frm.events.show_general_ledger(frm);
     set_branch_and_shift(frm);

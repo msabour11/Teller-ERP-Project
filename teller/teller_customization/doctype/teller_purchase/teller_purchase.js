@@ -5,7 +5,28 @@ frappe.ui.form.on("Teller Purchase", {
   setup: function (frm) {
     set_branch_and_shift(frm);
   },
+
   refresh(frm) {
+    ////////////////
+    frappe.call({
+      method: "frappe.client.get_list",
+      args: {
+        doctype: "GL Entry",
+        filters: {
+          docstatus: 1,
+          voucher_type: "Teller Purchase",
+          voucher_no: frm.doc.name,
+        },
+        fields: ["name"],
+      },
+      callback: function (r) {
+        if (!r.exc) {
+          console.log(r.message);
+        }
+      },
+    });
+
+    ///////////////////
     //add ledger button in refresh To Purchase invoice
     frm.events.show_general_ledger(frm);
     set_branch_and_shift(frm);
@@ -90,7 +111,10 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("date_of_birth", "");
         frm.set_value("job_title", "");
       }
-    } else if (frm.doc.category_of_buyer == "Company"||frm.doc.category_of_buyer =="Interbank") {
+    } else if (
+      frm.doc.category_of_buyer == "Company" ||
+      frm.doc.category_of_buyer == "Interbank"
+    ) {
       if (frm.doc.buyer) {
         frappe.call({
           method: "frappe.client.get",
@@ -99,7 +123,6 @@ frappe.ui.form.on("Teller Purchase", {
             name: frm.doc.buyer,
           },
           callback: function (r) {
-            // set the fields with r.message.fieldname
             // set the fields with r.message.fieldname
             frm.set_value("company_name", r.message.customer_name);
             frm.set_value(
@@ -141,7 +164,7 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("interbank", "");
         frm.set_value("company_legal_form", "");
       }
-    } 
+    }
     // else if (
     //   frm.doc.category_of_buyer == "Foreigners" ||
     //   frm.doc.category_of_buyer == "اجانب"

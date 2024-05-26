@@ -24,6 +24,14 @@ from erpnext.accounts.utils import (
     get_party_types_from_account_type,
 )
 from frappe import _, utils
+from erpnext.accounts.general_ledger import (
+    make_gl_entries,
+    make_reverse_gl_entries,
+    process_gl_map,
+    make_entry,
+)
+from frappe.utils import nowdate, now
+from erpnext.accounts.general_ledger import make_entry
 
 
 class TellerPurchase(Document):
@@ -93,15 +101,33 @@ class TellerPurchase(Document):
                     _("You must enter all required fFields in row {0}").format(row.idx)
                 )
 
-    def onload(self):
+    def on_cancel(self):
+        print("Cancelled")
+        self.ignore_linked_doctypes = (
+            "GL Entry",
+            "Stock Ledger Entry",
+            "Payment Ledger Entry",
+            "Repost Payment Ledger",
+            "Repost Payment Ledger Items",
+            "Repost Accounting Ledger",
+            "Repost Accounting Ledger Items",
+            "Unreconcile Payment",
+            "Unreconcile Payment Entries",
+        )
 
-        pass
 
-    # def set_current_printing_roll(self):
-    #     active_roll = frappe.db.get("Printing Roll", {"active": 1})
-    #     last_printed_number = active_roll['last_printed_number']
+        try:
+            # Reverse GL Entries
 
-  
+            make_reverse_gl_entries(voucher_type=self.doctype, voucher_no=self.name)
+
+            # Optionally, add custom logic or user notifications
+            frappe.msgprint(_("Teller Purchase document canceled successfully."))
+            print("Teller Purchase document canceled successfully.")
+
+        except Exception as e:
+            frappe.throw(_("An error occurred during cancellation: {0}").format(str(e)))
+
     def set_move_number(self):
         # Fetch the last submitted Teller Invoice
         last_invoice = frappe.db.get("Teller Purchase", {"docstatus": 1})

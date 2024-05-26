@@ -15,14 +15,14 @@ from frappe import get_doc
 from frappe.model.document import Document
 from frappe.utils import nowdate
 from erpnext.accounts.utils import (
-    cancel_exchange_gain_loss_journal,
     get_account_currency,
     get_balance_on,
-    get_outstanding_invoices,
-    get_party_types_from_account_type,
 )
 from frappe import _, utils
-from erpnext.setup.utils import get_exchange_rate
+
+from erpnext.accounts.general_ledger import (
+    make_reverse_gl_entries,
+)
 
 
 class TellerInvoice(Document):
@@ -54,23 +54,6 @@ class TellerInvoice(Document):
             "Printing Roll", roll_name, "last_printed_number", last_number
         )
         frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
-
-    # def set_move_number(self):
-
-    #     last_invoice = frappe.db.get("Teller Invoice", {"docstatus": 1})
-    #     if last_invoice is not None:
-
-    #         last_move = last_invoice["movement_number"]
-    #         last_move_num = last_move.split("-")[1]
-    #         last_move_num = int(last_move_num)
-    #         last_move_num += 1
-    #         move = f"{self.branch_no}-{last_move_num}"
-
-    #     else:
-    #         move = f"{self.branch_no}-{1}"
-
-    #     self.movement_number = move
-    #     frappe.db.commit()
 
     def set_move_number(self):
         # Fetch the last submitted Teller Invoice
@@ -164,24 +147,29 @@ class TellerInvoice(Document):
                     _("You must enter all required fields in row {0}").format(row.idx)
                 )
 
-    def before_save(self):
-        pass
+    def on_cancel(self):
+        self.ignore_linked_doctypes = (
+            "GL Entry",
+            "Stock Ledger Entry",
+            "Payment Ledger Entry",
+            "Repost Payment Ledger",
+            "Repost Payment Ledger Items",
+            "Repost Accounting Ledger",
+            "Repost Accounting Ledger Items",
+            "Unreconcile Payment",
+            "Unreconcile Payment Entries",
+        )
 
- 
+        try:
+            # Reverse GL Entries
 
-    # def on_cancel(self):
-    #     # Fetch all Journal Entries related to this Teller Invoice
-    #     journal_entries = frappe.get_all(
-    #         "Journal Entry", filters={"voucher_no": self.name}, fields=["name"]
-    #     )
+            make_reverse_gl_entries(voucher_type=self.doctype, voucher_no=self.name)
 
-    #     # Cancel each Journal Entry
-    #     for entry in journal_entries:
-    #         journal_entry_doc = frappe.get_doc("Journal Entry", entry["name"])
-    #         if journal_entry_doc.docstatus == 1:
-    #             journal_entry_doc.cancel()
+            # add custom logic or user notifications
+            frappe.msgprint(_("Teller Sales document canceled successfully."))
 
-    #     frappe.msgprint(_("All related Journal Entries have been cancelled."))
+        except Exception as e:
+            frappe.throw(_("An error occurred during cancellation: {0}").format(str(e)))
 
     def set_cost(self):
         cost = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")

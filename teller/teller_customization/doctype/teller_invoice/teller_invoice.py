@@ -32,7 +32,7 @@ class TellerInvoice(Document):
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
 
-    def get_printing_roll(self):
+    def increase_printing_roll_serial(self):
         active_roll = frappe.db.get("Printing Roll", {"active": 1})
         roll_name = active_roll["name"]
         last_number = active_roll["last_printed_number"]
@@ -83,7 +83,7 @@ class TellerInvoice(Document):
         frappe.db.commit()
 
     def before_submit(self):
-        self.get_printing_roll()
+        self.increase_printing_roll_serial()
         self.set_move_number()
 
     def on_submit(self):

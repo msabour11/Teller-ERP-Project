@@ -389,10 +389,8 @@
    "label": "Closing Date"
   },
   {
-   "fetch_from": "teller.egy_account",
    "fieldname": "egy",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "EGY",
    "options": "Account",
    "read_only": 1
@@ -509,7 +507,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-24 17:51:28.030821",
+ "modified": "2024-05-27 16:04:26.822574",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

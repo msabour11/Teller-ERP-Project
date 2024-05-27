@@ -30,6 +30,31 @@ frappe.ui.form.on("Teller Purchase", {
         },
       };
     });
+
+    // fetch agy account
+
+    loginUser = frappe.session.logged_in_user;
+    frappe
+      .call({
+        method: "frappe.client.get",
+        args: {
+          doctype: "User",
+          name: loginUser,
+        },
+      })
+      .then((r) => {
+        if (r.message) {
+          console.log(r.message.egy_account);
+          let user_account = r.message.egy_account;
+          if (user_account) {
+            frm.set_value("egy", user_account);
+          } else {
+            frappe.throw("there is no egy account linked to this user");
+          }
+        } else {
+          frappe.throw("Error while getting user");
+        }
+      });
   },
 
   // add ledger report button on submit doctype
@@ -281,18 +306,6 @@ frappe.ui.form.on("Teller Purchase Child", {
           frappe.model.set_value(cdt, cdn, "rate", currency_rate);
         },
       });
-    }
-  },
-
-  usd_amount: function (frm, cdt, cdn) {
-    var row = locals[cdt][cdn];
-
-    if (row.paid_from && row.usd_amount) {
-      let total = row.usd_amount * row.rate;
-
-      frappe.model.set_value(cdt, cdn, "total_amount", total);
-
-      // Update currency balances
 
       frappe.call({
         method:
@@ -312,6 +325,37 @@ frappe.ui.form.on("Teller Purchase Child", {
           }
         },
       });
+    }
+  },
+
+  usd_amount: function (frm, cdt, cdn) {
+    var row = locals[cdt][cdn];
+
+    if (row.paid_from && row.usd_amount) {
+      let total = row.usd_amount * row.rate;
+
+      frappe.model.set_value(cdt, cdn, "total_amount", total);
+
+      // Update currency balances
+
+      // frappe.call({
+      //   method:
+      //     "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_from_balance",
+      //   args: {
+      //     paid_from: row.paid_from,
+      //     // company: frm.doc.company,
+      //   },
+      //   callback: function (r) {
+      //     if (r.message) {
+      //       console.log(r.message);
+      //       let from_balance = r.message;
+
+      //       frappe.model.set_value(cdt, cdn, "balance", from_balance);
+      //     } else {
+      //       console.log("not found");
+      //     }
+      //   },
+      // });
     } else {
       frappe.throw("Amount and Account From  are required");
     }

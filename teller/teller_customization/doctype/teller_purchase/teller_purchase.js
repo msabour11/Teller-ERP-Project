@@ -2,9 +2,21 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Purchase", {
-  // setup: function (frm) {
-  //   set_branch_and_shift(frm);
-  // },
+  // filters accounts with cash ,is group False and account currency not EGY
+  setup: function (frm) {
+    frm.fields_dict["transactions"].grid.get_field("paid_from").get_query =
+      function (doc, cdt, cdn) {
+        var row = locals[cdt][cdn];
+        var account_types = ["Cash"];
+        return {
+          filters: {
+            account_type: ["in", account_types],
+            account_currency: ["!=", "EGP"],
+            is_group: 0,
+          },
+        };
+      };
+  },
 
   refresh(frm) {
     //add ledger button in refresh To Purchase invoice

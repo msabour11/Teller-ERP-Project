@@ -114,7 +114,6 @@ class TellerPurchase(Document):
             "Unreconcile Payment Entries",
         )
 
-
         try:
             # Reverse GL Entries
 
@@ -156,25 +155,41 @@ class TellerPurchase(Document):
 
     def get_printing_roll(self):
         # check_count
-        active_roll = frappe.db.get("Printing Roll", {"active": 1})
-        roll_name = active_roll["name"]
-        last_number = active_roll["last_printed_number"]
-        start_letter = active_roll["starting_letters"]
-        start_count = active_roll["start_count"]
-
-        last_number += 1
-        receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
-        self.receipt_number = receipt_num
-        self.current_roll = start_count
-
-        show_number = str(last_number)
-        show_number = len(show_number)
-
-        frappe.db.commit()
-        frappe.db.set_value(
-            "Printing Roll", roll_name, "last_printed_number", last_number
+        # active_roll = frappe.db.get("Printing Roll", {"active": 1})
+        active_roll = frappe.db.get_all(
+            "Printing Roll",
+            filters={"active": 1},
+            fields=[
+                "name",
+                "last_printed_number",
+                "starting_letters",
+                "start_count",
+                "end_count",
+            ],
+            order_by="creation desc",
         )
-        frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
+        roll_name = active_roll[0]["name"]
+        last_number = active_roll[0]["last_printed_number"]
+        start_letter = active_roll[0]["starting_letters"]
+        start_count = active_roll[0]["start_count"]
+        end_count = active_roll[0]["end_count"]
+
+        if start_count < end_count and last_number < end_count:
+            last_number += 1
+            receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
+            self.receipt_number = receipt_num
+            self.current_roll = start_count
+
+            show_number = str(last_number)
+            show_number = len(show_number)
+
+            frappe.db.commit()
+            frappe.db.set_value(
+                "Printing Roll", roll_name, "last_printed_number", last_number
+            )
+            frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
+        else:
+            frappe.throw("No printing roll available please create one")
 
 
 # get currency and currency rate from each account
@@ -216,3 +231,26 @@ def account_to_balance(paid_to):
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
         return _("Error: Unable to fetch account balance.")
+
+
+@frappe.whitelist(allow_guest=True)
+def get_printing_roll1():
+    # check_count
+    active_roll = frappe.db.get_all(
+        "Printing Roll",
+        filters={"active": 1},
+        fields=[
+            "name",
+            "last_printed_number",
+            "starting_letters",
+            "start_count",
+            "end_count",
+        ],
+        order_by="creation desc",
+    )
+    roll_name = active_roll[0]["name"]
+    last_number = active_roll[0]["last_printed_number"]
+    start_letter = active_roll[0]["starting_letters"]
+    start_count = active_roll[0]["start_count"]
+    end_count = active_roll[0]["end_count"]
+    return last_number

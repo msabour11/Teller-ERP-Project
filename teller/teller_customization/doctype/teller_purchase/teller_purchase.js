@@ -335,6 +335,9 @@ frappe.ui.form.on("Teller Purchase Child", {
       let total = row.usd_amount * row.rate;
 
       frappe.model.set_value(cdt, cdn, "total_amount", total);
+      frappe.model.set_value(cdt, cdn, "received_amount", total);
+
+      //received_amount
 
       // Update currency balances
 

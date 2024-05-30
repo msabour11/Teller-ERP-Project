@@ -37,6 +37,9 @@ from erpnext.accounts.general_ledger import make_entry
 class TellerPurchase(Document):
     def before_submit(self):
         self.set_move_number()
+        # self.get_printing_roll()
+
+    def on_save(self):
         self.get_printing_roll()
 
     def on_submit(self):
@@ -154,8 +157,7 @@ class TellerPurchase(Document):
         frappe.db.commit()
 
     def get_printing_roll(self):
-        # check_count
-        # active_roll = frappe.db.get("Printing Roll", {"active": 1})
+
         active_roll = frappe.db.get_all(
             "Printing Roll",
             filters={"active": 1},
@@ -173,8 +175,22 @@ class TellerPurchase(Document):
         start_letter = active_roll[0]["starting_letters"]
         start_count = active_roll[0]["start_count"]
         end_count = active_roll[0]["end_count"]
+        sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
+        sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
+        if len(sales_invoice) == 0 and len(sales_purchase) == 0:
+            last_number = start_count
+            receipt_number = f"{start_letter}-{self.branch_no}-{last_number}"
+            self.receipt_number = receipt_number
+            self.current_roll = start_count
+            show_number = str(last_number)
+            show_number = len(show_number)
+            frappe.db.commit()
+            frappe.db.set_value(
+                "Printing Roll", roll_name, "last_printed_number", last_number
+            )
+            frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
-        if start_count < end_count and last_number < end_count:
+        elif start_count < end_count and last_number < end_count:
             last_number += 1
             receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
             self.receipt_number = receipt_num
@@ -235,6 +251,9 @@ def account_to_balance(paid_to):
 
 @frappe.whitelist(allow_guest=True)
 def get_printing_roll1():
+    sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
+    sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
+
     # check_count
     active_roll = frappe.db.get_all(
         "Printing Roll",
@@ -253,4 +272,4 @@ def get_printing_roll1():
     start_letter = active_roll[0]["starting_letters"]
     start_count = active_roll[0]["start_count"]
     end_count = active_roll[0]["end_count"]
-    return last_number
+    return len(sales_purchase)

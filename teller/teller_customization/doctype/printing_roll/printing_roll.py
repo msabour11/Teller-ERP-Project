@@ -11,3 +11,5 @@ class PrintingRoll(Document):
     def before_save(self):
 
         self.last_printed_number = self.start_count
+        show_number = len(str(self.end_count))
+        self.show_number = show_number

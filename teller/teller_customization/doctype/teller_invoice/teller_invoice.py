@@ -50,8 +50,22 @@ class TellerInvoice(Document):
         start_letter = active_roll[0]["starting_letters"]
         start_count = active_roll[0]["start_count"]
         end_count = active_roll[0]["end_count"]
+        sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
+        sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
+        if len(sales_invoice) == 0 and len(sales_purchase) == 0:
+            last_number = start_count
+            receipt_number = f"{start_letter}-{self.branch_no}-{last_number}"
+            self.receipt_number = receipt_number
+            self.current_roll = start_count
+            show_number = str(last_number)
+            show_number = len(show_number)
+            frappe.db.commit()
+            frappe.db.set_value(
+                "Printing Roll", roll_name, "last_printed_number", last_number
+            )
+            frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
-        if start_count < end_count and last_number < end_count:
+        elif start_count < end_count and last_number < end_count:
             last_number += 1
             receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
             self.receipt_number = receipt_num

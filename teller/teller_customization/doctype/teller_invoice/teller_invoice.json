@@ -23,6 +23,8 @@
   "column_break_nkql",
   "closing_date",
   "special_price",
+  "transctions_section",
+  "transactions",
   "section_break_onwq",
   "client_type",
   "column_break_nlal",
@@ -30,7 +32,9 @@
   "individual_section",
   "customer_name",
   "card_type",
-  "card_info",
+  "national_id",
+  "passport_number",
+  "military_number",
   "nationality",
   "gender",
   "phone",
@@ -65,8 +69,6 @@
   "interbank",
   "inter_bank_section",
   "test2",
-  "transctions_section",
-  "transactions",
   "section_break_hqcn",
   "column_break_nvqv",
   "egy_balance",
@@ -104,17 +106,16 @@
   },
   {
    "fieldname": "client_type",
-   "fieldtype": "Link",
+   "fieldtype": "Select",
    "label": "Client Type",
-   "options": "Customer Group",
+   "options": "Egyptian\nCompany\nForeigner\nInterbank",
    "reqd": 1
   },
   {
    "fieldname": "client",
    "fieldtype": "Link",
    "label": "Client",
-   "options": "Customer",
-   "reqd": 1
+   "options": "Customer"
   },
   {
    "collapsible": 1,
@@ -122,11 +123,10 @@
    "depends_on": "eval:doc.client_type=='Egyptian' || doc.client_type=='Foreigner' ",
    "fieldname": "individual_section",
    "fieldtype": "Section Break",
-   "label": "Egyptian"
+   "label": "Individual"
   },
   {
    "collapsible": 1,
-   "collapsible_depends_on": "eval:doc.client_type=='Company' || doc.client_type==\"Interbank\"",
    "depends_on": "eval:doc.client_type=='Company' || doc.client_type==\"Interbank\"",
    "fieldname": "companies_section",
    "fieldtype": "Section Break",
@@ -148,27 +148,24 @@
   },
   {
    "fieldname": "gender",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "label": "Gender",
-   "read_only": 1
+   "options": "Male\nFemale"
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality",
-   "read_only": 1
+   "label": "Nationality"
   },
   {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
-   "label": "Mobile Number",
-   "read_only": 1
+   "label": "Mobile Number"
   },
   {
    "fieldname": "work_for",
    "fieldtype": "Data",
-   "label": "Work For ",
-   "read_only": 1
+   "label": "Work For "
   },
   {
    "fieldname": "column_break_vdaf",
@@ -177,26 +174,22 @@
   {
    "fieldname": "company_activity",
    "fieldtype": "Data",
-   "label": "Company Activity",
-   "read_only": 1
+   "label": "Company Activity"
   },
   {
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
-   "label": "Company Commercial No ",
-   "read_only": 1
+   "label": "Company Commercial No "
   },
   {
    "fieldname": "start_registration_date",
-   "fieldtype": "Data",
-   "label": "Start Registration Date",
-   "read_only": 1
+   "fieldtype": "Date",
+   "label": "Start Registration Date"
   },
   {
    "fieldname": "end_registration_date",
-   "fieldtype": "Data",
-   "label": "End Registration Date",
-   "read_only": 1
+   "fieldtype": "Date",
+   "label": "End Registration Date"
   },
   {
    "fieldname": "column_break_nqxf",
@@ -417,17 +410,13 @@
   },
   {
    "fieldname": "card_type",
-   "fieldtype": "Data",
-   "label": "Card Type"
-  },
-  {
-   "fieldname": "card_info",
-   "fieldtype": "Data",
-   "label": "Card Info"
+   "fieldtype": "Select",
+   "label": "Card Type",
+   "options": "Passport\nNational ID\nMilitary Card"
   },
   {
    "fieldname": "issue_date",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Issue Date"
   },
   {
@@ -448,7 +437,7 @@
   },
   {
    "fieldname": "date_of_birth",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Date Of Birth"
   },
   {
@@ -469,45 +458,59 @@
   {
    "fieldname": "company_number",
    "fieldtype": "Data",
-   "label": "Company Number",
-   "read_only": 1
+   "label": "Company Number"
   },
   {
    "fieldname": "comoany_address",
    "fieldtype": "Data",
-   "label": "Comoany Address",
-   "read_only": 1
+   "label": "Comoany Address"
   },
   {
    "default": "0",
+   "depends_on": "eval:doc.client_type==\"Interbank\"",
    "fieldname": "interbank",
    "fieldtype": "Check",
-   "label": "InterBank",
-   "read_only": 1
+   "label": "InterBank"
   },
   {
    "fieldname": "company_name",
    "fieldtype": "Data",
-   "label": "Company Name",
-   "read_only": 1
+   "label": "Company Name"
   },
   {
    "fieldname": "company_legal_form",
    "fieldtype": "Data",
-   "label": "Company Legal Form",
-   "read_only": 1
+   "label": "Company Legal Form"
   },
   {
    "default": "0",
    "fieldname": "is_expired1",
    "fieldtype": "Check",
-   "label": "Is Expired1"
+   "label": "Is Expired"
+  },
+  {
+   "depends_on": "eval:doc.card_type==\"National ID\"",
+   "fieldname": "national_id",
+   "fieldtype": "Data",
+   "label": "National ID"
+  },
+  {
+   "depends_on": "eval:doc.card_type==\"Passport\"",
+   "fieldname": "passport_number",
+   "fieldtype": "Data",
+   "label": "Passport Number"
+  },
+  {
+   "depends_on": "eval:doc.card_type==\"Military Card\"",
+   "fieldname": "military_number",
+   "fieldtype": "Data",
+   "label": "Military Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-27 16:04:26.822574",
+ "modified": "2024-06-03 11:04:15.362776",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

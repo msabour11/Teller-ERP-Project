@@ -22,6 +22,8 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   refresh(frm) {
+    //////////////
+
     //test new client
 
     //////////////////
@@ -490,7 +492,11 @@ frappe.ui.form.on("Teller Invoice", {
           }
         },
       });
-    } else {
+    } else if (
+      (frm.doc.client_type == "Egyptian" ||
+        frm.doc.client_type == "Foreigner") &&
+      frm.doc.client
+    ) {
       frappe.call({
         method: "frappe.client.get",
         args: {
@@ -502,37 +508,8 @@ frappe.ui.form.on("Teller Invoice", {
         callback: function (r) {
           if (r.message) {
             console.log(r.message);
-            // Update the existing client record
-            // var existing_client = frappe.get_doc("Customer", r.message.name);
-
-            // // Update the relevant fields
-            // // existing_client.gender = frm.doc.gender || "Male";
-            // existing_client.custom_card_type = frm.doc.card_type;
-            // existing_client.custom_mobile = frm.doc.mobile_number || "";
-            // existing_client.custom_address = frm.doc.address;
-            // existing_client.custom_date_of_birth =
-            //   frm.doc.date_of_birth || frappe.datetime.get_today();
-            // existing_client.custom_national_id =
-            //   frm.doc.card_type == "National ID" ? frm.doc.national_id : null;
-            // existing_client.custom_passport_number =
-            //   frm.doc.card_type == "Passport" ? frm.doc.passport_number : null;
-            // existing_client.custom_military_number =
-            //   frm.doc.card_type == "Military ID"
-            //     ? frm.doc.military_number
-            //     : null;
-
-            // // Save the updated client document
-            // existing_client
-            //   .save()
-            //   .then(function () {
-            //     frm.set_value("client", existing_client.name);
-            //   })
-            //   .catch(function (err) {
-            //     frappe.throw("Error while updating customer: " + err);
-            //   });
 
             /////////////////////////////////
-            var existing_client = r.message;
             var existing_client = r.message;
 
             // Fetch the latest version of the document
@@ -549,6 +526,7 @@ frappe.ui.form.on("Teller Invoice", {
                   latest_client.custom_card_type = frm.doc.card_type;
                   latest_client.custom_mobile = frm.doc.mobile_number || "";
                   latest_client.custom_address = frm.doc.address;
+                  latest_client.custom_job_title = frm.doc.job_title || "";
                   latest_client.custom_date_of_birth =
                     frm.doc.date_of_birth || frappe.datetime.get_today();
                   latest_client.custom_national_id =
@@ -581,52 +559,121 @@ frappe.ui.form.on("Teller Invoice", {
                 }
               },
             });
-
-            /////////////////////////////
           }
         },
       });
     }
 
-    // else if (
-    //   (frm.doc.client_type == "Company" ||
-    //     frm.doc.client_type == "Interbank") &&
-    //   !frm.doc.client
-    // ) {
-    //   frappe.call({
-    //     method: "frappe.client.insert",
-    //     args: {
-    //       doc: {
-    //         doctype: "Customer",
-    //         customer_name: frm.doc.company_name,
-    //         custom_start_registration_date: frm.doc.start_registration_date
-    //           ? frm.doc.start_registration_date
-    //           : frappe.datetime.get_today(),
+    // update company if company is already existing or created it if company not already existing
+    if (
+      (frm.doc.client_type == "Company" ||
+        frm.doc.client_type == "Interbank") &&
+      !frm.doc.client
+    ) {
+      frappe.call({
+        method: "frappe.client.insert",
+        args: {
+          doc: {
+            doctype: "Customer",
+            customer_name: frm.doc.company_name,
+            custom_start_registration_date: frm.doc.start_registration_date
+              ? frm.doc.start_registration_date
+              : frappe.datetime.get_today(),
 
-    //         custom_end_registration_date: frm.doc.end_registration_date
-    //           ? frm.doc.end_registration_date
-    //           : frappe.datetime.get_today(),
+            custom_end_registration_date: frm.doc.end_registration_date
+              ? frm.doc.end_registration_date
+              : frappe.datetime.get_today(),
 
-    //         custom_comany_address1: frm.doc.custom_comany_address1
-    //           ? frm.doc.custom_comany_address1
-    //           : "",
+              custom_comany_address1: frm.doc.comoany_address
+              ? frm.doc.comoany_address
+              : "",
 
-    //         custom_type: frm.doc.client_type,
-    //         custom_interbank:
-    //           frm.doc.interbank && frm.doc.client_type == "Interbank"
-    //             ? true
-    //             : false,
-    //       },
-    //     },
-    //     callback: function (r) {
-    //       if (r.message) {
-    //         frm.set_value("client", r.message.name);
-    //       } else {
-    //         frappe.throw("Error while creating customer");
-    //       }
-    //     },
-    //   });
-    // }
+            custom_type: frm.doc.client_type,
+            custom_interbank:
+              frm.doc.interbank && frm.doc.client_type == "Interbank"
+                ? true
+                : false,
+
+                custom_commercial_no: frm.doc.company_commercial_no?frm.doc.company_commercial_no:"",
+                custom_company_activity: frm.doc.company_activity?frm.doc.company_activity:"",
+                custom_legal_form: frm.doc.company_legal_form ? frm.doc.company_legal_form:"",
+                custom_is_expired: frm.doc.is_expired1,
+               
+                //company_commercial_no
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            frm.set_value("client", r.message.name);
+          } else {
+            frappe.throw("Error while creating customer");
+          }
+        },
+      });
+    } else if (
+      (frm.doc.client_type == "Company" ||
+        frm.doc.client_type == "Interbank") &&
+      frm.doc.client
+    ) {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+          doctype: "Customer",
+          filters: {
+            customer_name: frm.doc.client,
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log('response from comapny updated',r.message);
+
+            /////////////////////////////////
+            var existing_company = r.message;
+
+            // Fetch the latest version of the document
+            frappe.call({
+              method: "frappe.client.get",
+              args: {
+                doctype: "Customer",
+                name: existing_company.name,
+              },
+              callback: function (response) {
+                if (response.message) {
+                  console.log('company name response',response.message);
+                  let latest_company = response.message;
+                  // Update the relevant fields
+                  latest_company.custom_start_registration_date =
+                    frm.doc.start_registration_date;
+                  latest_company.custom_end_registration_date =
+                    frm.doc.end_registration_date;
+                  latest_company.custom_comany_address1 =
+                    frm.doc.comoany_address || "";
+                    latest_company.custom_commercial_no=frm.doc.commercial_no
+                  // latest_company.custom_interbank = true
+                  //   ? frm.doc.interbank && frm.doc.client_type == "Interbank"
+                  //   : false;
+
+                  // Save the updated client document
+                  frappe.call({
+                    method: "frappe.client.save",
+                    args: {
+                      doc: latest_company,
+                    },
+                    callback: function (save_response) {
+                      if (save_response.message) {
+                        frm.set_value("client", save_response.message.name);
+                      } else {
+                        frappe.throw("Error while updating customer");
+                      }
+                    },
+                  });
+                }
+              },
+            });
+          }
+        },
+      });
+    }
   },
 
   /////////////////////////////////////////////

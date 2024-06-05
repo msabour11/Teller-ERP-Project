@@ -73,7 +73,6 @@
   "is_expired1",
   "interbank",
   "add_commissar",
-  "contact",
   "contact_list",
   "inter_bank_section",
   "test2",
@@ -519,18 +518,12 @@
    "fieldname": "contact_list",
    "fieldtype": "HTML",
    "label": "Contact List"
-  },
-  {
-   "fieldname": "contact",
-   "fieldtype": "Link",
-   "label": "Contact",
-   "options": "Contact"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-05 14:44:12.473126",
+ "modified": "2024-06-05 16:24:44.651833",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

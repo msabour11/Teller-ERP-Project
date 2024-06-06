@@ -328,3 +328,10 @@ def get_printing_roll():
 def get_current_shift():
     branch = frappe.db.get_value("Branch", {"custom_active": 1}, "branch")
     return branch
+
+
+# get allowed amounts from Teller settings doctype
+@frappe.whitelist(allow_guest=True)
+def get_allowed_amount():
+    allowed_amount = frappe.db.get_single_value("Teller Setting", "allowed_amount")
+    return allowed_amount

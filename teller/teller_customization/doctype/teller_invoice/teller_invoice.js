@@ -79,9 +79,6 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   refresh(frm) {
-    //////////////test add contact
-
-    ///////end test add contact
     // handle add contact
     if (frm.doc.client) {
       update_contact_list(frm);
@@ -809,8 +806,9 @@ function update_contact_list(frm) {
   });
 }
 //   check if the if the total currency exceeds the 15000 in child table
-function isExceeded(frm, cdt, cdn) {
+async function isExceeded(frm, cdt, cdn) {
   let row = locals[cdt][cdn];
+  var allowedAmount = await fetchAllowedAmount();
 
   let currency_total = 0;
   if (row.usd_amount) {
@@ -819,8 +817,10 @@ function isExceeded(frm, cdt, cdn) {
     });
     console.log(currency_total);
   }
-  if (currency_total > 15000) {
-    frappe.msgprint("The total amount of the invoice is more than 15000");
+  if (currency_total > allowedAmount) {
+    frappe.msgprint(
+      `The total amount of the invoice is more than ${allowedAmount}`
+    );
     frm.set_value("exceed", true);
   } else {
     frm.set_value("exceed", false);
@@ -828,19 +828,25 @@ function isExceeded(frm, cdt, cdn) {
   }
 }
 // check if the if the total currency exceeds the 15000 in remove currency from child table
-function isExceededRemove(frm) {
+async function isExceededRemove(frm) {
   let currency_total = 0;
+  var allowedAmount = await fetchAllowedAmount();
 
   frm.doc.transactions.forEach((item) => {
     currency_total += item.usd_amount;
   });
   console.log(currency_total);
 
-  if (currency_total > 15000) {
+  if (currency_total > allowedAmount) {
     // frappe.msgprint("The total amount of the invoice is more than 15000");
     frm.set_value("exceed", true);
   } else {
     frm.set_value("exceed", false);
     console.log(currency_total);
   }
+}
+
+// get the allowed amount from settings
+async function fetchAllowedAmount() {
+  return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }

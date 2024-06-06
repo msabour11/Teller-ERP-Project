@@ -28,6 +28,7 @@
   "section_break_hqcn",
   "column_break_nvqv",
   "egy_balance",
+  "exceed",
   "column_break_ytji",
   "total",
   "section_break_onwq",
@@ -512,18 +513,25 @@
    "depends_on": "eval:doc.client_type==\"Interbank\" || doc.client_type==\"Company\"",
    "fieldname": "add_commissar",
    "fieldtype": "Button",
-   "label": "Add Commissar"
+   "label": "Add Commissar",
+   "read_only_depends_on": "eval:doc.docstatus==1"
   },
   {
    "fieldname": "contact_list",
    "fieldtype": "HTML",
    "label": "Contact List"
+  },
+  {
+   "default": "0",
+   "fieldname": "exceed",
+   "fieldtype": "Check",
+   "label": "Exceed"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-05 16:24:44.651833",
+ "modified": "2024-06-06 10:21:55.660372",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

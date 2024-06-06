@@ -79,7 +79,7 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   refresh(frm) {
-
+    //////////////test add contact
 
     ///////end test add contact
     // handle add contact
@@ -90,9 +90,8 @@ frappe.ui.form.on("Teller Invoice", {
     // Hide or disable add_commissar button if docstatus is submitable
     if (frm.doc.docstatus === 1 || frm.doc.docstatus === 2) {
       frm.remove_custom_button("Add Commissar");
-     
+
       frm.set_df_property("add_commissar", "hidden", true);
-    
     } else {
       // Ensure the button is visible and enabled when docstatus is not submitable
       frm.add_custom_button(__("Add Commissar"), function () {
@@ -668,6 +667,7 @@ frappe.ui.form.on("Entry Child", {
       frappe.model.set_value(cdt, cdn, "total_amount", total);
       // set received amount
       frappe.model.set_value(cdt, cdn, "received_amount", total);
+      isExceeded(frm, cdt, cdn);
 
       // let currency = row.currency; // Fetch the stored currency
       // let formatted_usd_amount = format_currency(row.usd_amount, currency);
@@ -688,16 +688,6 @@ frappe.ui.form.on("Entry Child", {
       });
       frm.set_value("total", total);
     }
-    // validate if invoice is exceeding more than 15000
-    if (row.usd_amount) {
-      frm.doc.transactions.forEach((item) => {
-        currency_total += item.usd_amount;
-      });
-    }
-    if (currency_total > 15000) {
-      frappe.msgprint("The total amount of the invoice is more than 15000");
-      // frm.set_value("total", 0);
-    }
   },
   transactions_remove: function (frm) {
     let total = 0;
@@ -705,6 +695,7 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
+    isExceededRemove(frm);
   },
 });
 function set_branch_and_shift(frm) {
@@ -816,4 +807,40 @@ function update_contact_list(frm) {
       }
     },
   });
+}
+//   check if the if the total currency exceeds the 15000 in child table
+function isExceeded(frm, cdt, cdn) {
+  let row = locals[cdt][cdn];
+
+  let currency_total = 0;
+  if (row.usd_amount) {
+    frm.doc.transactions.forEach((item) => {
+      currency_total += item.usd_amount;
+    });
+    console.log(currency_total);
+  }
+  if (currency_total > 15000) {
+    frappe.msgprint("The total amount of the invoice is more than 15000");
+    frm.set_value("exceed", true);
+  } else {
+    frm.set_value("exceed", false);
+    console.log(currency_total);
+  }
+}
+// check if the if the total currency exceeds the 15000 in remove currency from child table
+function isExceededRemove(frm) {
+  let currency_total = 0;
+
+  frm.doc.transactions.forEach((item) => {
+    currency_total += item.usd_amount;
+  });
+  console.log(currency_total);
+
+  if (currency_total > 15000) {
+    // frappe.msgprint("The total amount of the invoice is more than 15000");
+    frm.set_value("exceed", true);
+  } else {
+    frm.set_value("exceed", false);
+    console.log(currency_total);
+  }
 }

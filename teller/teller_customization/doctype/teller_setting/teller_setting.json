@@ -14,6 +14,7 @@
   "invoice_setting_section",
   "cost_center",
   "branch",
+  "allowed_amount",
   "column_break_mmao",
   "price_list",
   "treasury_code"
@@ -80,12 +81,17 @@
    "fieldname": "invoice_setting_section",
    "fieldtype": "Section Break",
    "label": "Invoice Settings"
+  },
+  {
+   "fieldname": "allowed_amount",
+   "fieldtype": "Float",
+   "label": "Allowed Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-03-05 12:45:55.269554",
+ "modified": "2024-06-05 12:51:08.122513",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

@@ -170,8 +170,16 @@ class TellerInvoice(Document):
         frappe.db.commit()
 
     def before_submit(self):
+        self.check_allow_amount()
         self.get_printing_roll()
         self.set_move_number()
+
+    def check_allow_amount(self):
+        if self.exceed == 1:
+            # frappe.throw("Please check allow amount")
+            customer = frappe.get_doc("Customer", self.client)
+            customer.custom_is_exceed = True
+            customer.save(ignore_permissions=True)
 
     def on_submit(self):
 

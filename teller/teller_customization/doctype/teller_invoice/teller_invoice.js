@@ -79,12 +79,26 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   refresh(frm) {
-    //////////////test add contact
+
 
     ///////end test add contact
     // handle add contact
     if (frm.doc.client) {
       update_contact_list(frm);
+    }
+
+    // Hide or disable add_commissar button if docstatus is submitable
+    if (frm.doc.docstatus === 1 || frm.doc.docstatus === 2) {
+      frm.remove_custom_button("Add Commissar");
+     
+      frm.set_df_property("add_commissar", "hidden", true);
+    
+    } else {
+      // Ensure the button is visible and enabled when docstatus is not submitable
+      frm.add_custom_button(__("Add Commissar"), function () {
+        frm.trigger("add_commissar");
+      });
+      frm.set_df_property("add_commissar", "hidden", false);
     }
 
     //test new client

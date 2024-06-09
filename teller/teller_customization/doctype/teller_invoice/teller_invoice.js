@@ -810,16 +810,16 @@ async function isExceeded(frm, cdt, cdn) {
   let row = locals[cdt][cdn];
   var allowedAmount = await fetchAllowedAmount();
 
-  let currency_total = 0;
-  if (row.usd_amount) {
-    frm.doc.transactions.forEach((item) => {
-      currency_total += item.usd_amount;
-    });
-    console.log(currency_total);
-  }
-  if (currency_total > allowedAmount) {
+  // let currency_total = 0;
+  // if (row.usd_amount) {
+  //   frm.doc.transactions.forEach((item) => {
+  //     currency_total += item.usd_amount;
+  //   });
+  //   console.log(currency_total);
+  // }
+  if (frm.doc.total > allowedAmount) {
     frappe.msgprint(
-      `The total amount of the invoice is more than ${allowedAmount}`
+      `The total amount of the invoice is more than ${allowedAmount} EGP .`
     );
     frm.set_value("exceed", true);
   } else {
@@ -832,12 +832,12 @@ async function isExceededRemove(frm) {
   let currency_total = 0;
   var allowedAmount = await fetchAllowedAmount();
 
-  frm.doc.transactions.forEach((item) => {
-    currency_total += item.usd_amount;
-  });
-  console.log(currency_total);
+  // frm.doc.transactions.forEach((item) => {
+  //   currency_total += item.usd_amount;
+  // });
+  // console.log(currency_total);
 
-  if (currency_total > allowedAmount) {
+  if (frm.doc.total > allowedAmount) {
     // frappe.msgprint("The total amount of the invoice is more than 15000");
     frm.set_value("exceed", true);
   } else {

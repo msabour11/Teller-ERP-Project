@@ -92,7 +92,8 @@
   {
    "fieldname": "allowed_amount",
    "fieldtype": "Float",
-   "label": "Allowed Amount"
+   "label": "Allowed Amount",
+   "read_only": 1
   },
   {
    "fieldname": "transactions_settings_section",
@@ -123,19 +124,23 @@
   {
    "fieldname": "amount",
    "fieldtype": "Float",
-   "label": "Amount"
+   "in_list_view": 1,
+   "label": "Amount",
+   "reqd": 1
   },
   {
    "fieldname": "currency",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Currency",
-   "options": "Currency"
+   "options": "Currency",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-10 11:56:45.535671",
+ "modified": "2024-06-10 12:37:24.940495",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

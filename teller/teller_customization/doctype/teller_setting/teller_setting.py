@@ -3,12 +3,21 @@
 
 # import frappe
 from frappe.model.document import Document
+import frappe
 
 
 class TellerSetting(Document):
-	# treasury = frappe.get_single_value("Teller Setting", "treasury_code")
-	# frappe.db.set_value('Teller Purchase','treasury', treasury)
+    # treasury = frappe.get_single_value("Teller Setting", "treasury_code")
+    # frappe.db.set_value('Teller Purchase','treasury', treasury)
 
-	# print(treasury)
-	pass
-	
+    # print(treasury)
+    pass
+
+
+@frappe.whitelist(allow_guest=True)
+def rate_settings(currency):
+    selling_rate = frappe.db.get_value(
+        "Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate"
+    )
+
+    return selling_rate

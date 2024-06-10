@@ -14,10 +14,17 @@
   "invoice_setting_section",
   "cost_center",
   "branch",
-  "allowed_amount",
   "column_break_mmao",
   "price_list",
-  "treasury_code"
+  "treasury_code",
+  "transactions_settings_section",
+  "amount",
+  "currency",
+  "allowed_amount",
+  "column_break_xmne",
+  "duration",
+  "customers_limitations_section",
+  "limitations"
  ],
  "fields": [
   {
@@ -86,12 +93,49 @@
    "fieldname": "allowed_amount",
    "fieldtype": "Float",
    "label": "Allowed Amount"
+  },
+  {
+   "fieldname": "transactions_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Transactions Settings"
+  },
+  {
+   "fieldname": "column_break_xmne",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Duration in Days\n",
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "customers_limitations_section",
+   "fieldtype": "Section Break",
+   "label": "Customers Limitations"
+  },
+  {
+   "fieldname": "limitations",
+   "fieldtype": "Table",
+   "label": "Limitations",
+   "options": "Customer Limitation setting"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Float",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-05 12:51:08.122513",
+ "modified": "2024-06-10 11:56:45.535671",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

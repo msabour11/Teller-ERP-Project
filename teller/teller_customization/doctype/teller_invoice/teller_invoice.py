@@ -1,6 +1,7 @@
 # Copyright (c) 2024, Mohamed AbdElsabour and contributors
 # For license information, please see license.txt
 import frappe
+import json
 from frappe.utils import (
     add_days,
     cint,
@@ -181,6 +182,20 @@ class TellerInvoice(Document):
             customer.custom_is_exceed = True
             customer.save(ignore_permissions=True)
 
+    @frappe.whitelist()
+    def customer_total_amount(self):
+        if self.client:
+
+            data = frappe.db.sql(
+                """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.client=%s GROUP BY ti.client
+        """,
+                self.client,
+                as_dict=True,
+            )
+            res = data[0]["Total"]
+
+            return res
+
     def on_submit(self):
 
         # create Gl entry on submit
@@ -343,3 +358,23 @@ def get_current_shift():
 def get_allowed_amount():
     allowed_amount = frappe.db.get_single_value("Teller Setting", "allowed_amount")
     return allowed_amount
+
+
+@frappe.whitelist(allow_guest=True)
+def get_customer_total_amount(client_name):
+
+    data = frappe.db.sql(
+        """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.client=%s GROUP BY ti.client
+""",
+        client_name,
+        as_dict=True,
+    )
+    res = 0
+    if data:
+        res = data[0]["Total"]
+        return res
+    else:
+        res = 0
+
+    return res
+

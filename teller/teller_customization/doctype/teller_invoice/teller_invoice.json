@@ -31,6 +31,8 @@
   "exceed",
   "column_break_ytji",
   "total",
+  "know_your_customer_section",
+  "customer_info",
   "section_break_onwq",
   "client_type",
   "column_break_nlal",
@@ -153,22 +155,26 @@
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "Gender",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\"",
    "options": "Male\nFemale"
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality"
+   "label": "Nationality",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Egyptian\""
   },
   {
    "fieldname": "mobile_number",
    "fieldtype": "Data",
-   "label": "Mobile Number"
+   "label": "Mobile Number",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "work_for",
    "fieldtype": "Data",
-   "label": "Work For "
+   "label": "Work For ",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "column_break_vdaf",
@@ -431,22 +437,26 @@
   {
    "fieldname": "phone",
    "fieldtype": "Data",
-   "label": "Phone"
+   "label": "Phone",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "place_of_birth",
    "fieldtype": "Data",
-   "label": "Place Of Birth"
+   "label": "Place Of Birth",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date Of Birth"
+   "label": "Date Of Birth",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "job_title",
    "fieldtype": "Data",
-   "label": "Job Title"
+   "label": "Job Title",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "customer_name",
@@ -456,7 +466,8 @@
   {
    "fieldname": "address",
    "fieldtype": "Data",
-   "label": "Address"
+   "label": "Address",
+   "mandatory_depends_on": "eval:doc.exceed== 1 && doc.client_type==\"Egyptian\""
   },
   {
    "fieldname": "company_number",
@@ -527,12 +538,23 @@
    "fieldtype": "Check",
    "label": "Exceed",
    "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.exceed==true",
+   "fieldname": "know_your_customer_section",
+   "fieldtype": "Section Break",
+   "label": "Know Your Customer"
+  },
+  {
+   "fieldname": "customer_info",
+   "fieldtype": "Button",
+   "label": "Customer Info"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-06 11:17:16.104261",
+ "modified": "2024-06-10 15:38:46.861391",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

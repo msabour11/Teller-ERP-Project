@@ -33,6 +33,7 @@
   "total",
   "know_your_customer_section",
   "customer_info",
+  "customer_history",
   "section_break_onwq",
   "client_type",
   "column_break_nlal",
@@ -183,7 +184,8 @@
   {
    "fieldname": "company_activity",
    "fieldtype": "Data",
-   "label": "Company Activity"
+   "label": "Company Activity",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
    "fieldname": "company_commercial_no",
@@ -472,12 +474,14 @@
   {
    "fieldname": "company_number",
    "fieldtype": "Data",
-   "label": "Company Number"
+   "label": "Company Number",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
    "fieldname": "comoany_address",
    "fieldtype": "Data",
-   "label": "Comoany Address"
+   "label": "Comoany Address",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
    "default": "0",
@@ -494,7 +498,8 @@
   {
    "fieldname": "company_legal_form",
    "fieldtype": "Data",
-   "label": "Company Legal Form"
+   "label": "Company Legal Form",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
    "default": "0",
@@ -549,12 +554,18 @@
    "fieldname": "customer_info",
    "fieldtype": "Button",
    "label": "Customer Info"
+  },
+  {
+   "fieldname": "customer_history",
+   "fieldtype": "Table",
+   "label": "Customer History",
+   "options": "Customer History"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-10 15:38:46.861391",
+ "modified": "2024-06-10 16:17:09.411440",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

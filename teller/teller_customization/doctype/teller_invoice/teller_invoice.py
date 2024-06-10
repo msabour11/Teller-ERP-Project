@@ -364,7 +364,7 @@ def get_allowed_amount():
 def get_customer_total_amount(client_name):
 
     data = frappe.db.sql(
-        """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.client=%s GROUP BY ti.client
+        """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.docstatus=1 and ti.client=%s GROUP BY ti.client
 """,
         client_name,
         as_dict=True,
@@ -377,4 +377,3 @@ def get_customer_total_amount(client_name):
         res = 0
 
     return res
-

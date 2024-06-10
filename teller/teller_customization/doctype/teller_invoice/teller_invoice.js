@@ -20,6 +20,7 @@ frappe.ui.form.on("Teller Invoice", {
         };
       };
   },
+  before_save: function (frm) {},
   add_commissar: function (frm) {
     // frappe.route_options = { customer: frm.doc.client };
 
@@ -78,9 +79,19 @@ frappe.ui.form.on("Teller Invoice", {
     });
   },
 
-  refresh(frm) {
+  async refresh(frm) {
     // handle add contact
     if (frm.doc.client) {
+      // test get customer amount
+      try {
+        var customerTotal = await getCustomerTotalAmount(frm.doc.client);
+        console.log(customerTotal, "test58");
+        // update contact list
+      } catch (error) {
+        console.error("Failed to get customer total amount:", error);
+      }
+
+      // update contact list
       update_contact_list(frm);
     }
 
@@ -97,7 +108,21 @@ frappe.ui.form.on("Teller Invoice", {
       frm.set_df_property("add_commissar", "hidden", false);
     }
 
-    //test new client
+    //test get total amount of client
+    // var customer_amount = frm
+    //   .call({
+    //     method: "customer_total_amount",
+    //     doc: frm.doc,
+    //   })
+    //   .then((r) => {
+    //     if (r.message) {
+    //       // console.log(r.message);
+
+    //       return r.message;
+    //     }
+    //   });
+
+    // console.log(customer_amount, "customer_amount from day2");
 
     //////////////////
     // get last submitted Teller  invoice
@@ -809,6 +834,8 @@ function update_contact_list(frm) {
 async function isExceeded(frm, cdt, cdn) {
   let row = locals[cdt][cdn];
   var allowedAmount = await fetchAllowedAmount();
+  // let customerTotal = await getCustomerTotalAmount(frm.doc.client);
+  let customerTotal = await getCustomerTotalAmount(frm.doc.client);
 
   // let currency_total = 0;
   // if (row.usd_amount) {
@@ -817,27 +844,30 @@ async function isExceeded(frm, cdt, cdn) {
   //   });
   //   console.log(currency_total);
   // }
-  if (frm.doc.total > allowedAmount) {
+
+  // console.log("customer Total Amount: ", customerTotal);
+  if (frm.doc.total > allowedAmount || customerTotal > allowedAmount) {
     frappe.msgprint(
       `The total amount of the invoice is more than ${allowedAmount} EGP .`
     );
     frm.set_value("exceed", true);
   } else {
     frm.set_value("exceed", false);
-    console.log(currency_total);
+    // console.log(currency_total);
   }
 }
 // check if the if the total currency exceeds the 15000 in remove currency from child table
 async function isExceededRemove(frm) {
   let currency_total = 0;
   var allowedAmount = await fetchAllowedAmount();
+  // let customerTotal = await getCustomerTotalAmount(frm.doc.client);
 
   // frm.doc.transactions.forEach((item) => {
   //   currency_total += item.usd_amount;
   // });
   // console.log(currency_total);
 
-  if (frm.doc.total > allowedAmount) {
+  if (frm.doc.total > allowedAmount || customerTotal > allowedAmount) {
     // frappe.msgprint("The total amount of the invoice is more than 15000");
     frm.set_value("exceed", true);
   } else {
@@ -849,4 +879,42 @@ async function isExceededRemove(frm) {
 // get the allowed amount from settings
 async function fetchAllowedAmount() {
   return frappe.db.get_single_value("Teller Setting", "allowed_amount");
+}
+// function to handle the total amount of customer
+// function getCustomerTotalAmount(clientName) {
+//   var value;
+//   frappe.call({
+//     async: false,
+//     method:
+//       "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
+//     args: {
+//       client_name: clientName,
+//     },
+//     callback: function (r) {
+//       if (r.message) {
+//         value = r.message;
+//         console.log(r);
+//       }
+//     },
+//   });
+//   return value;
+// }
+
+function getCustomerTotalAmount(clientName) {
+  return new Promise((resolve, reject) => {
+    frappe.call({
+      method:
+        "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
+      args: {
+        client_name: clientName,
+      },
+      callback: function (r) {
+        if (r.message) {
+          resolve(r.message);
+        } else {
+          reject("No response message");
+        }
+      },
+    });
+  });
 }

@@ -33,6 +33,9 @@ class TellerInvoice(Document):
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
 
+    def before_save(self):
+        self.set_customer_invoices()
+
     # def increase_printing_roll_serial(self):
     #     active_roll = frappe.db.get_all(
     #         "Printing Roll",
@@ -290,6 +293,33 @@ class TellerInvoice(Document):
         shift_closing = frappe.db.get_value("OPen Shift", {"active": 1}, "end_date")
         self.closing_date = shift_closing
 
+    def set_customer_invoices(self):
+        today = nowdate()
+        post_duration = add_days(today, -6)
+        invoices = frappe.db.get_list(
+            "Teller Invoice",
+            fields=["name", "client", "total", "date"],
+            filters={
+                "docstatus": 1,
+                "client": self.client,
+                "date": ["between", [post_duration, today]],
+            },
+        )
+        if not invoices:
+            frappe.msgprint("No invoices")
+        else:
+            # Clear existing customer history to avoid duplicates
+            self.set("customer_history", [])
+            for invoice in invoices:
+                self.append(
+                    "customer_history",
+                    {
+                        "invoice": invoice["name"],
+                        "amount": invoice["total"],
+                        "posting_date": invoice["date"],
+                    },
+                )
+
 
 # get currency and exchange rate associated with each account
 @frappe.whitelist(allow_guest=True)
@@ -377,3 +407,35 @@ def get_customer_total_amount(client_name):
         res = 0
 
     return res
+
+
+# @frappe.whitelist(allow_guest=True)
+# def get_customer_invoices(client_name, invoice_name):
+#     today = nowdate()
+#     post_duration = add_days(today, -6)
+#     invoices = frappe.db.get_list(
+#         "Teller Invoice",
+#         fields=["name", "client", "total", "date"],
+#         filters={
+#             "docstatus": 1,
+#             "client": client_name,
+#             "date": ["between", [post_duration, today]],
+#         },
+#     )
+#     if not invoices:
+#         frappe.msgprint("No invoices")
+#     else:
+#         current_doc = frappe.get_doc("Teller Invoice", invoice_name)
+#         for invoice in invoices:
+#             current_doc.append(
+#                 "customer_history",
+#                 {
+#                     "invoice": invoice["name"],
+#                     "amount": invoice["total"],
+#                     "posting_date": invoice["date"],
+#                 },
+#             )
+#         current_doc.save()
+#         frappe.db.commit()
+
+#     return "Success"

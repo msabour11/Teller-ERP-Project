@@ -20,7 +20,7 @@ frappe.ui.form.on("Teller Invoice", {
         };
       };
   },
-  before_save: function (frm) {},
+
   add_commissar: function (frm) {
     // frappe.route_options = { customer: frm.doc.client };
 
@@ -80,6 +80,21 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   async refresh(frm) {
+    // var sabour;
+
+    // frappe.call({
+    //   method:
+    //     "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
+    //   args: {
+    //     client_name: frm.doc.client,
+    //   },
+    //   callback: function (r) {
+    //     if (r.message) {
+    //       sabour = r.message;
+    //     }
+    //   },
+    // });
+    // console.log(sabour, "sabour");
     // handle add contact
     if (frm.doc.client) {
       // test get customer amount
@@ -211,6 +226,9 @@ frappe.ui.form.on("Teller Invoice", {
       update_contact_list(frm);
     }
 
+    // let testAllowed = await fetchAllowedAmount();
+    // console.log("Test allowed amount", testAllowed);
+
     // end test add contact information
 
     // get the information for Egyptian
@@ -230,7 +248,8 @@ frappe.ui.form.on("Teller Invoice", {
             frm.set_value("customer_name", r.message.customer_name);
             frm.set_value("gender", r.message.gender);
             frm.set_value("card_type", r.message.custom_card_type);
-            // frm.set_value("card_info", r.message.custom_military_number);
+
+            frm.set_value("phone", r.message.custom_phone);
             frm.set_value("mobile_number", r.message.custom_mobile);
             frm.set_value("work_for", r.message.custom_work_for);
             frm.set_value("address", r.message.custom_address);
@@ -331,7 +350,12 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   // add customer if not already existing///////////////////
-  before_submit: function (frm) {
+  // not we change trigger for testing
+  before_save: function (frm) {
+    /////test customer history
+
+    ////////
+
     if (frm.doc.client) {
       update_contact_list(frm);
     }
@@ -410,9 +434,13 @@ frappe.ui.form.on("Teller Invoice", {
                   var latest_client = response.message;
                   // Update the relevant fields
                   latest_client.custom_card_type = frm.doc.card_type;
-                  latest_client.custom_mobile = frm.doc.mobile_number || "";
+                  latest_client.custom_nationality = frm.doc.nationality;
+                  latest_client.custom_mobile = frm.doc.mobile_number;
+                  latest_client.custom_phone = frm.doc.phone;
+                  latest_client.custom_place_of_birth = frm.doc.place_of_birth;
+
                   latest_client.custom_address = frm.doc.address;
-                  latest_client.custom_job_title = frm.doc.job_title || "";
+                  latest_client.custom_job_title = frm.doc.job_title;
                   latest_client.custom_date_of_birth =
                     frm.doc.date_of_birth || frappe.datetime.get_today();
                   latest_client.custom_national_id =
@@ -629,6 +657,18 @@ frappe.ui.form.on("Teller Invoice", {
       });
     }
   },
+  total: function (frm) {
+    if (frm.doc.client && frm.doc.total) {
+      isExceededFrm(frm, frm.doc.client, frm.doc.total);
+    } else {
+      frappe.msgprint({
+        message:
+          '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">Please enter Customer to validate the transaction</div>',
+        title: "Missing Data Error",
+        indicator: "red",
+      });
+    }
+  },
 });
 
 //  Transactions currency table
@@ -680,7 +720,7 @@ frappe.ui.form.on("Entry Child", {
     }
   },
 
-  usd_amount: function (frm, cdt, cdn) {
+  usd_amount: async function (frm, cdt, cdn) {
     var row = locals[cdt][cdn];
 
     if (row.paid_from && row.usd_amount) {
@@ -689,7 +729,13 @@ frappe.ui.form.on("Entry Child", {
       frappe.model.set_value(cdt, cdn, "total_amount", total);
       // set received amount
       frappe.model.set_value(cdt, cdn, "received_amount", total);
-      isExceeded(frm, cdt, cdn);
+
+      // validate if the client is exceeding the limit
+      // if (frm.doc.client && frm.doc.total) {
+      //   isExceeded(frm, cdt, cdn, frm.doc.client, frm.doc.total);
+      // } else {
+      //   frappe.msgprint("Please enter a client To validate the transaction!!");
+      // }
 
       // let currency = row.currency; // Fetch the stored currency
       // let formatted_usd_amount = format_currency(row.usd_amount, currency);
@@ -717,7 +763,12 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
-    isExceededRemove(frm);
+    // check if the client is exceeding the limit
+    // if (frm.doc.client && frm.doc.total) {
+    //   isExceededRemove(frm, frm.doc.client, frm.doc.total);
+    // } else {
+    //   frappe.msgprint("Please enter a client To validate the transaction!!");
+    // }
   },
 });
 function set_branch_and_shift(frm) {
@@ -831,24 +882,16 @@ function update_contact_list(frm) {
   });
 }
 //   check if the if the total currency exceeds the 15000 in child table
-async function isExceeded(frm, cdt, cdn) {
+async function isExceeded(frm, cdt, cdn, clientName, invoiceTotal) {
   let row = locals[cdt][cdn];
   var allowedAmount = await fetchAllowedAmount();
-  // let customerTotal = await getCustomerTotalAmount(frm.doc.client);
-  let customerTotal = await getCustomerTotalAmount(frm.doc.client);
 
-  // let currency_total = 0;
-  // if (row.usd_amount) {
-  //   frm.doc.transactions.forEach((item) => {
-  //     currency_total += item.usd_amount;
-  //   });
-  //   console.log(currency_total);
-  // }
+  let customerTotal = await getCustomerTotalAmount(clientName);
 
   // console.log("customer Total Amount: ", customerTotal);
-  if (frm.doc.total > allowedAmount || customerTotal > allowedAmount) {
+  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
     frappe.msgprint(
-      `The total amount of the invoice is more than ${allowedAmount} EGP .`
+      `The total amount of the invoice is more than ${allowedAmount} EGP . and Customer Total is ${customerTotal}`
     );
     frm.set_value("exceed", true);
   } else {
@@ -857,22 +900,47 @@ async function isExceeded(frm, cdt, cdn) {
   }
 }
 // check if the if the total currency exceeds the 15000 in remove currency from child table
-async function isExceededRemove(frm) {
+async function isExceededRemove(frm, clientName, invoiceTotal) {
   let currency_total = 0;
   var allowedAmount = await fetchAllowedAmount();
-  // let customerTotal = await getCustomerTotalAmount(frm.doc.client);
+  let customerTotal = await getCustomerTotalAmount(clientName);
 
   // frm.doc.transactions.forEach((item) => {
   //   currency_total += item.usd_amount;
   // });
   // console.log(currency_total);
 
-  if (frm.doc.total > allowedAmount || customerTotal > allowedAmount) {
+  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
     // frappe.msgprint("The total amount of the invoice is more than 15000");
     frm.set_value("exceed", true);
   } else {
     frm.set_value("exceed", false);
     console.log(currency_total);
+  }
+}
+
+////validate on frm
+
+async function isExceededFrm(frm, clientName, invoiceTotal) {
+  var allowedAmount = await fetchAllowedAmount();
+
+  let customerTotal = await getCustomerTotalAmount(clientName);
+
+  // console.log("customer Total Amount: ", customerTotal);
+  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
+    let message = `
+        <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
+          The Total Amount of the Current Invoice Exceeds ${allowedAmount} EGP. Customer Total is ${customerTotal}.
+        </div>`;
+
+    frappe.msgprint({
+      message: message,
+      title: "Limitations Exceeded",
+      indicator: "red",
+    });
+    frm.set_value("exceed", true);
+  } else {
+    frm.set_value("exceed", false);
   }
 }
 

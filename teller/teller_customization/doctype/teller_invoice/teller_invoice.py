@@ -404,7 +404,7 @@ def get_customer_total_amount(client_name):
         res = data[0]["Total"]
         return res
     else:
-        res = 0
+        res = -1
 
     return res
 
@@ -439,3 +439,5 @@ def get_customer_total_amount(client_name):
 #         frappe.db.commit()
 
 #     return "Success"
+
+

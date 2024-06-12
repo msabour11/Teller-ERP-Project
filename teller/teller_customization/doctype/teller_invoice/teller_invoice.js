@@ -652,7 +652,7 @@ frappe.ui.form.on("Teller Invoice", {
   total: function (frm) {
     if (frm.doc.client && frm.doc.total) {
       // check if the total is exceeded
-      isExceededFrm(frm, frm.doc.client, frm.doc.total);
+      isExceededLimit(frm, frm.doc.client, frm.doc.total);
     } else {
       frappe.msgprint({
         message:
@@ -723,13 +723,6 @@ frappe.ui.form.on("Entry Child", {
       // set received amount
       frappe.model.set_value(cdt, cdn, "received_amount", total);
 
-      // validate if the client is exceeding the limit
-      // if (frm.doc.client && frm.doc.total) {
-      //   isExceeded(frm, cdt, cdn, frm.doc.client, frm.doc.total);
-      // } else {
-      //   frappe.msgprint("Please enter a client To validate the transaction!!");
-      // }
-
       // let currency = row.currency; // Fetch the stored currency
       // let formatted_usd_amount = format_currency(row.usd_amount, currency);
       // frappe.model.set_value(cdt, cdn, "usd_amount", formatted_usd_amount);
@@ -756,12 +749,6 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
-    // check if the client is exceeding the limit
-    // if (frm.doc.client && frm.doc.total) {
-    //   isExceededRemove(frm, frm.doc.client, frm.doc.total);
-    // } else {
-    //   frappe.msgprint("Please enter a client To validate the transaction!!");
-    // }
   },
 });
 function set_branch_and_shift(frm) {
@@ -874,54 +861,16 @@ function update_contact_list(frm) {
     },
   });
 }
-//   check if the if the total currency exceeds the 15000 in child table
-async function isExceeded(frm, cdt, cdn, clientName, invoiceTotal) {
-  let row = locals[cdt][cdn];
-  var allowedAmount = await fetchAllowedAmount();
 
-  let customerTotal = await getCustomerTotalAmount(clientName);
+//  check if the if the current invioce or customer total invoices  exceeds the limit
 
-  // console.log("customer Total Amount: ", customerTotal);
-  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
-    frappe.msgprint(
-      `The total amount of the invoice is more than ${allowedAmount} EGP . and Customer Total is ${customerTotal}`
-    );
-    frm.set_value("exceed", true);
-  } else {
-    frm.set_value("exceed", false);
-    // console.log(currency_total);
-  }
-}
-// check if the if the total currency exceeds the 15000 in remove currency from child table
-async function isExceededRemove(frm, clientName, invoiceTotal) {
-  let currency_total = 0;
-  var allowedAmount = await fetchAllowedAmount();
-  let customerTotal = await getCustomerTotalAmount(clientName);
-
-  // frm.doc.transactions.forEach((item) => {
-  //   currency_total += item.usd_amount;
-  // });
-  // console.log(currency_total);
-
-  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
-    // frappe.msgprint("The total amount of the invoice is more than 15000");
-    frm.set_value("exceed", true);
-  } else {
-    frm.set_value("exceed", false);
-    console.log(currency_total);
-  }
-}
-
-////validate on frm
-
-async function isExceededFrm(frm, clientName, invoiceTotal) {
+async function isExceededLimit(frm, clientName, invoiceTotal) {
   let allowedAmount = await fetchAllowedAmount();
   console.log("the allowed amount is", allowedAmount);
 
   let customerTotal = await getCustomerTotalAmount(clientName);
   console.log("the customer total is", customerTotal);
 
-  // console.log("customer Total Amount: ", customerTotal);
   if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
     let message = `
         <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
@@ -963,11 +912,11 @@ async function isExceededFrm(frm, clientName, invoiceTotal) {
   }
 }
 
-// get the allowed amount from settings
+// get the allowed amount from Teller settings
 async function fetchAllowedAmount() {
   return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }
-// get the customer Total Amount
+// get the customer Total Invoices Amount
 function getCustomerTotalAmount(clientName) {
   return new Promise((resolve, reject) => {
     frappe.call({

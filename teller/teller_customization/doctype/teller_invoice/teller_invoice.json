@@ -69,9 +69,9 @@
   "company_legal_form",
   "company_number",
   "company_activity",
-  "company_commercial_no",
   "comoany_address",
   "column_break_nqxf",
+  "company_commercial_no",
   "start_registration_date",
   "end_registration_date",
   "is_expired1",
@@ -186,6 +186,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "company_activity",
    "fieldtype": "Data",
    "label": "Company Activity",
@@ -194,14 +195,17 @@
   {
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
-   "label": "Company Commercial No "
+   "label": "Company Commercial No ",
+   "mandatory_depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "start_registration_date",
    "fieldtype": "Date",
    "label": "Start Registration Date"
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "end_registration_date",
    "fieldtype": "Date",
    "label": "End Registration Date"
@@ -484,15 +488,17 @@
    "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Egyptian\" || doc.client_type === \"Foreigner\")"
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "company_number",
    "fieldtype": "Data",
    "label": "Company Number",
    "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "comoany_address",
    "fieldtype": "Data",
-   "label": "Comoany Address",
+   "label": "Company Address",
    "mandatory_depends_on": "eval:doc.exceed == 1 && doc.client_type === \"Company\""
   },
   {
@@ -505,9 +511,11 @@
   {
    "fieldname": "company_name",
    "fieldtype": "Data",
-   "label": "Company Name"
+   "label": "Company Name",
+   "mandatory_depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
   },
   {
+   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\") &&(doc.exceed==1) ",
    "fieldname": "company_legal_form",
    "fieldtype": "Data",
    "label": "Company Legal Form",
@@ -580,7 +588,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-12 10:55:12.060876",
+ "modified": "2024-06-12 14:50:39.520517",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

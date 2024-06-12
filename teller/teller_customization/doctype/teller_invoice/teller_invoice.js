@@ -79,32 +79,17 @@ frappe.ui.form.on("Teller Invoice", {
     });
   },
 
-  async refresh(frm) {
-    // var sabour;
-
-    // frappe.call({
-    //   method:
-    //     "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
-    //   args: {
-    //     client_name: frm.doc.client,
-    //   },
-    //   callback: function (r) {
-    //     if (r.message) {
-    //       sabour = r.message;
-    //     }
-    //   },
-    // });
-    // console.log(sabour, "sabour");
+  refresh(frm) {
     // handle add contact
     if (frm.doc.client) {
       // test get customer amount
-      try {
-        var customerTotal = await getCustomerTotalAmount(frm.doc.client);
-        console.log(customerTotal, "test58");
-        // update contact list
-      } catch (error) {
-        console.error("Failed to get customer total amount:", error);
-      }
+      // try {
+      //   var customerTotal = await getCustomerTotalAmount(frm.doc.client);
+      //   console.log(customerTotal, "test58");
+      //   // update contact list
+      // } catch (error) {
+      //   console.error("Failed to get customer total amount:", error);
+      // }
 
       // update contact list
       update_contact_list(frm);
@@ -659,6 +644,7 @@ frappe.ui.form.on("Teller Invoice", {
   },
   total: function (frm) {
     if (frm.doc.client && frm.doc.total) {
+      // check if the total is exceeded
       isExceededFrm(frm, frm.doc.client, frm.doc.total);
     } else {
       frappe.msgprint({
@@ -948,25 +934,6 @@ async function isExceededFrm(frm, clientName, invoiceTotal) {
 async function fetchAllowedAmount() {
   return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }
-// function to handle the total amount of customer
-// function getCustomerTotalAmount(clientName) {
-//   var value;
-//   frappe.call({
-//     async: false,
-//     method:
-//       "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
-//     args: {
-//       client_name: clientName,
-//     },
-//     callback: function (r) {
-//       if (r.message) {
-//         value = r.message;
-//         console.log(r);
-//       }
-//     },
-//   });
-//   return value;
-// }
 
 function getCustomerTotalAmount(clientName) {
   return new Promise((resolve, reject) => {

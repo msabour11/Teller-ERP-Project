@@ -853,46 +853,52 @@ async function isExceededLimit(frm, clientName, invoiceTotal) {
   let customerTotal = await getCustomerTotalAmount(clientName);
   console.log("the customer total is", customerTotal);
 
-  let durationLimit = await fetchDurationLimit();
+  let limiDuration = await fetchLimitDuration();
+  console.log("the limit duration", limiDuration);
+  if (allowedAmount && limiDuration && customerTotal) {
+    if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
+      let message = `
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
+              The Total Amount of the Current Invoice  And  Customer Total  ${customerTotal} Withen ${limiDuration} Days EGP are Exceed Limit  ${allowedAmount} EGP 
+            </div>`;
 
-  if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
-    let message = `
+      frappe.msgprint({
+        message: message,
+        title: "Limitations Exceeded",
+        indicator: "red",
+      });
+      frm.set_value("exceed", true);
+    } else if (invoiceTotal > allowedAmount) {
+      let message = `
         <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
-          The Total Amount of the Current Invoice And  Customer Total  ${customerTotal} EGP are Exceed Limit  ${allowedAmount} EGP 
+          The Total Amount of the Current Invoice  is Exceed Limit ${allowedAmount} EGP 
         </div>`;
 
-    frappe.msgprint({
-      message: message,
-      title: "Limitations Exceeded",
-      indicator: "red",
-    });
-    frm.set_value("exceed", true);
-  } else if (invoiceTotal > allowedAmount) {
-    let message = `
-    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
-      The Total Amount of the Current Invoice  is Exceed Limit ${allowedAmount} EGP 
-    </div>`;
+      frappe.msgprint({
+        message: message,
+        title: "Limitations Exceeded",
+        indicator: "red",
+      });
+      frm.set_value("exceed", true);
+    } else if (customerTotal > allowedAmount) {
+      let message = `
+        <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
+           Customer Total   ${customerTotal} EGP Withen ${limiDuration} Days  are Exceed Limit ${allowedAmount} EGP 
+        </div>`;
 
-    frappe.msgprint({
-      message: message,
-      title: "Limitations Exceeded",
-      indicator: "red",
-    });
-    frm.set_value("exceed", true);
-  } else if (customerTotal > allowedAmount) {
-    let message = `
-    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
-       Customer Total  ${customerTotal} EGP are Exceed Limit ${allowedAmount} EGP 
-    </div>`;
-
-    frappe.msgprint({
-      message: message,
-      title: "Limitations Exceeded",
-      indicator: "red",
-    });
-    frm.set_value("exceed", true);
+      frappe.msgprint({
+        message: message,
+        title: "Limitations Exceeded",
+        indicator: "red",
+      });
+      frm.set_value("exceed", true);
+    } else {
+      frm.set_value("exceed", false);
+    }
   } else {
-    frm.set_value("exceed", false);
+    frappe.throw(
+      "Please provide in settings allowing for limit  and the duration"
+    );
   }
 }
 
@@ -918,4 +924,9 @@ function getCustomerTotalAmount(clientName) {
       },
     });
   });
+}
+
+// fetch the duration of the limit
+async function fetchLimitDuration() {
+  return frappe.db.get_single_value("Teller Setting", "duration");
 }

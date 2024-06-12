@@ -785,24 +785,6 @@ function set_branch_and_shift(frm) {
       }
     },
   });
-  // set the current active Printing roll
-  // frappe.call({
-  //   method: "frappe.client.get_list",
-  //   args: {
-  //     doctype: "Printing Roll",
-  //     filters: {
-  //       active: 1, // Filter to get active Printing Roll
-  //     },
-  //     limit: 1, // Get only one active Printing Roll
-  //     order_by: "creation DESC", // Order by creation date to get the latest active Printing Roll
-  //   },
-  //   callback: (r) => {
-  //     if (!r.exc && r.message && r.message.length > 0) {
-  //       active_roll = r.message[0].name;
-  //       frm.set_value("current_roll", active_roll);
-  //     }
-  //   },
-  // });
 }
 
 // Helper function to clear custom fields
@@ -870,6 +852,8 @@ async function isExceededLimit(frm, clientName, invoiceTotal) {
 
   let customerTotal = await getCustomerTotalAmount(clientName);
   console.log("the customer total is", customerTotal);
+
+  let durationLimit = await fetchDurationLimit();
 
   if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
     let message = `

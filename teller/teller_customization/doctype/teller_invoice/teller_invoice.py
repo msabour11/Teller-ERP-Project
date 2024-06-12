@@ -294,31 +294,45 @@ class TellerInvoice(Document):
         self.closing_date = shift_closing
 
     def set_customer_invoices(self):
-        today = nowdate()
-        post_duration = add_days(today, -6)
-        invoices = frappe.db.get_list(
-            "Teller Invoice",
-            fields=["name", "client", "total", "date"],
-            filters={
-                "docstatus": 1,
-                "client": self.client,
-                "date": ["between", [post_duration, today]],
-            },
-        )
-        if not invoices:
-            frappe.msgprint("No invoices")
+        duration = self.get_duration()
+        duration = int(duration)
+        if duration:
+            today = nowdate()
+            post_duration = add_days(today, -duration)
+            invoices = frappe.db.get_list(
+                "Teller Invoice",
+                fields=["name", "client", "total", "date"],
+                filters={
+                    "docstatus": 1,
+                    "client": self.client,
+                    "date": ["between", [post_duration, today]],
+                },
+            )
+            if not invoices:
+                frappe.msgprint("No invoices")
+            else:
+                # Clear existing customer history to avoid duplicates
+                self.set("customer_history", [])
+                for invoice in invoices:
+                    self.append(
+                        "customer_history",
+                        {
+                            "invoice": invoice["name"],
+                            "amount": invoice["total"],
+                            "posting_date": invoice["date"],
+                        },
+                    )
         else:
-            # Clear existing customer history to avoid duplicates
-            self.set("customer_history", [])
-            for invoice in invoices:
-                self.append(
-                    "customer_history",
-                    {
-                        "invoice": invoice["name"],
-                        "amount": invoice["total"],
-                        "posting_date": invoice["date"],
-                    },
-                )
+            frappe.msgprint("Please Setup Duration in Teller Settings")
+
+    # get duration from teller settings
+    @staticmethod
+    def get_duration():
+        duration = frappe.db.get_single_value(
+            "Teller Setting",
+            "duration",
+        )
+        return duration
 
 
 # get currency and exchange rate associated with each account
@@ -439,5 +453,3 @@ def get_customer_total_amount(client_name):
 #         frappe.db.commit()
 
 #     return "Success"
-
-

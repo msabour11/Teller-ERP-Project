@@ -561,7 +561,6 @@ frappe.ui.form.on("Teller Invoice", {
                   latest_company.custom_legal_form = frm.doc.company_legal_form;
                   latest_company.custom_company_no = frm.doc.company_number;
 
-
                   // latest_company.custom_interbank = true
                   //   ? frm.doc.interbank && frm.doc.client_type == "Interbank"
                   //   : false;
@@ -923,11 +922,35 @@ async function isExceededFrm(frm, clientName, invoiceTotal) {
   console.log("the customer total is", customerTotal);
 
   // console.log("customer Total Amount: ", customerTotal);
-  if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
+  if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
     let message = `
         <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
-          The Total Amount of the Current Invoice Exceeds ${allowedAmount} EGP. Customer Total is ${customerTotal}.
+          The Total Amount of the Current Invoice And  Customer Total  ${customerTotal} EGP are Exceed Limit  ${allowedAmount} EGP 
         </div>`;
+
+    frappe.msgprint({
+      message: message,
+      title: "Limitations Exceeded",
+      indicator: "red",
+    });
+    frm.set_value("exceed", true);
+  } else if (invoiceTotal > allowedAmount) {
+    let message = `
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
+      The Total Amount of the Current Invoice  is Exceed Limit ${allowedAmount} EGP 
+    </div>`;
+
+    frappe.msgprint({
+      message: message,
+      title: "Limitations Exceeded",
+      indicator: "red",
+    });
+    frm.set_value("exceed", true);
+  } else if (customerTotal > allowedAmount) {
+    let message = `
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">
+       Customer Total  ${customerTotal} EGP are Exceed Limit ${allowedAmount} EGP 
+    </div>`;
 
     frappe.msgprint({
       message: message,

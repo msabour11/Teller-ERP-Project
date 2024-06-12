@@ -418,7 +418,10 @@ frappe.ui.form.on("Teller Invoice", {
                 if (response.message) {
                   var latest_client = response.message;
                   // Update the relevant fields
+
                   latest_client.custom_card_type = frm.doc.card_type;
+                  latest_client.custom_work_for = frm.doc.work_for;
+
                   latest_client.custom_nationality = frm.doc.nationality;
                   latest_client.custom_mobile = frm.doc.mobile_number;
                   latest_client.custom_phone = frm.doc.phone;
@@ -553,7 +556,12 @@ frappe.ui.form.on("Teller Invoice", {
                     frm.doc.end_registration_date;
                   latest_company.custom_comany_address1 =
                     frm.doc.comoany_address || "";
-                  latest_company.custom_commercial_no = frm.doc.commercial_no;
+                  latest_company.custom_commercial_no =
+                    frm.doc.company_commercial_no;
+                  latest_company.custom_legal_form = frm.doc.company_legal_form;
+                  latest_company.custom_company_no = frm.doc.company_number;
+
+
                   // latest_company.custom_interbank = true
                   //   ? frm.doc.interbank && frm.doc.client_type == "Interbank"
                   //   : false;
@@ -908,9 +916,11 @@ async function isExceededRemove(frm, clientName, invoiceTotal) {
 ////validate on frm
 
 async function isExceededFrm(frm, clientName, invoiceTotal) {
-  var allowedAmount = await fetchAllowedAmount();
+  let allowedAmount = await fetchAllowedAmount();
+  console.log("the allowed amount is", allowedAmount);
 
   let customerTotal = await getCustomerTotalAmount(clientName);
+  console.log("the customer total is", customerTotal);
 
   // console.log("customer Total Amount: ", customerTotal);
   if (invoiceTotal > allowedAmount || customerTotal > allowedAmount) {
@@ -934,7 +944,7 @@ async function isExceededFrm(frm, clientName, invoiceTotal) {
 async function fetchAllowedAmount() {
   return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }
-
+// get the customer Total Amount
 function getCustomerTotalAmount(clientName) {
   return new Promise((resolve, reject) => {
     frappe.call({

@@ -6,12 +6,13 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "movement_number",
+  "section_break_ugcr",
   "treasury_code",
+  "movement_number",
   "column_break_beht",
-  "branch_no",
-  "branch_name",
   "receipt_number",
+  "branch_name",
+  "branch_no",
   "column_break_racu",
   "date",
   "shift",
@@ -236,6 +237,7 @@
   {
    "fieldname": "teller",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Teller",
    "options": "User",
    "read_only": 1
@@ -402,6 +404,7 @@
   {
    "fieldname": "egy",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "EGY",
    "options": "Account",
    "read_only": 1
@@ -409,6 +412,7 @@
   {
    "fieldname": "branch_no",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Branch No",
    "options": "Branch",
    "read_only": 1
@@ -582,12 +586,18 @@
    "fieldtype": "Table",
    "label": "Customer History",
    "options": "Customer History"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_ugcr",
+   "fieldtype": "Section Break",
+   "label": "Invoice Info"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-12 16:47:39.871779",
+ "modified": "2024-06-13 13:35:09.382889",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

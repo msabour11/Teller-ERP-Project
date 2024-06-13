@@ -82,17 +82,12 @@ frappe.ui.form.on("Teller Invoice", {
   refresh(frm) {
     // handle add contact
     if (frm.doc.client) {
-      // test get customer amount
-      // try {
-      //   var customerTotal = await getCustomerTotalAmount(frm.doc.client);
-      //   console.log(customerTotal, "test58");
-      //   // update contact list
-      // } catch (error) {
-      //   console.error("Failed to get customer total amount:", error);
-      // }
-
       // update contact list
       update_contact_list(frm);
+    } else {
+      frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
+
+      frm.set_value("contact_list", "");
     }
 
     // Hide or disable add_commissar button if docstatus is submitable
@@ -209,6 +204,10 @@ frappe.ui.form.on("Teller Invoice", {
     // start test add contact information
     if (frm.doc.client) {
       update_contact_list(frm);
+    } else {
+      frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
+
+      frm.set_value("contact_list", "");
     }
 
     // let testAllowed = await fetchAllowedAmount();
@@ -560,6 +559,8 @@ frappe.ui.form.on("Teller Invoice", {
                     frm.doc.company_commercial_no;
                   latest_company.custom_legal_form = frm.doc.company_legal_form;
                   latest_company.custom_company_no = frm.doc.company_number;
+                  latest_company.custom_company_activity =
+                    frm.doc.company_activity;
 
                   // latest_company.custom_interbank = true
                   //   ? frm.doc.interbank && frm.doc.client_type == "Interbank"

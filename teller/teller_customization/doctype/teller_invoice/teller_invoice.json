@@ -236,7 +236,6 @@
   {
    "fieldname": "teller",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Teller",
    "options": "User",
    "read_only": 1
@@ -588,7 +587,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-12 14:50:39.520517",
+ "modified": "2024-06-12 16:47:39.871779",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

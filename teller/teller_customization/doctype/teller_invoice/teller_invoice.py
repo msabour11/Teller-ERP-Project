@@ -32,6 +32,10 @@ class TellerInvoice(Document):
 
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
+        if len(self.national_id) != 14:
+            frappe.throw("National ID must be 14 characters")
+        if not self.national_id.isdigit():
+            frappe.throw("National ID must contain only digits")
 
     def before_save(self):
         self.set_customer_invoices()

@@ -653,14 +653,14 @@ frappe.ui.form.on("Teller Invoice", {
   total: function (frm) {
     if (frm.doc.client && frm.doc.total) {
       // check if the total is exceeded
-      isExceededLimit(frm, frm.doc.client, frm.doc.total);
-    } else {
-      frappe.msgprint({
-        message:
-          '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">Please enter Customer to validate the transaction</div>',
-        title: "Missing Data Error",
-        indicator: "red",
-      });
+        isExceededLimit(frm, frm.doc.client, frm.doc.total);
+      } else {
+        frappe.msgprint({
+          message:
+            '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; font-family: Arial, sans-serif; font-size: 14px;">Please enter Customer to validate the transaction</div>',
+          title: "Missing Data Error",
+          indicator: "red",
+        });
     }
   },
 
@@ -691,7 +691,7 @@ frappe.ui.form.on("Teller Invoice", {
   //       );
   //     }
   //   }
-  // }, 
+  // },
 });
 
 //  Transactions currency table
@@ -885,6 +885,7 @@ async function isExceededLimit(frm, clientName, invoiceTotal) {
 
   let limiDuration = await fetchLimitDuration();
   console.log("the limit duration", limiDuration);
+ 
   if (allowedAmount && limiDuration && customerTotal) {
     if (invoiceTotal > allowedAmount && customerTotal > allowedAmount) {
       let message = `

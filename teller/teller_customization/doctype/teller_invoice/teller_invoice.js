@@ -679,19 +679,19 @@ frappe.ui.form.on("Teller Invoice", {
     }
   },
 
-  national_id: function (frm) {
-    if (
-      (frm.doc.client_type == "Egyptian" ||
-        frm.doc.client_type == "Foreigner") &&
-      frm.doc.national_id
-    ) {
-      if (!/^\d{14}$/.test(frm.doc.national_id)) {
-        frappe.msgprint(
-          __("National ID must be exactly 14 digits and contain only numbers.")
-        );
-      }
-    }
-  },
+  // national_id: function (frm) {
+  //   if (
+  //     (frm.doc.client_type == "Egyptian" ||
+  //       frm.doc.client_type == "Foreigner") &&
+  //     frm.doc.national_id
+  //   ) {
+  //     if (!/^\d{14}$/.test(frm.doc.national_id)) {
+  //       frappe.msgprint(
+  //         __("National ID must be exactly 14 digits and contain only numbers.")
+  //       );
+  //     }
+  //   }
+  // }, 
 });
 
 //  Transactions currency table

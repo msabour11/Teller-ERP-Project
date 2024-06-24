@@ -664,20 +664,20 @@ frappe.ui.form.on("Teller Invoice", {
     }
   },
 
-  validate: function (frm) {
-    if (
-      (frm.doc.client_type == "Egyptian" ||
-        frm.doc.client_type == "Foreigner") &&
-      frm.doc.national_id
-    ) {
-      if (!/^\d{14}$/.test(frm.doc.national_id)) {
-        frappe.msgprint(
-          __("National ID must be exactly 14 digits and contain only numbers.")
-        );
-        frappe.validated = false;
-      }
-    }
-  },
+  // validate: function (frm) {
+  //   if (
+  //     (frm.doc.client_type == "Egyptian" ||
+  //       frm.doc.client_type == "Foreigner") &&
+  //     frm.doc.national_id
+  //   ) {
+  //     if (!/^\d{14}$/.test(frm.doc.national_id)) {
+  //       frappe.msgprint(
+  //         __("National ID must be exactly 14 digits and contain only numbers.")
+  //       );
+  //       frappe.validated = false;
+  //     }
+  //   }
+  // },
 
   // national_id: function (frm) {
   //   if (

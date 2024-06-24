@@ -22,9 +22,7 @@
   "currency",
   "allowed_amount",
   "column_break_xmne",
-  "duration",
-  "customers_limitations_section",
-  "limitations"
+  "duration"
  ],
  "fields": [
   {
@@ -111,17 +109,6 @@
    "label": "Duration"
   },
   {
-   "fieldname": "customers_limitations_section",
-   "fieldtype": "Section Break",
-   "label": "Customers Limitations"
-  },
-  {
-   "fieldname": "limitations",
-   "fieldtype": "Table",
-   "label": "Limitations",
-   "options": "Customer Limitation setting"
-  },
-  {
    "fieldname": "amount",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -140,7 +127,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-10 12:37:24.940495",
+ "modified": "2024-06-24 14:38:33.756244",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

@@ -69,8 +69,16 @@
   "end_registration_date",
   "is_expired1",
   "interbank",
-  "add_commissar",
   "contact_list",
+  "commissar_info_section",
+  "commissar",
+  "com_name",
+  "com_address",
+  "column_break_vgry",
+  "add_commissar",
+  "com_national_id",
+  "com_gender",
+  "com_phone",
   "transctions_section",
   "transactions",
   "section_break_hqcn",
@@ -593,12 +601,58 @@
    "fieldname": "section_break_ugcr",
    "fieldtype": "Section Break",
    "label": "Invoice Info"
+  },
+  {
+   "fieldname": "commissar",
+   "fieldtype": "Link",
+   "label": "Commissar",
+   "options": "Contact"
+  },
+  {
+   "depends_on": "eval:doc.client_type=='Company' || doc.client_type==\"Interbank\"",
+   "fieldname": "commissar_info_section",
+   "fieldtype": "Section Break",
+   "label": "Commissar Info"
+  },
+  {
+   "fieldname": "column_break_vgry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "com_national_id",
+   "fieldtype": "Data",
+   "label": " National ID",
+   "reqd": 1
+  },
+  {
+   "fieldname": "com_name",
+   "fieldtype": "Data",
+   "label": "Com Name"
+  },
+  {
+   "fieldname": "com_gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")",
+   "options": "Male\nFemale"
+  },
+  {
+   "fieldname": "com_address",
+   "fieldtype": "Data",
+   "label": "Address",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
+  },
+  {
+   "fieldname": "com_phone",
+   "fieldtype": "Data",
+   "label": " Phone",
+   "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-25 12:37:20.593167",
+ "modified": "2024-06-25 16:11:44.073785",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

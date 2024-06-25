@@ -33,11 +33,8 @@ class TellerInvoice(Document):
         if len(self.get("transactions")) > 3:
             frappe.throw("Can not Buy more than three currency")
 
-      
-
     def before_save(self):
         self.set_customer_invoices()
-        
 
     # def increase_printing_roll_serial(self):
     #     active_roll = frappe.db.get_all(
@@ -364,8 +361,7 @@ def account_from_balance(paid_from):
         frappe.log_error(error_message)
         return _(
             "Error: Unable to fetch account balance."
-        )  # Return a descriptive error message
-
+        )  
 
 @frappe.whitelist()
 def account_to_balance(paid_to):
@@ -456,3 +452,46 @@ def get_customer_total_amount(client_name):
 #         frappe.db.commit()
 
 #     return "Success"
+
+
+# @frappe.whitelist(allow_guest=True)
+# def account_from_balance1(paid_from):
+#     balance = get_balance_on(
+#         account=paid_from,
+#         # company=company,
+#     )
+#     if balance is not None:
+#         return balance
+#     else:
+#         return -1
+
+# set uery for commissars
+# custom_app/custom_app/api.py
+
+import frappe
+
+@frappe.whitelist()
+def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
+    link_doctype = filters.get('link_doctype')
+    link_name = filters.get('link_name')
+
+    return frappe.db.sql("""
+        SELECT
+            name, first_name, last_name
+        FROM
+            `tabContact`
+        WHERE
+            EXISTS (
+                SELECT
+                    *
+                FROM
+                    `tabDynamic Link`
+                WHERE
+                    parent = `tabContact`.name
+                    AND link_doctype = %s
+                    AND link_name = %s
+            )
+        AND
+            (`tabContact`.first_name LIKE %s OR `tabContact`.last_name LIKE %s)
+        LIMIT %s, %s
+    """, (link_doctype, link_name, '%' + txt + '%', '%' + txt + '%', start, page_len))

@@ -554,11 +554,10 @@
    "mandatory_depends_on": "eval: (doc.client_type === \"Egyptian\" || doc.client_type === \"Foreigner\") &&(doc.card_type==\"Military Card\")"
   },
   {
-   "depends_on": "eval:doc.client_type==\"Interbank\" || doc.client_type==\"Company\"",
+   "depends_on": "eval:(doc.client_type==\"Interbank\" || doc.client_type==\"Company\")&&doc.docstatus==0",
    "fieldname": "add_commissar",
    "fieldtype": "Button",
-   "label": "Add Commissar",
-   "read_only_depends_on": "eval:doc.docstatus==1"
+   "label": "Add Commissar"
   },
   {
    "fieldname": "contact_list",
@@ -599,7 +598,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-13 14:08:03.825668",
+ "modified": "2024-06-25 12:37:20.593167",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

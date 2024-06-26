@@ -29,6 +29,7 @@
   "customer_history",
   "section_break_onwq",
   "client_type",
+  "test_button",
   "column_break_nlal",
   "client",
   "individual_section",
@@ -609,6 +610,7 @@
    "options": "Contact"
   },
   {
+   "collapsible": 1,
    "depends_on": "eval:doc.client_type=='Company' || doc.client_type==\"Interbank\"",
    "fieldname": "commissar_info_section",
    "fieldtype": "Section Break",
@@ -622,12 +624,12 @@
    "fieldname": "com_national_id",
    "fieldtype": "Data",
    "label": " National ID",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.client && (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
   },
   {
    "fieldname": "com_name",
    "fieldtype": "Data",
-   "label": "Com Name"
+   "label": "Commissar Name"
   },
   {
    "fieldname": "com_gender",
@@ -647,12 +649,18 @@
    "fieldtype": "Data",
    "label": " Phone",
    "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
+  },
+  {
+   "default": "0",
+   "fieldname": "test_button",
+   "fieldtype": "Check",
+   "label": "test button"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-25 16:11:44.073785",
+ "modified": "2024-06-26 16:50:58.509554",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

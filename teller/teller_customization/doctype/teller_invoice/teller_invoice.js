@@ -27,7 +27,7 @@ frappe.ui.form.on("Teller Invoice", {
     // frappe.set_route("Form", "Customer", frm.doc.client);
 
     if (!frm.doc.client) {
-      frappe.msgprint(__("Please select a client first."));
+      frappe.msgprint(__("Please select Company first."));
       return;
     }
 
@@ -47,10 +47,10 @@ frappe.ui.form.on("Teller Invoice", {
           {
             fieldtype: "Data",
             fieldname: "first_name",
-            label: __("First Name"),
+            label: __("Commissar Name"),
             reqd: 1,
           },
-          { fieldtype: "Data", fieldname: "last_name", label: __("Last Name") },
+          // { fieldtype: "Data", fieldname: "last_name", label: __("Last Name") },
           {
             fieldtype: "Data",
             fieldname: "custom_com_address",
@@ -78,7 +78,7 @@ frappe.ui.form.on("Teller Invoice", {
             },
             callback: function (r) {
               if (r.message) {
-                update_contact_list(frm);
+                // update_contact_list(frm);
                 frappe.show_alert({
                   message: __("Contact added successfully"),
                   indicator: "green",
@@ -95,14 +95,14 @@ frappe.ui.form.on("Teller Invoice", {
 
   refresh(frm) {
     // handle add contact
-    if (frm.doc.client) {
-      // update contact list
-      update_contact_list(frm);
-    } else {
-      frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
+    // if (frm.doc.client) {
+    //   // update contact list
+    //   update_contact_list(frm);
+    // } else {
+    //   frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
 
-      frm.set_value("contact_list", "");
-    }
+    //   frm.set_value("contact_list", "");
+    // }
 
     //test get total amount of client
     // var customer_amount = frm
@@ -215,13 +215,13 @@ frappe.ui.form.on("Teller Invoice", {
   // Get customer information if exists
   client: function (frm) {
     // start test add contact information
-    if (frm.doc.client) {
-      update_contact_list(frm);
-    } else {
-      frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
+    // if (frm.doc.client) {
+    //   update_contact_list(frm);
+    // } else {
+    //   frm.fields_dict["contact_list"].$wrapper.html(""); // clear the HTML
 
-      frm.set_value("contact_list", "");
-    }
+    //   frm.set_value("contact_list", "");
+    // }
 
     // let testAllowed = await fetchAllowedAmount();
     // console.log("Test allowed amount", testAllowed);
@@ -349,12 +349,14 @@ frappe.ui.form.on("Teller Invoice", {
     }
   },
 
+  test_button: function (frm) {},
+
   // add comissar to invoice
 
   commissar: function (frm) {
     if (
       frm.doc.client_type == "Company" ||
-      frm.doc.client_type == "Interbank"
+      (frm.doc.client_type == "Interbank" && frm.doc.client)
     ) {
       if (frm.doc.commissar) {
         var commissarNAme = frm.doc.commissar;
@@ -422,6 +424,8 @@ frappe.ui.form.on("Teller Invoice", {
         // frm.set_value("date_of_birth", "");
         // frm.set_value("job_title", "");
       }
+    } else {
+      __("Please select Company Name Before add Commissar");
     }
   },
 
@@ -576,7 +580,7 @@ frappe.ui.form.on("Teller Invoice", {
     ////////
 
     if (frm.doc.client) {
-      update_contact_list(frm);
+      // update_contact_list(frm);
     }
     if (
       (frm.doc.client_type == "Egyptian" ||
@@ -822,6 +826,111 @@ frappe.ui.form.on("Teller Invoice", {
         },
       });
     }
+
+    //  add commissar from invoice
+
+    if (
+      (frm.doc.client_type == "Company" ||
+        frm.doc.client_type == "Interbank") &&
+      frm.doc.client &&
+      !frm.doc.commissar
+    ) {
+      if (!frm.doc.client) {
+        frappe.msgprint(__("Please select Company first."));
+        return;
+      }
+
+      // Create a new contact document
+      var newContact = frappe.model.get_new_doc("Contact");
+      // var newContact = frappe.new_doc("Contact");
+      newContact.links = [
+        {
+          link_doctype: "Customer",
+          link_name: frm.doc.client,
+        },
+      ];
+
+      // Set the necessary fields
+      newContact.first_name = frm.doc.com_name;
+      newContact.custom_com_address = frm.doc.com_address;
+      newContact.custom_com_phone = frm.doc.com_phone;
+      newContact.custom_national_id = frm.doc.com_national_id;
+      // Insert the new contact
+      frappe.call({
+        method: "frappe.client.insert",
+        args: {
+          doc: newContact,
+        },
+        callback: function (r) {
+          if (r.message) {
+            frappe.show_alert({
+              message: __("Contact added successfully"),
+              indicator: "green",
+            });
+            frm.set_value("commissar", r.message.name);
+          }
+        },
+      });
+    }
+
+    // update contact if existing
+ 
+
+  
+    else if (
+      (frm.doc.client_type === "Company" ||
+        frm.doc.client_type === "Interbank") &&
+      frm.doc.client &&
+      frm.doc.commissar
+    ) {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+          doctype: "Contact",
+          name: frm.doc.commissar,
+        },
+        callback: function (r) {
+          if (r.message) {
+            let existing_contact = r.message;
+
+            // Update the relevant fields
+            existing_contact.first_name = frm.doc.com_name;
+            existing_contact.custom_national_id = frm.doc.com_national_id;
+            existing_contact.custom_com_address = frm.doc.com_address || "";
+            existing_contact.custom_com_phone = frm.doc.com_phone;
+
+            // Save the updated contact document
+            frappe.call({
+              method: "frappe.client.save",
+              args: {
+                doc: existing_contact,
+              },
+              callback: function (save_response) {
+                if (save_response.message) {
+                  frappe.show_alert({
+                    message: __("Contact updated successfully"),
+                    indicator: "green",
+                  });
+                  frm.set_value("commissar", save_response.message.name);
+                } else {
+                  frappe.throw(__("Error while updating contact"));
+                }
+              },
+              error: function () {
+                frappe.throw(__("Error while updating contact"));
+              },
+            });
+          } else {
+            frappe.throw(__("Contact not found"));
+          }
+        },
+        error: function () {
+          frappe.throw(__("Error while fetching contact details"));
+        },
+      });
+    }
+
+   
   },
 
   /////////////////////////////////////////////

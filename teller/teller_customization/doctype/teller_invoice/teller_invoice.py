@@ -359,9 +359,8 @@ def account_from_balance(paid_from):
     except Exception as e:
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
-        return _(
-            "Error: Unable to fetch account balance."
-        )  
+        return _("Error: Unable to fetch account balance.")
+
 
 @frappe.whitelist()
 def account_to_balance(paid_to):
@@ -470,12 +469,45 @@ def get_customer_total_amount(client_name):
 
 import frappe
 
+
+# @frappe.whitelist()
+# def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
+#     link_doctype = filters.get("link_doctype")
+#     link_name = filters.get("link_name")
+
+#     return frappe.db.sql(
+#         """
+#         SELECT
+#             name, first_name, last_name
+#         FROM
+#             `tabContact`
+#         WHERE
+#             EXISTS (
+#                 SELECT
+#                     *
+#                 FROM
+#                     `tabDynamic Link`
+#                 WHERE
+#                     parent = `tabContact`.name
+#                     AND link_doctype = %s
+#                     AND link_name = %s
+#             )
+#         AND
+#             (`tabContact`.first_name LIKE %s OR `tabContact`.last_name LIKE %s  OR `tabContact`.custom_national_id LIKE %s)
+#         LIMIT %s, %s
+#     """,
+#         (link_doctype, link_name, "%" + txt + "%", "%" + txt + "%", start, page_len),
+#     )
+
+
 @frappe.whitelist()
 def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
-    link_doctype = filters.get('link_doctype')
-    link_name = filters.get('link_name')
+    link_doctype = filters.get("link_doctype")
+    link_name = filters.get("link_name")
 
-    return frappe.db.sql("""
+    # Update the SQL query to include phone number search
+    return frappe.db.sql(
+        """
         SELECT
             name, first_name, last_name
         FROM
@@ -492,6 +524,18 @@ def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
                     AND link_name = %s
             )
         AND
-            (`tabContact`.first_name LIKE %s OR `tabContact`.last_name LIKE %s)
+            (`tabContact`.first_name LIKE %s 
+            OR `tabContact`.last_name LIKE %s
+            OR `tabContact`.custom_national_id LIKE %s)
         LIMIT %s, %s
-    """, (link_doctype, link_name, '%' + txt + '%', '%' + txt + '%', start, page_len))
+    """,
+        (
+            link_doctype,
+            link_name,
+            "%" + txt + "%",
+            "%" + txt + "%",
+            "%" + txt + "%",
+            start,
+            page_len,
+        ),
+    )

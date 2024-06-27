@@ -124,25 +124,25 @@ frappe.ui.form.on("Teller Invoice", {
 
     //////////////////
     // get last submitted Teller  invoice
-    frappe
-      .call({
-        method: "frappe.client.get_list",
-        args: {
-          doctype: "Teller Invoice",
-          fields: ["name", "receipt_number"],
-          limit: 1,
-          order_by: "creation desc",
-          filters: {
-            docstatus: 1,
-          },
-        },
-      })
-      .then((r) => {
-        if (r.message) {
-          let last_invoice = r.message[0].name;
-          console.log("last invoice is", last_invoice);
-        }
-      });
+    // frappe
+    //   .call({
+    //     method: "frappe.client.get_list",
+    //     args: {
+    //       doctype: "Teller Invoice",
+    //       fields: ["name", "receipt_number"],
+    //       limit: 1,
+    //       order_by: "creation desc",
+    //       filters: {
+    //         docstatus: 1,
+    //       },
+    //     },
+    //   })
+    //   .then((r) => {
+    //     if (r.message) {
+    //       let last_invoice = r.message[0].name;
+    //       console.log("last invoice is", last_invoice);
+    //     }
+    //   });
 
     // filter clients based on client type
     frm.set_query("client", function (doc) {

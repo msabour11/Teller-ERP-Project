@@ -309,7 +309,8 @@ class TellerInvoice(Document):
                 },
             )
             if not invoices:
-                frappe.msgprint("No invoices")
+                pass
+                # frappe.msgprint("No invoices")
             else:
                 # Clear existing customer history to avoid duplicates
                 self.set("customer_history", [])

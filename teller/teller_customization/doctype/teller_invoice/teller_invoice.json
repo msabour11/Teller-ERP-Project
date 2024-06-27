@@ -545,7 +545,8 @@
    "default": "0",
    "fieldname": "is_expired1",
    "fieldtype": "Check",
-   "label": "Is Expired"
+   "label": "Is Expired",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.card_type==\"National ID\"",
@@ -691,7 +692,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-27 15:45:32.307452",
+ "modified": "2024-06-27 17:17:19.516292",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

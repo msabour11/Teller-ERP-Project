@@ -135,7 +135,7 @@
   {
    "fieldname": "client",
    "fieldtype": "Link",
-   "label": "Client",
+   "label": "Search Client",
    "options": "Customer"
   },
   {
@@ -614,7 +614,7 @@
   {
    "fieldname": "commissar",
    "fieldtype": "Link",
-   "label": "Commissar",
+   "label": "Search Commissar",
    "options": "Contact"
   },
   {
@@ -691,7 +691,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-27 15:13:51.089130",
+ "modified": "2024-06-27 15:45:32.307452",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

@@ -60,26 +60,30 @@
   "mobile_number_copy",
   "companies_section",
   "company_name",
-  "company_legal_form",
   "company_number",
-  "company_activity",
   "comoany_address",
   "column_break_nqxf",
   "company_commercial_no",
   "start_registration_date",
   "end_registration_date",
-  "is_expired1",
   "interbank",
   "contact_list",
+  "column_break_uyru",
+  "company_legal_form",
+  "company_activity",
+  "is_expired1",
   "commissar_info_section",
   "commissar",
-  "com_name",
   "com_address",
+  "com_job_title",
   "column_break_vgry",
-  "add_commissar",
-  "com_national_id",
+  "com_name",
   "com_gender",
   "com_phone",
+  "column_break_afqs",
+  "com_national_id",
+  "com_mobile_number",
+  "add_commissar",
   "transctions_section",
   "transactions",
   "section_break_hqcn",
@@ -265,6 +269,7 @@
    "collapsible": 1,
    "fieldname": "invoice_information_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Invoice Information"
   },
   {
@@ -566,6 +571,7 @@
    "depends_on": "eval:(doc.client_type==\"Interbank\" || doc.client_type==\"Company\")&&doc.docstatus==0",
    "fieldname": "add_commissar",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Add Commissar"
   },
   {
@@ -655,12 +661,30 @@
    "fieldname": "test_button",
    "fieldtype": "Check",
    "label": "test button"
+  },
+  {
+   "fieldname": "com_job_title",
+   "fieldtype": "Data",
+   "label": "Job Title"
+  },
+  {
+   "fieldname": "com_mobile_number",
+   "fieldtype": "Data",
+   "label": "Mobile Number"
+  },
+  {
+   "fieldname": "column_break_uyru",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_afqs",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-26 16:50:58.509554",
+ "modified": "2024-06-27 13:33:47.905187",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

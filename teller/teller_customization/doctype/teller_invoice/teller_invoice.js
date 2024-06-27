@@ -400,7 +400,7 @@ frappe.ui.form.on("Teller Invoice", {
 
   // add customer if not already existing///////////////////
   // not we change trigger for testing
-  before_save: function (frm) {
+  after_save: function (frm) {
     /////test customer history
 
     ////////
@@ -860,6 +860,19 @@ frappe.ui.form.on("Teller Invoice", {
     ) {
       validateNationalId(frm, frm.doc.com_national_id);
     }
+
+    if (
+      (frm.doc.client_type == "Company" ||
+        frm.doc.client_type == "Interbank") &&
+      frm.doc.client
+    ) {
+      validateRegistrationDate(
+        frm,
+        frm.doc.start_registration_date,
+        frm.doc.end_registration_date
+      );
+      validateRegistrationDateExpiration(frm, frm.doc.end_registration_date);
+    }
   },
 });
 
@@ -1231,5 +1244,28 @@ function validateNationalId(frm, nationalId) {
       __("National ID must be exactly 14 digits and contain only numbers.")
     );
     frappe.validated = false;
+  }
+}
+
+function validateRegistrationDate(frm, start, end) {
+  if (start && end && start > end) {
+    frappe.msgprint(__("Registration Date cannot be after Expiration Date."));
+    frappe.validated = false;
+  }
+}
+
+function validateRegistrationDateExpiration(frm, end) {
+  if (end) {
+    // Get today's date using Frappe's date utility
+    const today = frappe.datetime.get_today();
+
+    // Convert dates to Date objects for comparison
+    const endDate = new Date(end);
+    const todayDate = new Date(today);
+
+    // Compare the dates
+    if (endDate < todayDate) {
+      frm.set_value("is_expired1", true);
+    }
   }
 }

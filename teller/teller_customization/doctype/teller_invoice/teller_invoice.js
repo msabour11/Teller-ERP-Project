@@ -841,17 +841,24 @@ frappe.ui.form.on("Teller Invoice", {
   //validate if national id is valid
 
   validate: function (frm) {
+    // validate individual client national id
     if (
       (frm.doc.client_type == "Egyptian" ||
         frm.doc.client_type == "Foreigner") &&
       frm.doc.national_id
     ) {
-      if (!/^\d{14}$/.test(frm.doc.national_id)) {
-        frappe.msgprint(
-          __("National ID must be exactly 14 digits and contain only numbers.")
-        );
-        frappe.validated = false;
-      }
+      validateNationalId(frm, frm.doc.national_id);
+    }
+
+    // validate commissar national id
+
+    if (
+      (frm.doc.client_type == "Company" ||
+        frm.doc.client_type == "Interbank") &&
+      frm.doc.commissar &&
+      frm.doc.com_national_id
+    ) {
+      validateNationalId(frm, frm.doc.com_national_id);
     }
   },
 });
@@ -1218,3 +1225,11 @@ function handleCommissarCreationOrUpdate(frm) {
 
 // validate the national id
 
+function validateNationalId(frm, nationalId) {
+  if (!/^\d{14}$/.test(nationalId)) {
+    frappe.msgprint(
+      __("National ID must be exactly 14 digits and contain only numbers.")
+    );
+    frappe.validated = false;
+  }
+}

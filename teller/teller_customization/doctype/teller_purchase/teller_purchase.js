@@ -147,7 +147,7 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("date_of_birth", "");
         frm.set_value("job_title", "");
       }
-    }     // get the information for company
+    } // get the information for company
     else if (
       frm.doc.category_of_buyer == "Company" ||
       frm.doc.category_of_buyer == "Interbank"
@@ -202,6 +202,54 @@ frappe.ui.form.on("Teller Purchase", {
       }
     }
   },
+
+  // add comissar to invoice
+
+  commissar: function (frm) {
+    if (
+      frm.doc.category_of_buyer == "Company" ||
+      (frm.doc.category_of_buyer == "Interbank" && frm.doc.buyer)
+    ) {
+      if (frm.doc.commissar) {
+        var commissarNAme = frm.doc.commissar;
+        var companyName = frm.doc.buyer;
+        var fullCommissarName = commissarNAme;
+
+        //test add
+
+        frappe.call({
+          method: "frappe.client.get",
+          args: {
+            doctype: "Contact",
+            name: fullCommissarName,
+          },
+          callback: function (r) {
+            // set the fields with r.message.fieldname
+            frm.set_value("com_national_id", r.message.custom_national_id);
+            frm.set_value("com_gender", r.message.custom_com_gender);
+            frm.set_value("com_address", r.message.custom_com_address);
+            frm.set_value("com_name", r.message.first_name);
+
+            frm.set_value("com_phone", r.message.custom_com_phone);
+            frm.set_value("com_job_title", r.message.custom_job_title);
+            frm.set_value("com_mobile_number", r.message.custom_mobile_number);
+          },
+        });
+      } else {
+        // clear the fields
+        frm.set_value("com_national_id", "");
+        frm.set_value("com_gender", "");
+        frm.set_value("com_address", "");
+        frm.set_value("com_name", "");
+        frm.set_value("com_phone", "");
+        frm.set_value("com_job_title", "");
+        frm.set_value("com_mobile_number", "");
+      }
+    } else {
+      __("Please select Company Name Before add Commissar");
+    }
+  },
+
   // set special purchaase rates
   special_price: (frm) => {
     if (frm.doc.docstatus == 0) {

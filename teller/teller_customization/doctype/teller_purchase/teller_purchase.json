@@ -63,11 +63,14 @@
   "commissar_info_section",
   "commissar",
   "com_address",
+  "com_job_title",
   "column_break_zcwh",
   "com_name",
   "com_gender",
+  "com_phone",
   "column_break_bywf",
   "com_national_id",
+  "com_mobile_number",
   "foreigners_section",
   "customer_name_copy",
   "gender_copy",
@@ -128,6 +131,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "collapsible": 1,
    "depends_on": "eval:doc.category_of_buyer=='Egyptian' || doc.category_of_buyer==\"Foreigner\"",
    "fieldname": "individual_section",
    "fieldtype": "Section Break",
@@ -234,7 +238,7 @@
   {
    "fieldname": "buyer",
    "fieldtype": "Link",
-   "label": "Buyer",
+   "label": "Search Buyer",
    "options": "Customer"
   },
   {
@@ -539,6 +543,8 @@
    "fieldtype": "Column Break"
   },
   {
+   "collapsible": 1,
+   "depends_on": "eval:doc.category_of_buyer=='Company' || doc.category_of_buyer==\"Interbank\"",
    "fieldname": "commissar_info_section",
    "fieldtype": "Section Break",
    "label": "Commissar Info"
@@ -546,7 +552,7 @@
   {
    "fieldname": "commissar",
    "fieldtype": "Link",
-   "label": "Commissar",
+   "label": "Search Commissar",
    "options": "Contact"
   },
   {
@@ -582,12 +588,27 @@
    "fieldname": "issue_date",
    "fieldtype": "Date",
    "label": "Issue Date"
+  },
+  {
+   "fieldname": "com_phone",
+   "fieldtype": "Data",
+   "label": "com phone"
+  },
+  {
+   "fieldname": "com_mobile_number",
+   "fieldtype": "Data",
+   "label": "com mobile number"
+  },
+  {
+   "fieldname": "com_job_title",
+   "fieldtype": "Data",
+   "label": "com_job_title"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 14:23:00.779237",
+ "modified": "2024-07-01 15:29:00.741596",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

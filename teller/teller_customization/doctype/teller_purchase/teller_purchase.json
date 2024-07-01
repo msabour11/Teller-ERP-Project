@@ -23,6 +23,8 @@
   "column_break_idhd",
   "closing_date",
   "special_price",
+  "know_your_customer_section",
+  "customer_history",
   "section_break_defd",
   "category_of_buyer",
   "column_break_gkcv",
@@ -603,12 +605,23 @@
    "fieldname": "com_job_title",
    "fieldtype": "Data",
    "label": "com_job_title"
+  },
+  {
+   "fieldname": "know_your_customer_section",
+   "fieldtype": "Section Break",
+   "label": "Know Your Customer"
+  },
+  {
+   "fieldname": "customer_history",
+   "fieldtype": "Table",
+   "label": "Customer History",
+   "options": "Customer History"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 15:29:00.741596",
+ "modified": "2024-07-01 17:54:16.856340",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

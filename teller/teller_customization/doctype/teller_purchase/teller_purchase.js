@@ -440,7 +440,7 @@ frappe.ui.form.on("Teller Purchase", {
           if (r.message) {
             frm.set_value("buyer", r.message.name);
             console.log("buyer updated successfully", r.message.name);
-            // handleCommissarCreationOrUpdate(frm);
+            handleCommissarCreationOrUpdate(frm);
           } else {
             frappe.throw("Error while creating customer");
           }
@@ -504,7 +504,7 @@ frappe.ui.form.on("Teller Purchase", {
                     callback: function (save_response) {
                       if (save_response.message) {
                         frm.set_value("buyer", save_response.message.name);
-                        // handleCommissarCreationOrUpdate(frm);
+                        handleCommissarCreationOrUpdate(frm);
                       } else {
                         frappe.throw("Error while updating customer");
                       }
@@ -737,4 +737,105 @@ function set_branch_and_shift(frm) {
   //     }
   //   },
   // });
+}
+
+// create or update commissar 
+function handleCommissarCreationOrUpdate(frm) {
+  if (
+    (frm.doc.category_of_buyer == "Company" || frm.doc.category_of_buyer == "Interbank") &&
+    frm.doc.buyer &&
+    !frm.doc.commissar
+  ) {
+    if (!frm.doc.buyer) {
+      frappe.msgprint(__("Please select Company first."));
+      return;
+    }
+
+    var newContact = frappe.model.get_new_doc("Contact");
+    newContact.links = [
+      {
+        link_doctype: "Customer",
+        link_name: frm.doc.buyer,
+      },
+    ];
+
+    // Set the necessary fields
+    newContact.first_name = frm.doc.com_name;
+    newContact.custom_com_gender = frm.doc.com_gender;
+
+    newContact.custom_com_address = frm.doc.com_address;
+    newContact.custom_com_phone = frm.doc.com_phone;
+    newContact.custom_national_id = frm.doc.com_national_id;
+    newContact.custom_job_title = frm.doc.com_job_title;
+    newContact.custom_mobile_number = frm.doc.com_mobile_number;
+
+    frappe.call({
+      method: "frappe.client.insert",
+      args: {
+        doc: newContact,
+      },
+      callback: function (r) {
+        if (r.message) {
+          frappe.show_alert({
+            message: __("Commissar added successfully"),
+            indicator: "green",
+          });
+          frm.set_value("commissar", r.message.name);
+        }
+      },
+    });
+  } else if (
+    (frm.doc.category_of_buyer === "Company" ||
+      frm.doc.category_of_buyer === "Interbank") &&
+    frm.doc.buyer &&
+    frm.doc.commissar
+  ) {
+    frappe.call({
+      method: "frappe.client.get",
+      args: {
+        doctype: "Contact",
+        name: frm.doc.commissar,
+      },
+      callback: function (r) {
+        if (r.message) {
+          let existing_contact = r.message;
+
+          // Update the relevant fields
+          existing_contact.first_name = frm.doc.com_name;
+          existing_contact.custom_com_gender = frm.doc.com_gender;
+          existing_contact.custom_national_id = frm.doc.com_national_id;
+          existing_contact.custom_com_address = frm.doc.com_address || "";
+          existing_contact.custom_com_phone = frm.doc.com_phone;
+          existing_contact.custom_job_title = frm.doc.com_job_title;
+          existing_contact.custom_mobile_number = frm.doc.com_mobile_number;
+
+          frappe.call({
+            method: "frappe.client.save",
+            args: {
+              doc: existing_contact,
+            },
+            callback: function (save_response) {
+              if (save_response.message) {
+                frappe.show_alert({
+                  message: __("Commissar updated successfully"),
+                  indicator: "green",
+                });
+                frm.set_value("commissar", save_response.message.name);
+              } else {
+                frappe.throw(__("Error while updating Commissar"));
+              }
+            },
+            error: function () {
+              frappe.throw(__("Error while updating Commissar"));
+            },
+          });
+        } else {
+          frappe.throw(__("Commissar not found"));
+        }
+      },
+      error: function () {
+        frappe.throw(__("Error while fetching Commissar details"));
+      },
+    });
+  }
 }

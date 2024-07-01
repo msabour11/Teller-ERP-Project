@@ -663,6 +663,7 @@
    "default": "0",
    "fieldname": "test_button",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "test button"
   },
   {
@@ -692,7 +693,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-27 17:17:19.516292",
+ "modified": "2024-07-01 13:23:07.307770",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

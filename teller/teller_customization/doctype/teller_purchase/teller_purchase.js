@@ -76,6 +76,18 @@ frappe.ui.form.on("Teller Purchase", {
         "fa fa-table"
       );
     }
+
+    // filters commissar based on company name
+    frm.set_query("commissar", function (doc) {
+      return {
+        query:
+          "teller.teller_customization.doctype.teller_purchase.teller_purchase.filters_commissars_by_company",
+        filters: {
+          link_doctype: "Customer",
+          link_name: doc.buyer,
+        },
+      };
+    });
     //
   },
 

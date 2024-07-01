@@ -249,6 +249,263 @@ frappe.ui.form.on("Teller Purchase", {
       __("Please select Company Name Before add Commissar");
     }
   },
+  // add customer information if not already present or update existing customer information
+  after_save: function (frm) {
+    /////test customer history
+
+    ////////
+
+    if (frm.doc.buyer) {
+      // update_contact_list(frm);
+    }
+    if (
+      (frm.doc.category_of_buyer == "Egyptian" ||
+        frm.doc.category_of_buyer == "Foreigner") &&
+      !frm.doc.buyer
+    ) {
+      frappe.call({
+        method: "frappe.client.insert",
+        args: {
+          doc: {
+            doctype: "Customer",
+            customer_name: frm.doc.customer_name,
+            gender: frm.doc.gender ? frm.doc.gender : "Male",
+            custom_card_type: frm.doc.card_type,
+            custom_mobile: frm.doc.mobile_number ? frm.doc.mobile_number : "",
+            // custom_work_for: frm.doc.work_for,
+            custom_address: frm.doc.address,
+            // custom_nationality: frm.doc.nationality,
+            // custom_issue_date: frm.doc.issue_date,
+            // custom_expired: frm.doc.expired,
+            // custom_place_of_birth: frm.doc.place_of_birth,
+            custom_date_of_birth: frm.doc.date_of_birth
+              ? frm.doc.date_of_birth
+              : frappe.datetime.get_today(),
+            // custom_job_title: frm.doc.job_title,
+            custom_type: frm.doc.category_of_buyer,
+            custom_national_id:
+              frm.doc.card_type == "National ID" ? frm.doc.national_id : null,
+            custom_passport_number:
+              frm.doc.card_type == "Passport" ? frm.doc.passport_number : null,
+            custom_military_number:
+              frm.doc.card_type == "Military ID"
+                ? frm.doc.military_number
+                : null,
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            frm.set_value("buyer", r.message.name);
+          } else {
+            frappe.throw("Error while creating customer");
+          }
+        },
+      });
+    } else if (
+      (frm.doc.category_of_buyer == "Egyptian" ||
+        frm.doc.category_of_buyer == "Foreigner") &&
+      frm.doc.buyer
+    ) {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+          doctype: "Customer",
+          filters: {
+            customer_name: frm.doc.buyer,
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message);
+
+            /////////////////////////////////
+            var existing_client = r.message;
+
+            // Fetch the latest version of the document
+            frappe.call({
+              method: "frappe.client.get",
+              args: {
+                doctype: "Customer",
+                name: existing_client.name,
+              },
+              callback: function (response) {
+                if (response.message) {
+                  var latest_client = response.message;
+                  // Update the relevant fields
+
+                  latest_client.custom_card_type = frm.doc.card_type;
+                  latest_client.custom_work_for = frm.doc.work_for;
+
+                  latest_client.custom_nationality = frm.doc.nationality;
+                  latest_client.custom_mobile = frm.doc.mobile_number;
+                  latest_client.custom_phone = frm.doc.phone;
+                  latest_client.custom_place_of_birth = frm.doc.place_of_birth;
+
+                  latest_client.custom_address = frm.doc.address;
+                  latest_client.custom_job_title = frm.doc.job_title;
+                  latest_client.custom_date_of_birth =
+                    frm.doc.date_of_birth || frappe.datetime.get_today();
+                  latest_client.custom_national_id =
+                    frm.doc.card_type == "National ID"
+                      ? frm.doc.national_id
+                      : null;
+                  latest_client.custom_passport_number =
+                    frm.doc.card_type == "Passport"
+                      ? frm.doc.passport_number
+                      : null;
+                  latest_client.custom_military_number =
+                    frm.doc.card_type == "Military ID"
+                      ? frm.doc.military_number
+                      : null;
+
+                  // Save the updated client document
+                  frappe.call({
+                    method: "frappe.client.save",
+                    args: {
+                      doc: latest_client,
+                    },
+                    callback: function (save_response) {
+                      if (save_response.message) {
+                        frm.set_value("buyer", save_response.message.name);
+                      } else {
+                        frappe.throw("Error while updating customer");
+                      }
+                    },
+                  });
+                }
+              },
+            });
+          }
+        },
+      });
+    }
+
+    // update company if company is already existing or created it if company not already existing
+    else if (
+      (frm.doc.category_of_buyer == "Company" ||
+        frm.doc.category_of_buyer == "Interbank") &&
+      !frm.doc.buyer
+    ) {
+      frappe.call({
+        method: "frappe.client.insert",
+        args: {
+          doc: {
+            doctype: "Customer",
+            customer_name: frm.doc.company_name,
+            custom_start_registration_date: frm.doc.start_registration_date
+              ? frm.doc.start_registration_date
+              : frappe.datetime.get_today(),
+
+            custom_end_registration_date: frm.doc.end_registration_date
+              ? frm.doc.end_registration_date
+              : frappe.datetime.get_today(),
+
+            custom_comany_address1: frm.doc.company_address
+              ? frm.doc.company_address
+              : "",
+
+            custom_type: frm.doc.category_of_buyer,
+            custom_interbank:
+              frm.doc.interbank && frm.doc.category_of_buyer == "Interbank"
+                ? true
+                : false,
+
+            custom_commercial_no: frm.doc.company_commercial_no
+              ? frm.doc.company_commercial_no
+              : "",
+            custom_company_activity: frm.doc.company_activity
+              ? frm.doc.company_activity
+              : "",
+            custom_legal_form: frm.doc.company_legal_form
+              ? frm.doc.company_legal_form
+              : "",
+            custom_is_expired: frm.doc.is_expired,
+
+            //company_commercial_no
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            frm.set_value("buyer", r.message.name);
+            console.log("buyer updated successfully", r.message.name);
+            // handleCommissarCreationOrUpdate(frm);
+          } else {
+            frappe.throw("Error while creating customer");
+          }
+        },
+      });
+    } else if (
+      (frm.doc.category_of_buyer == "Company" ||
+        frm.doc.category_of_buyer == "Interbank") &&
+      frm.doc.buyer
+    ) {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+          doctype: "Customer",
+          filters: {
+            customer_name: frm.doc.buyer,
+          },
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log("response from comapny updated", r.message);
+
+            /////////////////////////////////
+            var existing_company = r.message;
+
+            // Fetch the latest version of the document
+            frappe.call({
+              method: "frappe.client.get",
+              args: {
+                doctype: "Customer",
+                name: existing_company.name,
+              },
+              callback: function (response) {
+                if (response.message) {
+                  console.log("company name response", response.message);
+                  let latest_company = response.message;
+                  // Update the relevant fields
+                  latest_company.custom_start_registration_date =
+                    frm.doc.start_registration_date;
+                  latest_company.custom_end_registration_date =
+                    frm.doc.end_registration_date;
+                  latest_company.custom_comany_address1 =
+                    frm.doc.company_address || "";
+                  latest_company.custom_commercial_no =
+                    frm.doc.company_commercial_no;
+                  latest_company.custom_legal_form = frm.doc.company_legal_form;
+                  latest_company.custom_company_no = frm.doc.company_number;
+                  latest_company.custom_company_activity =
+                    frm.doc.company_activity;
+
+                  // latest_company.custom_interbank = true
+                  //   ? frm.doc.interbank && frm.doc.client_type == "Interbank"
+                  //   : false;
+
+                  // Save the updated client document
+                  frappe.call({
+                    method: "frappe.client.save",
+                    args: {
+                      doc: latest_company,
+                    },
+                    callback: function (save_response) {
+                      if (save_response.message) {
+                        frm.set_value("buyer", save_response.message.name);
+                        // handleCommissarCreationOrUpdate(frm);
+                      } else {
+                        frappe.throw("Error while updating customer");
+                      }
+                    },
+                  });
+                }
+              },
+            });
+          }
+        },
+      });
+    }
+  },
 
   // set special purchaase rates
   special_price: (frm) => {

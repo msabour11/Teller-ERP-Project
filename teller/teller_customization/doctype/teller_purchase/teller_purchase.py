@@ -40,9 +40,8 @@ class TellerPurchase(Document):
         self.set_move_number()
         self.get_printing_roll()
 
-    def on_save(self):
-        # self.get_printing_roll()
-        pass
+    def before_save(self):
+        self.set_customer_invoices()
 
     def on_submit(self):
 
@@ -274,6 +273,50 @@ class TellerPurchase(Document):
         else:
             frappe.throw("No printing roll available, please create one")
 
+    # get customer invoices if is exceed the limit
+
+    def set_customer_invoices(self):
+        duration = self.get_duration()
+        duration = int(duration)
+        if duration:
+            today = nowdate()
+            post_duration = add_days(today, -duration)
+            invoices = frappe.db.get_list(
+                "Teller Purchase",
+                fields=["name", "buyer", "total", "date"],
+                filters={
+                    "docstatus": 1,
+                    "buyer": self.buyer,
+                    "date": ["between", [post_duration, today]],
+                },
+            )
+            if not invoices:
+                pass
+                # frappe.msgprint("No invoices")
+            else:
+                # Clear existing customer history to avoid duplicates
+                self.set("customer_history", [])
+                for invoice in invoices:
+                    self.append(
+                        "customer_history",
+                        {
+                            "invoice": invoice["name"],
+                            "amount": invoice["total"],
+                            "posting_date": invoice["date"],
+                        },
+                    )
+        else:
+            frappe.msgprint("Please Setup Duration in Teller Settings")
+
+    # get duration from teller settings
+    @staticmethod
+    def get_duration():
+        duration = frappe.db.get_single_value(
+            "Teller Setting",
+            "duration",
+        )
+        return duration
+
 
 # get currency and currency rate from each account
 @frappe.whitelist()
@@ -398,7 +441,7 @@ def filters_commissars_by_company(doctype, txt, searchfield, start, page_len, fi
 #     start_date = frappe.utils.add_days(end_date, -duration)
 
 #     data = frappe.db.sql(
-#         """SELECT sum(ti.total) as Total FROM `tabTeller Purchase` as ti WHERE ti.docstatus=1 and ti.buyer=%s 
+#         """SELECT sum(ti.total) as Total FROM `tabTeller Purchase` as ti WHERE ti.docstatus=1 and ti.buyer=%s
 #         and ti.closing_dateclosing_date between %s AND %s  GROUP BY ti.buyer
 # """,
 #         client_name,
@@ -414,6 +457,7 @@ def filters_commissars_by_company(doctype, txt, searchfield, start, page_len, fi
 #         res = -1
 
 #     return res
+
 
 @frappe.whitelist(allow_guest=True)
 def get_customer_total_amount(client_name, duration):

@@ -609,6 +609,8 @@
    "label": "com_job_title"
   },
   {
+   "collapsible": 1,
+   "depends_on": "eval:doc.exceed==true",
    "fieldname": "know_your_customer_section",
    "fieldtype": "Section Break",
    "label": "Know Your Customer"
@@ -631,7 +633,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-02 13:48:22.357302",
+ "modified": "2024-07-02 13:52:14.312231",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

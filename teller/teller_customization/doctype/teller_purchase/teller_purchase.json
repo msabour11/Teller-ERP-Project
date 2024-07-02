@@ -6,21 +6,22 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "invoice_info_section",
+  "branch_no",
   "treasury_code",
   "movement_number",
   "column_break_tvyk",
-  "branch_no",
   "receipt_number",
   "branch_name",
   "column_break_sgyq",
   "date",
-  "posting_date",
   "shift",
   "teller",
   "column_break_nwfq",
   "cost_center",
   "current_roll",
   "egy",
+  "egy_account",
   "column_break_idhd",
   "closing_date",
   "know_your_customer_section",
@@ -81,8 +82,6 @@
   "primary_contacts_copy",
   "work_for__copy",
   "mobile_number_copy",
-  "inter_bank_section",
-  "test",
   "speacial_price_section",
   "speacial_price",
   "transactions_section",
@@ -104,7 +103,8 @@
    "default": "Now",
    "fieldname": "date",
    "fieldtype": "Datetime",
-   "label": "Date",
+   "hidden": 1,
+   "label": "Posting Date",
    "read_only": 1
   },
   {
@@ -236,6 +236,7 @@
    "collapsible": 1,
    "fieldname": "invoice_information_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Invoice Information"
   },
   {
@@ -261,9 +262,9 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.category_of_buyer=='Company'",
    "fieldname": "speacial_price_section",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Speacial Price"
   },
   {
@@ -315,7 +316,7 @@
    "default": "Today",
    "fieldname": "closing_date",
    "fieldtype": "Date",
-   "label": "Closing Date"
+   "label": "Posting Date"
   },
   {
    "depends_on": "eval:doc.category_of_buyer==\"Interbank\"",
@@ -371,18 +372,6 @@
    "label": "Mobile Number "
   },
   {
-   "collapsible": 1,
-   "fieldname": "inter_bank_section",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Inter Bank"
-  },
-  {
-   "fieldname": "test",
-   "fieldtype": "Data",
-   "label": "Test"
-  },
-  {
    "fieldname": "egy_balance",
    "fieldtype": "Currency",
    "label": "Egy Balance"
@@ -399,8 +388,10 @@
   {
    "fieldname": "egy",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "EGY",
-   "options": "Account"
+   "options": "Account",
+   "read_only": 1
   },
   {
    "fieldname": "branch_no",
@@ -632,21 +623,26 @@
    "fieldname": "customer_history",
    "fieldtype": "Table",
    "label": "Customer History",
-   "options": "Customer History"
+   "options": "Purchase Customer History"
   },
   {
-   "default": "Today",
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
+   "collapsible": 1,
+   "fieldname": "invoice_info_section",
+   "fieldtype": "Section Break",
+   "label": "Invoice Info"
+  },
+  {
+   "fieldname": "egy_account",
+   "fieldtype": "Data",
    "hidden": 1,
-   "label": "Posting Date",
+   "label": "Egy Account",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-02 15:02:41.233633",
+ "modified": "2024-07-02 16:38:30.219263",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

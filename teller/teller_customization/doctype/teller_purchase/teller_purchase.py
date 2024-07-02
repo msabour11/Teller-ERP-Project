@@ -42,6 +42,7 @@ class TellerPurchase(Document):
 
     def before_save(self):
         self.set_customer_invoices()
+        pass
 
     def on_submit(self):
 

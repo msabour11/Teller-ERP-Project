@@ -44,10 +44,16 @@ frappe.ui.form.on("Teller Purchase", {
       })
       .then((r) => {
         if (r.message) {
-          console.log(r.message.egy_account);
+          console.log("the session egyptian account", r.message.egy_account);
           let user_account = r.message.egy_account;
           if (user_account) {
             frm.set_value("egy", user_account);
+            frm.set_value("egy_account", user_account);
+
+            console.log(
+              "the session egyptian account after set is ",
+              user_account
+            );
           } else {
             frappe.throw("there is no egy account linked to this user");
           }
@@ -565,18 +571,18 @@ frappe.ui.form.on("Teller Purchase", {
     }
   },
 
-  egy: (frm) => {
+  egy_account: (frm) => {
     if (frm.doc.egy) {
       frappe.call({
         method:
           "teller.teller_customization.doctype.teller_purchase.teller_purchase.account_to_balance",
         args: {
-          paid_to: frm.doc.egy,
+          paid_to: frm.doc.egy_account,
           // company: frm.doc.company,
         },
         callback: function (r) {
           if (r.message) {
-            console.log(r.message);
+            console.log("the egy balance", r.message);
             let egy_balance = r.message;
 
             frm.set_value("egy_balance", egy_balance);

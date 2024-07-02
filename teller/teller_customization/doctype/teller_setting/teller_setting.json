@@ -20,9 +20,15 @@
   "transactions_settings_section",
   "amount",
   "currency",
-  "allowed_amount",
   "column_break_xmne",
-  "duration"
+  "duration",
+  "allowed_amount",
+  "section_break_fcad",
+  "purchase_amount",
+  "purchase_currency",
+  "column_break_hpde",
+  "purchase_duration",
+  "purchase_allowed_amount"
  ],
  "fields": [
   {
@@ -96,7 +102,7 @@
   {
    "fieldname": "transactions_settings_section",
    "fieldtype": "Section Break",
-   "label": "Transactions Settings"
+   "label": "Teller Selling Settings"
   },
   {
    "fieldname": "column_break_xmne",
@@ -122,12 +128,42 @@
    "label": "Currency",
    "options": "Currency",
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_fcad",
+   "fieldtype": "Section Break",
+   "label": "Teller Purchase Setting"
+  },
+  {
+   "fieldname": "purchase_amount",
+   "fieldtype": "Float",
+   "label": "Purchase Amount"
+  },
+  {
+   "fieldname": "purchase_currency",
+   "fieldtype": "Link",
+   "label": "Purchase Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_hpde",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_duration",
+   "fieldtype": "Data",
+   "label": "Purchase Duration"
+  },
+  {
+   "fieldname": "purchase_allowed_amount",
+   "fieldtype": "Float",
+   "label": "Purchase Allowed Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-24 14:38:33.756244",
+ "modified": "2024-07-02 17:11:26.860240",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

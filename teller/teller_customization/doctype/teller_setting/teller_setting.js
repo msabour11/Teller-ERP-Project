@@ -20,5 +20,23 @@ frappe.ui.form.on("Teller Setting", {
         },
       });
     }
+
+    /// purchase setting  
+    if (frm.doc.purchase_currency && frm.doc.purchase_amount) {
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.teller_setting.teller_setting.purchase_rate_settings",
+        args: {
+          currency: frm.doc.purchase_currency,
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message);
+            let allowedAmount = r.message * frm.doc.purchase_amount;
+            frm.set_value("purchase_allowed_amount", allowedAmount);
+          }
+        },
+      });
+    }
   },
 });

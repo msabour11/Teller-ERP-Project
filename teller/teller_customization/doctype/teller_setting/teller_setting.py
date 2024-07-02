@@ -21,3 +21,12 @@ def rate_settings(currency):
     )
 
     return selling_rate
+
+@frappe.whitelist(allow_guest=True)
+def purchase_rate_settings(currency):
+    purchase_rate = frappe.db.get_value(
+        "Currency Exchange", {"from_currency": currency}, "exchange_rate"
+    )
+
+    return purchase_rate
+

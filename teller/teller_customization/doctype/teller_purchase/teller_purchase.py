@@ -314,7 +314,7 @@ class TellerPurchase(Document):
     def get_duration():
         duration = frappe.db.get_single_value(
             "Teller Setting",
-            "duration",
+            "purchase_duration",
         )
         return duration
 

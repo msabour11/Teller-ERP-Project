@@ -862,12 +862,12 @@ function handleCommissarCreationOrUpdate(frm) {
 
 // get the allowed amount from Teller settings
 async function fetchAllowedAmount() {
-  return frappe.db.get_single_value("Teller Setting", "allowed_amount");
+  return frappe.db.get_single_value("Teller Setting", "purchase_allowed_amount");
 }
 
 // fetch the duration of days for the limit
 async function fetchLimitDuration() {
-  return frappe.db.get_single_value("Teller Setting", "duration");
+  return frappe.db.get_single_value("Teller Setting", "purchase_duration");
 }
 
 // get the customer Total Invoices Amount

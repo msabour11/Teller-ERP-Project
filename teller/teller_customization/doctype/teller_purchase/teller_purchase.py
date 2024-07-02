@@ -32,6 +32,7 @@ from erpnext.accounts.general_ledger import (
 )
 from frappe.utils import nowdate, now
 from erpnext.accounts.general_ledger import make_entry
+import frappe.utils
 
 
 class TellerPurchase(Document):
@@ -348,6 +349,7 @@ def get_printing_roll1():
     # diff_cells = count_show_number_str_len - last_number_str_len
     return type(count_show_number1)
 
+
 @frappe.whitelist()
 def filters_commissars_by_company(doctype, txt, searchfield, start, page_len, filters):
     link_doctype = filters.get("link_doctype")
@@ -387,3 +389,61 @@ def filters_commissars_by_company(doctype, txt, searchfield, start, page_len, fi
             page_len,
         ),
     )
+
+
+# @frappe.whitelist(allow_guest=True)
+# def get_customer_total_amount(client_name, duration):
+#     duration = int(duration)
+#     end_date = frappe.utils.nowdate()
+#     start_date = frappe.utils.add_days(end_date, -duration)
+
+#     data = frappe.db.sql(
+#         """SELECT sum(ti.total) as Total FROM `tabTeller Purchase` as ti WHERE ti.docstatus=1 and ti.buyer=%s 
+#         and ti.closing_dateclosing_date between %s AND %s  GROUP BY ti.buyer
+# """,
+#         client_name,
+#         start_date,
+#         end_date,
+#         as_dict=True,
+#     )
+#     res = 0
+#     if data:
+#         res = data[0]["Total"]
+#         return res
+#     else:
+#         res = -1
+
+#     return res
+
+@frappe.whitelist(allow_guest=True)
+def get_customer_total_amount(client_name, duration):
+    try:
+        # Convert duration to an integer
+        duration = int(duration)
+
+        # Calculate the date range based on the duration parameter
+        end_date = frappe.utils.nowdate()
+        start_date = frappe.utils.add_days(end_date, -duration)
+
+        # SQL query to get the total amount from Teller Purchase within the date range
+        query = """
+        SELECT COALESCE(SUM(ti.total), 0) as Total 
+        FROM `tabTeller Purchase` as ti 
+        WHERE ti.docstatus=1 AND ti.buyer=%s 
+        AND ti.closing_date BETWEEN %s AND %s 
+        GROUP BY ti.buyer
+        """
+
+        # Execute the query with the client_name and date range as parameters
+        data = frappe.db.sql(query, (client_name, start_date, end_date), as_dict=True)
+
+        # Check if data exists and retrieve the total
+        res = data[0]["Total"] if data else 0
+
+        # Return the total amount if it's greater than 0, otherwise return -1
+        return res if res > 0 else -1
+
+    except Exception as e:
+        # Log the exception and return -1 to indicate an error
+        frappe.log_error(f"Error fetching customer total amount: {str(e)}")
+        return -1

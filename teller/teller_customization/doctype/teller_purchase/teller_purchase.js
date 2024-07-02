@@ -192,7 +192,7 @@ frappe.ui.form.on("Teller Purchase", {
               "end_registration_date",
               r.message.custom_end_registration_date
             );
-            frm.set_value("company_number", r.message.custom_company_no);
+            // frm.set_value("company_number", r.message.custom_company_no);
             frm.set_value("company_address", r.message.custom_comany_address1);
             frm.set_value("is_expired", r.message.custom_is_expired);
             frm.set_value("interbank", r.message.custom_interbank);
@@ -204,7 +204,7 @@ frappe.ui.form.on("Teller Purchase", {
         frm.set_value("company_name", "");
         frm.set_value("company_activity", "");
         frm.set_value("company_commercial_no", "");
-        frm.set_value("company_number", "");
+        // frm.set_value("company_number", "");
         frm.set_value("end_registration_date", "");
         frm.set_value("start_registration_date", "");
         frm.set_value("company_address", "");
@@ -487,7 +487,7 @@ frappe.ui.form.on("Teller Purchase", {
                   latest_company.custom_commercial_no =
                     frm.doc.company_commercial_no;
                   latest_company.custom_legal_form = frm.doc.company_legal_form;
-                  latest_company.custom_company_no = frm.doc.company_number;
+                  // latest_company.custom_company_no = frm.doc.company_number;
                   latest_company.custom_company_activity =
                     frm.doc.company_activity;
 

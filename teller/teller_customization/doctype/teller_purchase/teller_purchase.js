@@ -739,10 +739,11 @@ function set_branch_and_shift(frm) {
   // });
 }
 
-// create or update commissar 
+// create or update commissar
 function handleCommissarCreationOrUpdate(frm) {
   if (
-    (frm.doc.category_of_buyer == "Company" || frm.doc.category_of_buyer == "Interbank") &&
+    (frm.doc.category_of_buyer == "Company" ||
+      frm.doc.category_of_buyer == "Interbank") &&
     frm.doc.buyer &&
     !frm.doc.commissar
   ) {
@@ -838,4 +839,9 @@ function handleCommissarCreationOrUpdate(frm) {
       },
     });
   }
+}
+
+// get the allowed amount from Teller settings
+async function fetchAllowedAmount() {
+  return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }

@@ -284,11 +284,11 @@ class TellerPurchase(Document):
             post_duration = add_days(today, -duration)
             invoices = frappe.db.get_list(
                 "Teller Purchase",
-                fields=["name", "buyer", "total", "date"],
+                fields=["name", "buyer", "total", "closing_date"],
                 filters={
                     "docstatus": 1,
                     "buyer": self.buyer,
-                    "date": ["between", [post_duration, today]],
+                    "closing_date": ["between", [post_duration, today]],
                 },
             )
             if not invoices:
@@ -303,7 +303,7 @@ class TellerPurchase(Document):
                         {
                             "invoice": invoice["name"],
                             "amount": invoice["total"],
-                            "posting_date": invoice["date"],
+                            "posting_date": invoice["closing_date"],
                         },
                     )
         else:

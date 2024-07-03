@@ -158,62 +158,6 @@ class TellerPurchase(Document):
         # Commit the changes to the database
         frappe.db.commit()
 
-    # def get_printing_roll(self):
-
-    #     active_roll = frappe.db.get_all(
-    #         "Printing Roll",
-    #         filters={"active": 1},
-    #         fields=[
-    #             "name",
-    #             "last_printed_number",
-    #             "starting_letters",
-    #             "start_count",
-    #             "end_count",
-    #         ],
-    #         order_by="creation desc",
-    #     )
-    #     roll_name = active_roll[0]["name"]
-    #     last_number = active_roll[0]["last_printed_number"]
-    #     start_letter = active_roll[0]["starting_letters"]
-    #     start_count = active_roll[0]["start_count"]
-    #     end_count = active_roll[0]["end_count"]
-    #     #handle 01
-    #     count_show_number = active_roll[0]["show_number"]
-    #     count_show_number_str = str(count_show_number)
-    #     count_show_number_str_len = len(count_show_number_str)
-    #     diff_cells = count_show_number_str_len - last_number
-    #     sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
-    #     sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
-    #     if len(sales_invoice) == 0 and len(sales_purchase) == 0:
-    #         last_number = start_count
-    #         receipt_number = f"{start_letter}-{self.branch_no}-{last_number}"
-    #         self.receipt_number = receipt_number
-    #         self.current_roll = start_count
-    #         show_number = str(last_number)
-    #         show_number = len(show_number)
-    #         frappe.db.commit()
-    #         frappe.db.set_value(
-    #             "Printing Roll", roll_name, "last_printed_number", last_number
-    #         )
-    #         frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
-
-    #     elif start_count < end_count and last_number < end_count:
-    #         last_number += 1
-    #         receipt_num = f"{start_letter}-{self.branch_no}-{last_number}"
-    #         self.receipt_number = receipt_num
-    #         self.current_roll = start_count
-
-    #         show_number = str(last_number)
-    #         show_number = len(show_number)
-
-    #         frappe.db.commit()
-    #         frappe.db.set_value(
-    #             "Printing Roll", roll_name, "last_printed_number", last_number
-    #         )
-    #         frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
-    #     else:
-    #         frappe.throw("No printing roll available please create one")
-
     def get_printing_roll(self):
         active_roll = frappe.db.get_all(
             "Printing Roll",
@@ -225,9 +169,13 @@ class TellerPurchase(Document):
                 "start_count",
                 "end_count",
                 "show_number",
+                "add_zeros",
             ],
             order_by="creation desc",
+            limit=1,
         )
+        if not active_roll:
+            frappe.throw(_("No active  printing roll available please create one"))
 
         roll_name = active_roll[0]["name"]
         last_number = active_roll[0]["last_printed_number"]
@@ -240,39 +188,35 @@ class TellerPurchase(Document):
         last_number_str = str(last_number)
         last_number_str_len = len(last_number_str)
         diff_cells = show_number_int - last_number_str_len
+        zeros_number = active_roll[0]["add_zeros"]
+        sales_invoice_count = frappe.db.count(
+            "Teller Invoice", filters={"docstatus": 1}
+        )
+        sales_purchase_count = frappe.db.count(
+            "Teller Purchase", filters={"docstatus": 1}
+        )
 
-        sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
-        sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
-
-        if len(sales_invoice) == 0 and len(sales_purchase) == 0:
+        if sales_invoice_count == 0 and sales_purchase_count == 0:
             last_number = start_count
-            last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
-            receipt_number = f"{start_letter}-{self.branch_no}-{last_number_str}"
-            self.receipt_number = receipt_number
-            self.current_roll = start_count
-            show_number = len(last_number_str)
-            frappe.db.commit()
-            frappe.db.set_value(
-                "Printing Roll", roll_name, "last_printed_number", last_number
-            )
-            # frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
 
         elif start_count < end_count and last_number < end_count:
             last_number += 1
-            last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
-            receipt_number = f"{start_letter}-{self.branch_no}-{last_number_str}"
-            self.receipt_number = receipt_number
-            self.current_roll = start_count
 
-            show_number = len(last_number_str)
-
-            frappe.db.commit()
-            frappe.db.set_value(
-                "Printing Roll", roll_name, "last_printed_number", last_number
-            )
-            # frappe.db.set_value("Printing Roll", roll_name, "show_number", show_number)
         else:
-            frappe.throw("No printing roll available, please create one")
+            frappe.throw(_("Error in printing roll settings,! fix your settings"))
+
+        # last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
+        last_number_str = str(last_number).zfill(zeros_number)
+        receipt_number = f"{start_letter}-{self.branch_no}-{last_number_str}"
+        self.receipt_number = receipt_number
+        self.current_roll = start_count
+
+        # show_number = len(last_number_str)
+
+        frappe.db.set_value(
+            "Printing Roll", roll_name, "last_printed_number", last_number
+        )
+        frappe.db.commit()
 
     # get customer invoices if is exceed the limit
 
@@ -358,40 +302,6 @@ def account_to_balance(paid_to):
         error_message = f"Error fetching account balance: {str(e)}"
         frappe.log_error(error_message)
         return _("Error: Unable to fetch account balance.")
-
-
-@frappe.whitelist(allow_guest=True)
-def get_printing_roll1():
-    sales_invoice = frappe.db.get_all("Teller Invoice", filters={"docstatus": 1})
-    sales_purchase = frappe.db.get_all("Teller Purchase", filters={"docstatus": 1})
-
-    # check_count
-    active_roll = frappe.db.get_all(
-        "Printing Roll",
-        filters={"active": 1},
-        fields=[
-            "name",
-            "last_printed_number",
-            "starting_letters",
-            "start_count",
-            "end_count",
-            "show_number",
-        ],
-        order_by="creation desc",
-    )
-    roll_name = active_roll[0]["name"]
-    last_number = active_roll[0]["last_printed_number"]
-    start_letter = active_roll[0]["starting_letters"]
-    start_count = active_roll[0]["start_count"]
-    end_count = active_roll[0]["end_count"]
-    count_show_number1 = active_roll[0]["show_number"]
-
-    # count_show_number_str = str(count_show_number)
-    # count_show_number_str_len = len(count_show_number_str)
-    # last_number_str = str(last_number)
-    # last_number_str_len = len(last_number_str)
-    # diff_cells = count_show_number_str_len - last_number_str_len
-    return type(count_show_number1)
 
 
 @frappe.whitelist()

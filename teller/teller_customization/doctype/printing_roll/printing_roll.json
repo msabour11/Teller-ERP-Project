@@ -9,6 +9,7 @@
   "starting_letters",
   "start_count",
   "end_count",
+  "add_zeros",
   "description",
   "column_break_elnm",
   "last_printed_number",
@@ -53,7 +54,8 @@
   {
    "fieldname": "last_printed_number",
    "fieldtype": "Int",
-   "label": "Last Printed Number"
+   "label": "Last Printed Number",
+   "read_only": 1
   },
   {
    "fieldname": "start_count",
@@ -64,11 +66,16 @@
    "fieldname": "end_count",
    "fieldtype": "Int",
    "label": "End Count"
+  },
+  {
+   "fieldname": "add_zeros",
+   "fieldtype": "Int",
+   "label": "Add Zeros"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-30 13:50:11.234612",
+ "modified": "2024-07-03 13:56:50.939164",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Printing Roll",

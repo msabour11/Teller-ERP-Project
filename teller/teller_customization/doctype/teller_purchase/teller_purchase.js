@@ -2,6 +2,29 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Purchase", {
+
+
+  // validation on national id and registration date
+  validate: function (frm) {
+    // validate individual client national id
+    if (
+      (frm.doc.category_of_buyer == "Egyptian" ||
+        frm.doc.category_of_buyer == "Foreigner") &&
+      frm.doc.national_id
+    ) {
+      validateNationalId(frm, frm.doc.national_id);
+    }
+
+    // validate commissar national id
+
+    if (
+      (frm.doc.category_of_buyer == "Company" ||
+        frm.doc.category_of_buyer == "Interbank") &&
+      frm.doc.commissar &&
+      frm.doc.com_national_id
+    ) {
+      validateNationalId(frm, frm.doc.com_national_id);
+    }},
   // filters accounts with cash ,is group False and account currency not EGY
   setup: function (frm) {
     frm.fields_dict["transactions"].grid.get_field("paid_from").get_query =
@@ -948,5 +971,16 @@ async function isExceededLimit(frm, clientName, invoiceTotal) {
     frappe.throw(
       "Please provide in settings allowing for limit  and the duration"
     );
+  }
+}
+
+// validate the national id
+
+function validateNationalId(frm, nationalId) {
+  if (!/^\d{14}$/.test(nationalId)) {
+    frappe.msgprint(
+      __("National ID must be exactly 14 digits and contain only numbers.")
+    );
+    frappe.validated = false;
   }
 }

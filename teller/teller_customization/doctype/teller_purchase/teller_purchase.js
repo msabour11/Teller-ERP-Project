@@ -2,8 +2,6 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Teller Purchase", {
-
-
   // validation on national id and registration date
   validate: function (frm) {
     // validate individual client national id
@@ -24,7 +22,20 @@ frappe.ui.form.on("Teller Purchase", {
       frm.doc.com_national_id
     ) {
       validateNationalId(frm, frm.doc.com_national_id);
-    }},
+    }
+    if (
+      (frm.doc.category_of_buyer == "Company" ||
+        frm.doc.category_of_buyer == "Interbank") &&
+      frm.doc.buyer
+    ) {
+      validateRegistrationDate(
+        frm,
+        frm.doc.start_registration_date,
+        frm.doc.end_registration_date
+      );
+      validateRegistrationDateExpiration(frm, frm.doc.end_registration_date);
+    }
+  },
   // filters accounts with cash ,is group False and account currency not EGY
   setup: function (frm) {
     frm.fields_dict["transactions"].grid.get_field("paid_from").get_query =
@@ -885,7 +896,10 @@ function handleCommissarCreationOrUpdate(frm) {
 
 // get the allowed amount from Teller settings
 async function fetchAllowedAmount() {
-  return frappe.db.get_single_value("Teller Setting", "purchase_allowed_amount");
+  return frappe.db.get_single_value(
+    "Teller Setting",
+    "purchase_allowed_amount"
+  );
 }
 
 // fetch the duration of days for the limit
@@ -982,5 +996,28 @@ function validateNationalId(frm, nationalId) {
       __("National ID must be exactly 14 digits and contain only numbers.")
     );
     frappe.validated = false;
+  }
+}
+// validate end registration date is must be after start registration
+function validateRegistrationDate(frm, start, end) {
+  if (start && end && start > end) {
+    frappe.msgprint(__("Registration Date cannot be after Expiration Date."));
+    frappe.validated = false;
+  }
+}
+// validate if the registration date is expired
+function validateRegistrationDateExpiration(frm, end) {
+  if (end) {
+    // Get today's date using Frappe's date utility
+    const today = frappe.datetime.get_today();
+
+    // Convert dates to Date objects for comparison
+    const endDate = new Date(end);
+    const todayDate = new Date(today);
+
+    // Compare the dates
+    if (endDate < todayDate) {
+      frm.set_value("is_expired", true);
+    }
   }
 }

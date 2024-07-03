@@ -14,15 +14,15 @@
   "branch_name",
   "branch_no",
   "column_break_racu",
+  "closing_date",
   "date",
   "shift",
   "teller",
   "column_break_phqr",
   "cost_center",
-  "current_roll",
   "egy",
   "column_break_nkql",
-  "closing_date",
+  "current_roll",
   "know_your_customer_section",
   "customer_info",
   "customer_history",
@@ -118,6 +118,7 @@
    "default": "Now",
    "fieldname": "date",
    "fieldtype": "Date",
+   "hidden": 1,
    "label": "Posting Date",
    "read_only": 1
   },
@@ -416,7 +417,7 @@
    "default": "Today",
    "fieldname": "closing_date",
    "fieldtype": "Date",
-   "label": "Closing Date"
+   "label": "Posting Date"
   },
   {
    "fieldname": "egy",
@@ -693,7 +694,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 13:23:07.307770",
+ "modified": "2024-07-03 12:30:49.829393",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

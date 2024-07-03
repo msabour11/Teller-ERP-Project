@@ -301,11 +301,11 @@ class TellerInvoice(Document):
             post_duration = add_days(today, -duration)
             invoices = frappe.db.get_list(
                 "Teller Invoice",
-                fields=["name", "client", "total", "date"],
+                fields=["name", "client", "total", "closing_date"],
                 filters={
                     "docstatus": 1,
                     "client": self.client,
-                    "date": ["between", [post_duration, today]],
+                    "closing_date": ["between", [post_duration, today]],
                 },
             )
             if not invoices:
@@ -320,7 +320,7 @@ class TellerInvoice(Document):
                         {
                             "invoice": invoice["name"],
                             "amount": invoice["total"],
-                            "posting_date": invoice["date"],
+                            "posting_date": invoice["closing_date"],
                         },
                     )
         else:
@@ -403,23 +403,61 @@ def get_allowed_amount():
     return allowed_amount
 
 
+# @frappe.whitelist(allow_guest=True)
+# def get_customer_total_amount(client_name):
+
+#     data = frappe.db.sql(
+#         """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.docstatus=1 and ti.client=%s GROUP BY ti.client
+# """,
+#         client_name,
+#         as_dict=True,
+#     )
+#     res = 0
+#     if data:
+#         res = data[0]["Total"]
+#         return res
+#     else:
+#         res = -1
+
+#     return res
+
+# test customer total with durations 
 @frappe.whitelist(allow_guest=True)
-def get_customer_total_amount(client_name):
+def get_customer_total_amount(client_name, duration):
+    try:
+        # Convert duration to an integer
+        duration = int(duration)
 
-    data = frappe.db.sql(
-        """SELECT sum(ti.total) as Total FROM `tabTeller Invoice` as ti WHERE ti.docstatus=1 and ti.client=%s GROUP BY ti.client
-""",
-        client_name,
-        as_dict=True,
-    )
-    res = 0
-    if data:
-        res = data[0]["Total"]
-        return res
-    else:
-        res = -1
+        # Calculate the date range based on the duration parameter
+        end_date = frappe.utils.nowdate()
+        start_date = frappe.utils.add_days(end_date, -duration)
 
-    return res
+        # SQL query to get the total amount from Teller Purchase within the date range
+        query = """
+        SELECT COALESCE(SUM(ti.total), 0) as Total 
+        FROM `tabTeller Invoice` as ti 
+        WHERE ti.docstatus=1 AND ti.client=%s 
+        AND ti.closing_date BETWEEN %s AND %s 
+        GROUP BY ti.client
+        """
+
+        # Execute the query with the client_name and date range as parameters
+        data = frappe.db.sql(query, (client_name, start_date, end_date), as_dict=True)
+
+        # Check if data exists and retrieve the total
+        res = data[0]["Total"] if data else 0
+
+        # Return the total amount if it's greater than 0, otherwise return -1
+        return res if res > 0 else -1
+
+    except Exception as e:
+        # Log the exception and return -1 to indicate an error
+        frappe.log_error(f"Error fetching customer total amount: {str(e)}")
+        return -1
+
+
+
+######################@################################
 
 
 # @frappe.whitelist(allow_guest=True)

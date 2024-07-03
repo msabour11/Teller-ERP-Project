@@ -1110,13 +1110,18 @@ async function fetchAllowedAmount() {
   return frappe.db.get_single_value("Teller Setting", "allowed_amount");
 }
 // get the customer Total Invoices Amount
-function getCustomerTotalAmount(clientName) {
+async function getCustomerTotalAmount(clientName) {
+  let limiDuration = await fetchLimitDuration();
+
+
+  
   return new Promise((resolve, reject) => {
     frappe.call({
       method:
         "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_customer_total_amount",
       args: {
         client_name: clientName,
+        duration: limiDuration,
       },
       callback: function (r) {
         if (r.message) {

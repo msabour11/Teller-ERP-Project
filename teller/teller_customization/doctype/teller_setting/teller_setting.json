@@ -13,10 +13,8 @@
   "password",
   "invoice_setting_section",
   "cost_center",
-  "branch",
   "column_break_mmao",
-  "price_list",
-  "treasury_code",
+  "branch",
   "transactions_settings_section",
   "amount",
   "currency",
@@ -47,18 +45,6 @@
    "fieldtype": "Link",
    "label": "Branch",
    "options": "Branch"
-  },
-  {
-   "fieldname": "price_list",
-   "fieldtype": "Link",
-   "label": "Price List",
-   "options": "Price List"
-  },
-  {
-   "fieldname": "treasury_code",
-   "fieldtype": "Link",
-   "label": "Treasury code",
-   "options": "Mode of Payment"
   },
   {
    "fieldname": "column_break_mmao",
@@ -132,12 +118,13 @@
   {
    "fieldname": "section_break_fcad",
    "fieldtype": "Section Break",
-   "label": "Teller Purchase Setting"
+   "label": "Teller Purchase Settings"
   },
   {
    "fieldname": "purchase_amount",
    "fieldtype": "Float",
-   "label": "Purchase Amount"
+   "label": "Purchase Amount",
+   "reqd": 1
   },
   {
    "fieldname": "purchase_currency",
@@ -152,18 +139,20 @@
   {
    "fieldname": "purchase_duration",
    "fieldtype": "Data",
-   "label": "Purchase Duration"
+   "label": "Purchase Duration",
+   "reqd": 1
   },
   {
    "fieldname": "purchase_allowed_amount",
    "fieldtype": "Float",
-   "label": "Purchase Allowed Amount"
+   "label": "Purchase Allowed Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-02 17:11:26.860240",
+ "modified": "2024-07-03 13:03:38.003942",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Setting",

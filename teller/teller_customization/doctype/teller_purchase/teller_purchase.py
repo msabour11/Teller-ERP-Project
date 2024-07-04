@@ -93,7 +93,7 @@ class TellerPurchase(Document):
 
                     frappe.msgprint(
                         _("Teller Invoice created successfully with  Total {0}").format(
-                            self.egy_balance
+                            self.total
                         )
                     )
                 else:

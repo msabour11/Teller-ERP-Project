@@ -9,7 +9,10 @@ from frappe.utils import nowdate
 class PrintingRoll(Document):
 
     def before_save(self):
+        pass
+        
 
         # self.last_printed_number = self.start_count
-        len_of_last_number = len(str(self.last_printed_number))
-        self.show_number = len_of_last_number
+        # str_lst = str(self.last_printed_number)
+        # len_of_last_number = len(str_lst)
+        # self.show_number = len_of_last_number

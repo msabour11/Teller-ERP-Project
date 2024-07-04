@@ -63,10 +63,10 @@ class TellerInvoice(Document):
         end_count = active_roll[0]["end_count"]
         count_show_number = active_roll[0]["show_number"]
 
-        show_number_int = int(count_show_number)  #
+        # show_number_int = int(count_show_number)  #
         last_number_str = str(last_number)
         last_number_str_len = len(last_number_str)
-        diff_cells = show_number_int - last_number_str_len
+        # diff_cells = show_number_int - last_number_str_len
         zeros_number = active_roll[0]["add_zeros"]
         sales_invoice_count = frappe.db.count(
             "Teller Invoice", filters={"docstatus": 1}

@@ -302,7 +302,7 @@ frappe.ui.form.on("Teller Purchase", {
     }
   },
   // add customer information if not already present or update existing customer information
-  after_save: function (frm) {
+  before_save: function (frm) {
     /////test customer history
 
     ////////

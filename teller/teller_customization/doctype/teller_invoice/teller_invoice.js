@@ -400,7 +400,7 @@ frappe.ui.form.on("Teller Invoice", {
 
   // add customer if not already existing///////////////////
   // not we change trigger for testing
-  after_save: function (frm) {
+  before_save: function (frm) {
     /////test customer history
 
     ////////
@@ -1113,8 +1113,6 @@ async function fetchAllowedAmount() {
 async function getCustomerTotalAmount(clientName) {
   let limiDuration = await fetchLimitDuration();
 
-
-  
   return new Promise((resolve, reject) => {
     frappe.call({
       method:

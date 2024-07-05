@@ -212,6 +212,7 @@ function updateInvoiceReceipt(frm, doct, fixReceipt, type) {
             frm.refresh();
           }
         );
+        updatePrintingRoll(frm, fixReceipt);
       }
     },
   });
@@ -258,4 +259,59 @@ function updateReceiptNumbers(frm, doctype, results, fixReceipt, type) {
     promises.push(promise);
   });
   return Promise.all(promises);
+}
+
+// funcrion to update printing roll
+function updatePrintingRoll(frm, restNumber) {
+  frappe
+    .call({
+      method: "frappe.client.get_list",
+      args: {
+        doctype: "Printing Roll",
+        filters: { active: 1 },
+        fields: [
+          "name",
+          "last_printed_number",
+          "starting_letters",
+          "start_count",
+          "end_count",
+          "show_number",
+          "add_zeros",
+        ],
+        order_by: "creation desc",
+        limit: 1,
+      },
+    })
+    .then((r) => {
+      if (!r.message || r.message.length === 0) {
+        frappe.throw(
+          _("No active printing roll available. Please create one.")
+        );
+      } else {
+        let activeRoll = r.message[0];
+        console.log(
+          "The last printed number is",
+          activeRoll.last_printed_number
+        );
+
+        // Assuming restNumber is the new value you want to set for last_printed_number
+        let newLastPrintedNumber = activeRoll.last_printed_number + restNumber;
+
+        // Update the last printed number
+        frappe.call({
+          method: "frappe.client.set_value",
+          args: {
+            doctype: "Printing Roll",
+            name: activeRoll.name,
+            fieldname: "last_printed_number",
+            value: newLastPrintedNumber,
+          },
+          callback: function (response) {
+            if (response && response.message) {
+              frappe.msgprint("Last printed number updated successfully.");
+            }
+          },
+        });
+      }
+    });
 }

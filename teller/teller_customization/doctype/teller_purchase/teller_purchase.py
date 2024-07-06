@@ -196,7 +196,12 @@ class TellerPurchase(Document):
             "Teller Purchase", filters={"docstatus": 1}
         )
 
-        if sales_invoice_count == 0 and sales_purchase_count == 0:
+        if (
+            # sales_invoice_count == 0
+            # and sales_purchase_count == 0
+            last_number
+            == 0
+        ):
             last_number = start_count
 
         elif start_count < end_count and last_number < end_count:

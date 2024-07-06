@@ -16,24 +16,6 @@ frappe.ui.form.on("Reset Receipt Number", {
       // update the receiptNumber
 
       let fixReceipt = frm.doc.reset_number;
-      //   function updateReceiptNumbers(doctype, results) {
-      //     let promises = [];
-      //     results.forEach((doc) => {
-      //       let adjustedReceiptNumber = adjustReceiptNumber(
-      //         frm,
-      //         doc.receipt_number,
-      //         fixReceipt
-      //       );
-      //       let promise = frappe.db.set_value(
-      //         doctype,
-      //         doc.name,
-      //         "receipt_number",
-      //         adjustedReceiptNumber
-      //       );
-      //       promises.push(promise);
-      //     });
-      //     return Promise.all(promises);
-      //   }
 
       //////////////////////////////////////
       // Search for Teller Sales with the given receipt number
@@ -114,15 +96,49 @@ frappe.ui.form.on("Reset Receipt Number", {
       //   });
       frm.clear_table("invoice_details");
 
-      updateInvoiceReceipt(frm, "Teller Invoice", fixReceipt, "Sales");
-      updateInvoiceReceipt(frm, "Teller Purchase", fixReceipt, "Purchase");
+      showUpdateInvoiceReceipt(frm, "Teller Invoice", fixReceipt, "Sales");
+      showUpdateInvoiceReceipt(frm, "Teller Purchase", fixReceipt, "Purchase");
+      frappe.msgprint(
+        __("Submit the Fix Receipt to apply changes to the invoices")
+      );
     } else {
+      frappe.msgprint(
+        __(
+          "Please select Start receipt number and end receipt number and reset number to show updated invoices"
+        )
+      );
       console.log("there no invoices with this receipt number");
     }
   },
   get_invoice: function (frm) {
-    getInvoices(frm, "Teller Invoice", "sale");
-    getInvoices(frm, "Teller Purchase", "Purchase");
+    if (frm.doc.receipt_number && frm.doc.end_receipt_number) {
+      frm.clear_table("invoice_details");
+      getInvoices(frm, "Teller Invoice", "sale");
+      getInvoices(frm, "Teller Purchase", "Purchase");
+    } else {
+      frappe.msgprint(
+        __(
+          "Please select Start receipt number and end receipt number to retrieve invoices"
+        )
+      );
+    }
+  },
+  before_submit: function (frm) {
+    if (
+      frm.doc.receipt_number &&
+      frm.doc.end_receipt_number &&
+      frm.doc.reset_number
+    ) {
+      let fixReceipt = frm.doc.reset_number;
+      frm.clear_table("invoice_details");
+
+      updateInvoiceReceipt(frm, "Teller Invoice", fixReceipt, "Sales");
+      updateInvoiceReceipt(frm, "Teller Purchase", fixReceipt, "Purchase");
+      frappe.msgprint("Invoices updated successfully");
+    } else {
+      frappe.throw("there no invoices with this receipt number");
+      console.log("there no invoices with this receipt number");
+    }
   },
 });
 
@@ -212,30 +228,33 @@ function updateInvoiceReceipt(frm, doct, fixReceipt, type) {
             frm.refresh();
           }
         );
+
         updatePrintingRoll(frm, fixReceipt);
       }
     },
   });
 }
 
-// function updateReceiptNumbers(frm, doctype, results, fixReceipt) {
-//   let promises = [];
-//   results.forEach((doc) => {
-//     let adjustedReceiptNumber = adjustReceiptNumber(
-//       frm,
-//       doc.receipt_number,
-//       fixReceipt
-//     );
-//     let promise = frappe.db.set_value(
-//       doctype,
-//       doc.name,
-//       "receipt_number",
-//       adjustedReceiptNumber
-//     );
-//     promises.push(promise);
-//   });
-//   return Promise.all(promises);
-// }
+function showUpdateInvoiceReceipt(frm, doct, fixReceipt, type) {
+  frappe.call({
+    method: "frappe.client.get_list",
+    args: {
+      doctype: doct,
+      filters: [
+        ["receipt_number", ">=", frm.doc.receipt_number],
+        ["receipt_number", "<=", frm.doc.end_receipt_number],
+      ],
+      fields: ["name", "receipt_number"],
+      order_by: "receipt_number asc",
+    },
+    callback: function (response) {
+      let invoices = response.message;
+      if (invoices.length > 0) {
+        showUpdateReceiptNumbers(frm, doct, invoices, fixReceipt, type);
+      }
+    },
+  });
+}
 
 function updateReceiptNumbers(frm, doctype, results, fixReceipt, type) {
   let promises = [];
@@ -308,10 +327,30 @@ function updatePrintingRoll(frm, restNumber) {
           },
           callback: function (response) {
             if (response && response.message) {
-              frappe.msgprint("Last printed number updated successfully.");
+              // frappe.msgprint("Last printed number updated successfully.");
+              console.log("Last printed number updated successfully");
             }
           },
         });
       }
     });
+}
+
+function showUpdateReceiptNumbers(frm, doctype, results, fixReceipt, type) {
+  let promises = [];
+  results.forEach((doc) => {
+    let adjustedReceiptNumber = adjustReceiptNumber(
+      frm,
+      doc.receipt_number,
+      fixReceipt
+    );
+
+    let row = frm.add_child("invoice_details", {
+      invoice_name: doc.name,
+      receipt_number: doc.receipt_number,
+      updated_receipt: adjustedReceiptNumber,
+      invoice_type: type,
+    });
+    frm.refresh_field("invoice_details");
+  });
 }

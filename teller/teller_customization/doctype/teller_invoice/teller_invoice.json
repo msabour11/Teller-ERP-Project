@@ -14,8 +14,8 @@
   "branch_name",
   "branch_no",
   "column_break_racu",
-  "closing_date",
   "date",
+  "closing_date",
   "shift",
   "teller",
   "column_break_phqr",
@@ -415,12 +415,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Today",
-   "fieldname": "closing_date",
-   "fieldtype": "Date",
-   "label": "Posting Date"
-  },
-  {
    "fieldname": "egy",
    "fieldtype": "Link",
    "hidden": 1,
@@ -690,12 +684,17 @@
   {
    "fieldname": "column_break_cjki",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closing_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-03 16:38:56.333733",
+ "modified": "2024-07-07 10:20:05.935869",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

@@ -686,15 +686,17 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Today",
    "fieldname": "closing_date",
    "fieldtype": "Date",
-   "label": "Posting Date"
+   "label": "Posting Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 10:20:05.935869",
+ "modified": "2024-07-07 16:37:40.435551",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

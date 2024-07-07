@@ -248,6 +248,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "bold": 1,
    "fieldname": "buyer",
    "fieldtype": "Link",
    "label": "Search Buyer",
@@ -634,15 +635,17 @@
    "read_only": 1
   },
   {
+   "default": "Today",
    "fieldname": "closing_date",
    "fieldtype": "Date",
-   "label": "Closing Date"
+   "label": "Closing Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 09:45:07.151037",
+ "modified": "2024-07-07 16:36:02.339891",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

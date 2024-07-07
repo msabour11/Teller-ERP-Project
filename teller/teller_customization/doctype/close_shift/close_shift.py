@@ -36,7 +36,9 @@ def get_purchase_invoices(current_open_shift):
     invoice_list = []
 
     invoice_names = frappe.db.get_list(
-        "Teller Purchase", {"docstatus": 1, "shift": current_open_shift}
+        "Teller Purchase",
+        {"docstatus": 1, "shift": current_open_shift},
+        order_by="name desc",
     )
     for i in invoice_names:
         doc = frappe.get_doc("Teller Purchase", i)
@@ -47,10 +49,13 @@ def get_purchase_invoices(current_open_shift):
 
 @whitelist(allow_guest=True)
 def get_sales_invoice(current_open_shift):
+  
 
     invoices = []
     invoice_names = frappe.db.get_all(
-        "Teller Invoice", {"docstatus": 1, "shift": current_open_shift}
+        "Teller Invoice",
+        {"docstatus": 1, "shift": current_open_shift},
+        order_by="name desc",
     )
 
     for invoice in invoice_names:

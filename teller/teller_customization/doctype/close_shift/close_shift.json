@@ -160,7 +160,8 @@
    "fieldname": "purchase_close_table",
    "fieldtype": "Table",
    "label": "Purchase Close Table",
-   "options": "Purchase Close Table"
+   "options": "Purchase Close Table",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_nbda",
@@ -170,13 +171,14 @@
    "fieldname": "sales_invoice",
    "fieldtype": "Table",
    "label": "Sales Invoice",
-   "options": "Shift Sales Child"
+   "options": "Shift Sales Child",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-12 12:21:56.830152",
+ "modified": "2024-07-07 15:53:03.809847",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Close Shift",

@@ -61,7 +61,7 @@ class TellerInvoice(Document):
         start_letter = active_roll[0]["starting_letters"]
         start_count = active_roll[0]["start_count"]
         end_count = active_roll[0]["end_count"]
-        count_show_number = active_roll[0]["show_number"]
+        show_number = active_roll[0]["show_number"]
 
         # show_number_int = int(count_show_number)  #
         last_number_str = str(last_number)
@@ -82,7 +82,9 @@ class TellerInvoice(Document):
             last_number += 1
 
         else:
-            frappe.throw(_("Error in printing roll settings,! fix your settings"))
+            _(
+                f"printing Roll With name {roll_name} Is completly Full,Please create a new active roll"
+            )
 
         # last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
         last_number_str = str(last_number).zfill(zeros_number)
@@ -95,7 +97,11 @@ class TellerInvoice(Document):
         frappe.db.set_value(
             "Printing Roll", roll_name, "last_printed_number", last_number
         )
+        frappe.db.set_value(
+            "Printing Roll", roll_name, "show_number", last_number_str_len
+        )
         frappe.db.commit()
+        # frappe.msgprint(f"show number is {last_number_str_len} ")
 
     def set_move_number(self):
         # Fetch the last submitted Teller Invoice

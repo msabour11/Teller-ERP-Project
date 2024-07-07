@@ -182,7 +182,7 @@ class TellerPurchase(Document):
         start_letter = active_roll[0]["starting_letters"]
         start_count = active_roll[0]["start_count"]
         end_count = active_roll[0]["end_count"]
-        count_show_number = active_roll[0]["show_number"]
+        show_number = active_roll[0]["show_number"]
 
         # show_number_int = int(count_show_number)  #
         last_number_str = str(last_number)
@@ -208,7 +208,9 @@ class TellerPurchase(Document):
             last_number += 1
 
         else:
-            frappe.throw(_("Error in printing roll settings,! fix your settings"))
+            frappe.throw(
+                f"printing Roll With name {roll_name} Is completly Full,Please create a new active roll"
+            )
 
         # last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
         last_number_str = str(last_number).zfill(zeros_number)
@@ -217,11 +219,18 @@ class TellerPurchase(Document):
         self.current_roll = start_count
 
         # show_number = len(last_number_str)
+        # set the new number to the current printing roll
 
         frappe.db.set_value(
             "Printing Roll", roll_name, "last_printed_number", last_number
         )
+        # update the current printing roll with length of last_printed_number
+
+        frappe.db.set_value(
+            "Printing Roll", roll_name, "show_number", last_number_str_len
+        )
         frappe.db.commit()
+        # frappe.msgprint(f"show number is {last_number_str_len} ")
 
     # get customer invoices if is exceed the limit
 

@@ -12,7 +12,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/teller/css/teller.css"
-# app_include_js = "/assets/teller/js/teller.js"
+# app_include_js = "/assets/teller/js/customer.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/teller/css/teller.css"
@@ -32,7 +32,7 @@ app_license = "mit"
 # doctype_js = {"Sales Order" : "public/js/sales_orders.js","Sales Invoice" : "public/js/sales_invoice_number.js"}
 # doctype_js = {"Customer" :"public/js/customer.js"}
 
- 
+
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -81,7 +81,7 @@ app_license = "mit"
 # after_uninstall = "teller.uninstall.after_uninstall"
 
 # Integration Setup
-# ------------------
+# -----------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
@@ -126,13 +126,14 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    # 	"*": {
+    # 		"on_update": "method",
+    # 		"on_cancel": "method",
+    # 		"on_trash": "method"
+    # 	}
+    "Customer": {"autoname": "teller.teller_customization.customer.customer.autoname"}
+}
 
 # Scheduled Tasks
 # ---------------

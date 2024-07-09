@@ -11,6 +11,7 @@ frappe.ui.form.on("Teller Purchase", {
       frm.doc.national_id
     ) {
       validateNationalId(frm, frm.doc.national_id);
+      // validateNationalId(frm, frm.doc.fetch_national_id);
     }
 
     // validate commissar national id
@@ -53,6 +54,41 @@ frappe.ui.form.on("Teller Purchase", {
   },
 
   refresh(frm) {
+    // frm.fields_dict["buyer"].df.onchange = function () {
+    //   check_and_set_customer(frm);
+    // };
+
+    //   frm.fields_dict.buyer.$input.on('focusout', function() {
+    //     let customer_name = frm.doc.buyer;
+
+    //     if (customer_name) {
+    //         frappe.db.get_value('Customer', customer_name, 'name', (r) => {
+    //             if (!r || !r.name) {
+    //                 // If customer does not exist, set the value in another field
+    //                 frm.set_value('customer_name', customer_name);
+    //                 frm.set_value('buyer', '');
+    //                 frappe.msgprint(`Customer "${customer_name}" does not exist. The name has been moved to another field.`);
+    //             }
+    //         });
+    //     }
+    // });
+
+    // $("input[data-fieldname='buyer']").css("background-color", "#FFD700"); // Example color: Gold
+
+    // let $inputField = $("input[data-fieldname='buyer']");
+
+    // // Apply background color, width, and height
+    // $inputField.css({
+    //   "background-color": "#E0F7FA", // Light Cyan background for better visibility
+    //   width: "300px", // Adjust width as needed
+    //   height: "40px", // Adjust height as needed
+    // });
+
+    // $inputField.css({
+    //   border: "1px solid #007BFF", // Blue border for better visibility
+    //   padding: "5px", // Padding for better spacing
+    //   "font-size": "16px", // Font size for better readability
+    // });
     //add ledger button in refresh To Purchase invoice
     frm.events.show_general_ledger(frm);
     set_branch_and_shift(frm);
@@ -131,8 +167,54 @@ frappe.ui.form.on("Teller Purchase", {
     //
   },
 
+  fetch_national_id(frm) {
+    if (frm.doc.fetch_national_id) {
+      // validateNationalId(frm, frm.doc.fetch_national_id);
+      let fetchNationalId = frm.doc.fetch_national_id;
+
+      frappe.call({
+        method:
+          "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
+        args: {
+          doctype_name: fetchNationalId,
+        },
+        callback: function (r) {
+          if (r.message) {
+            console.log(r.message, "exists");
+            frm.set_value("buyer", fetchNationalId);
+          } else {
+            if (validateNationalId(frm, frm.doc.fetch_national_id)) {
+              frm.set_value("national_id", fetchNationalId);
+            } else {
+              frm.set_value("national_id", "");
+            }
+          }
+        },
+      });
+    }
+  },
+
   // get customer information if exists
   buyer: function (frm) {
+    ///////////////////
+
+    // if (frm.doc.buyer) {
+    //   frappe.db.get_value("Customer", frm.doc.customer, "name", (r) => {
+    //     if (!r.name) {
+    //       // If customer does not exist, set the value in another field
+    //       frm.set_value("customer_name", frm.doc.buyer);
+    //       frm.set_value("buyer", "");
+    //       frappe.msgprint(
+    //         "Customer does not exist. Name moved to another field."
+    //       );
+    //     } else {
+    //       // If customer exists, clear the non_existing_customer_name field
+    //       frm.set_value("customer_name", "");
+    //     }
+    //   });
+    // }
+
+    ///////////////////////////////
     // get the information for Egyptian
     if (
       frm.doc.category_of_buyer == "Egyptian" ||
@@ -991,12 +1073,13 @@ async function isExceededLimit(frm, clientName, invoiceTotal) {
 // validate the national id
 
 function validateNationalId(frm, nationalId) {
-  if (!/^\d{14}$/.test(nationalId)) {
-    frappe.msgprint(
-      __("National ID must be exactly 14 digits and contain only numbers.")
-    );
-    frappe.validated = false;
-  }
+  // if (!/^\d{14}$/.test(nationalId)) {
+  //   frappe.msgprint(
+  //     __("National ID must be exactly 14 digits and contain only numbers.")
+  //   );
+  //   frappe.validated = false;
+  // }
+  return /^[0-9]{14}$/.test(nationalId); // Example: Assuming national ID is a 14-digit number
 }
 // validate end registration date is must be after start registration
 function validateRegistrationDate(frm, start, end) {
@@ -1021,3 +1104,22 @@ function validateRegistrationDateExpiration(frm, end) {
     }
   }
 }
+
+// function check_and_set_customer(frm) {
+//   let customer_name = frm.doc.buyer;
+//   if (customer_name) {
+//     frappe.call({
+//       method: "frappe.client.get",
+//       args: {
+//         doctype: "Customer",
+//         name: customer_name,
+//       },
+//       callback: function (r) {
+//         if (!r.message) {
+//           // Customer does not exist, set the name in another field
+//           frm.set_value("customer_name", customer_name);
+//         }
+//       },
+//     });
+//   }
+// }

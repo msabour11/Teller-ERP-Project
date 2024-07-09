@@ -416,3 +416,8 @@ def get_customer_total_amount(client_name, duration):
         # Log the exception and return -1 to indicate an error
         frappe.log_error(f"Error fetching customer total amount: {str(e)}")
         return -1
+
+
+@frappe.whitelist()
+def check_client_exists(doctype_name):
+    return frappe.db.exists("Customer", doctype_name)

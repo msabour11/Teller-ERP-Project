@@ -30,6 +30,7 @@
   "category_of_buyer",
   "special_price",
   "column_break_gkcv",
+  "fetch_national_id",
   "buyer",
   "individual_section",
   "customer_name",
@@ -485,6 +486,7 @@
    "read_only": 1
   },
   {
+   "default": "National ID",
    "fieldname": "card_type",
    "fieldtype": "Select",
    "label": "Card Type",
@@ -640,12 +642,17 @@
    "fieldtype": "Date",
    "label": "Closing Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "fetch_national_id",
+   "fieldtype": "Data",
+   "label": "Fetch National ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 16:36:02.339891",
+ "modified": "2024-07-09 16:09:03.022134",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

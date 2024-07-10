@@ -31,6 +31,7 @@
   "special_price",
   "test_button",
   "column_break_nlal",
+  "fetch_national_id",
   "client",
   "individual_section",
   "customer_name",
@@ -255,7 +256,6 @@
   {
    "fieldname": "teller",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Teller",
    "options": "User",
    "read_only": 1
@@ -448,7 +448,7 @@
    "fieldtype": "Select",
    "label": "Card Type",
    "mandatory_depends_on": "eval:(doc.client_type === \"Egyptian\" || doc.client_type === \"Foreigner\")",
-   "options": "Passport\nNational ID\nMilitary Card"
+   "options": "National ID\nPassport\nMilitary Card"
   },
   {
    "depends_on": "eval:(doc.client_type==\"Egyptian\"||doc.client_type==\"Foreigner\")&&doc.exceed==1",
@@ -691,12 +691,17 @@
    "fieldtype": "Date",
    "label": "Posting Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "fetch_national_id",
+   "fieldtype": "Data",
+   "label": "Enter Unique ID"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 16:37:40.435551",
+ "modified": "2024-07-10 12:30:01.646579",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

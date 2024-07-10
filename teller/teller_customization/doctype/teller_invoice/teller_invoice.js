@@ -213,6 +213,61 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   onload(frm) {},
+  // fetch national id or commerical no
+
+  fetch_national_id(frm) {
+    if (frm.doc.fetch_national_id) {
+      if (
+        frm.doc.client_type == "Egyptian" &&
+        frm.doc.card_type == "National ID"
+      ) {
+        // validateNationalId(frm, frm.doc.fetch_national_id);
+        let commiricalNo = frm.doc.fetch_national_id;
+
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
+          args: {
+            doctype_name: commiricalNo,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("client", commiricalNo);
+            } else {
+              if (validateNationalId(frm, frm.doc.fetch_national_id)) {
+                frm.set_value("national_id", commiricalNo);
+              } else {
+                frm.set_value("national_id", "");
+                frm.set_value("customer_name", "");
+              }
+            }
+          },
+        });
+      } else if (frm.doc.client_type == "Company") {
+        // validateNationalId(frm, frm.doc.fetch_national_id);
+        let commiricalNo = frm.doc.fetch_national_id;
+
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
+          args: {
+            doctype_name: commiricalNo,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("client", commiricalNo);
+            } else {
+              frm.set_value("company_commercial_no", commiricalNo);
+            }
+          },
+        });
+      }
+    } else {
+      frm.set_value("client", "");
+    }
+  },
 
   // Get customer information if exists
   client: function (frm) {
@@ -461,7 +516,7 @@ frappe.ui.form.on("Teller Invoice", {
         args: {
           doctype: "Customer",
           filters: {
-            customer_name: frm.doc.client,
+            name: frm.doc.client,
           },
         },
         callback: function (r) {
@@ -593,7 +648,7 @@ frappe.ui.form.on("Teller Invoice", {
         args: {
           doctype: "Customer",
           filters: {
-            customer_name: frm.doc.client,
+            name: frm.doc.client,
           },
         },
         callback: function (r) {
@@ -1242,12 +1297,13 @@ function handleCommissarCreationOrUpdate(frm) {
 // validate the national id
 
 function validateNationalId(frm, nationalId) {
-  if (!/^\d{14}$/.test(nationalId)) {
-    frappe.msgprint(
-      __("National ID must be exactly 14 digits and contain only numbers.")
-    );
-    frappe.validated = false;
-  }
+  // if (!/^\d{14}$/.test(nationalId)) {
+  //   frappe.msgprint(
+  //     __("National ID must be exactly 14 digits and contain only numbers.")
+  //   );
+  //   frappe.validated = false;
+  // }
+  return /^[0-9]{14}$/.test(nationalId);
 }
 
 function validateRegistrationDate(frm, start, end) {

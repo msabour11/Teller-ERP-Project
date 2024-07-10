@@ -518,3 +518,9 @@ def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
             page_len,
         ),
     )
+
+
+# check if customer is already existing
+@frappe.whitelist()
+def check_client_exists(doctype_name):
+    return frappe.db.exists("Customer", doctype_name)

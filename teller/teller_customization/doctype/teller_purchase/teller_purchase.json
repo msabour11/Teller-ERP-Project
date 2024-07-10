@@ -192,7 +192,8 @@
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
    "label": "Company Commercial No ",
-   "mandatory_depends_on": "eval: (doc.category_of_buyer === \"Company\" || doc.category_of_buyer === \"Interbank\")"
+   "mandatory_depends_on": "eval: (doc.category_of_buyer === \"Company\" || doc.category_of_buyer === \"Interbank\")",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ndtu",
@@ -489,7 +490,8 @@
    "fieldname": "national_id",
    "fieldtype": "Data",
    "label": "National ID",
-   "mandatory_depends_on": "eval:(doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\") &&(doc.card_type==\"National ID\") "
+   "mandatory_depends_on": "eval:(doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\") &&(doc.card_type==\"National ID\") ",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.card_type==\"Passport\"",
@@ -652,7 +654,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-10 11:37:12.685058",
+ "modified": "2024-07-10 12:15:54.421613",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

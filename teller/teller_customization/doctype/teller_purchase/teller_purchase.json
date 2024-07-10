@@ -252,6 +252,7 @@
    "bold": 1,
    "fieldname": "buyer",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Search Buyer",
    "options": "Customer"
   },
@@ -652,7 +653,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-09 16:09:03.022134",
+ "modified": "2024-07-09 17:28:16.460792",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

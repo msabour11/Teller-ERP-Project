@@ -168,7 +168,7 @@ frappe.ui.form.on("Teller Purchase", {
   },
 
   fetch_national_id(frm) {
-    if (frm.doc.fetch_national_id) {
+    if (frm.doc.fetch_national_id ) {
       // validateNationalId(frm, frm.doc.fetch_national_id);
       let fetchNationalId = frm.doc.fetch_national_id;
 
@@ -187,6 +187,9 @@ frappe.ui.form.on("Teller Purchase", {
               frm.set_value("national_id", fetchNationalId);
             } else {
               frm.set_value("national_id", "");
+              frm.set_value("customer_name", "");
+
+
             }
           }
         },

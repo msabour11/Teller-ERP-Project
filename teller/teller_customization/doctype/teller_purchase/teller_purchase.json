@@ -35,22 +35,22 @@
   "individual_section",
   "customer_name",
   "nationality",
-  "gender",
   "phone",
   "job_title",
+  "date_of_birth",
   "column_break_djgb",
   "card_type",
   "work_for",
   "issue_date",
   "address",
   "place_of_birth",
+  "gender",
   "expired",
   "column_break_hhrw",
   "national_id",
   "passport_number",
   "military_number",
   "mobile_number",
-  "date_of_birth",
   "companies_section",
   "company_name",
   "company_address",
@@ -144,13 +144,6 @@
    "fieldtype": "Data",
    "label": "Customer Name",
    "mandatory_depends_on": "eval:(doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\")"
-  },
-  {
-   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
-   "fieldname": "gender",
-   "fieldtype": "Data",
-   "label": "Gender",
-   "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\")"
   },
   {
    "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
@@ -453,13 +446,6 @@
    "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\")"
   },
   {
-   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
-   "fieldname": "date_of_birth",
-   "fieldtype": "Data",
-   "label": "Date Of Birth",
-   "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.category_of_buyer === \"Egyptian\" || doc.category_of_buyer === \"Foreigner\")"
-  },
-  {
    "fieldname": "company_name",
    "fieldtype": "Data",
    "label": "Company Name",
@@ -591,12 +577,6 @@
    "options": "Male\nFemale"
   },
   {
-   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
-   "fieldname": "issue_date",
-   "fieldtype": "Date",
-   "label": "Issue Date"
-  },
-  {
    "fieldname": "com_phone",
    "fieldtype": "Data",
    "label": "com phone"
@@ -647,13 +627,32 @@
   {
    "fieldname": "fetch_national_id",
    "fieldtype": "Data",
-   "label": "Fetch National ID"
+   "label": "Enter Unique ID"
+  },
+  {
+   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of birth"
+  },
+  {
+   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
+   "fieldname": "issue_date",
+   "fieldtype": "Date",
+   "label": "issue date"
+  },
+  {
+   "depends_on": "eval:(doc.category_of_buyer==\"Egyptian\"||doc.category_of_buyer==\"Foreigner\")&&doc.exceed==1",
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "gender",
+   "options": "Male\nFemale"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-09 17:28:16.460792",
+ "modified": "2024-07-10 11:37:12.685058",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase",

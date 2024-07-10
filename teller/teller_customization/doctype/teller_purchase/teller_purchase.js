@@ -168,32 +168,56 @@ frappe.ui.form.on("Teller Purchase", {
   },
 
   fetch_national_id(frm) {
-    if (frm.doc.fetch_national_id ) {
-      // validateNationalId(frm, frm.doc.fetch_national_id);
-      let fetchNationalId = frm.doc.fetch_national_id;
+    if (frm.doc.fetch_national_id) {
+      if (
+        frm.doc.category_of_buyer == "Egyptian" &&
+        frm.doc.card_type == "National ID"
+      ) {
+        // validateNationalId(frm, frm.doc.fetch_national_id);
+        let commiricalNo = frm.doc.fetch_national_id;
 
-      frappe.call({
-        method:
-          "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
-        args: {
-          doctype_name: fetchNationalId,
-        },
-        callback: function (r) {
-          if (r.message) {
-            console.log(r.message, "exists");
-            frm.set_value("buyer", fetchNationalId);
-          } else {
-            if (validateNationalId(frm, frm.doc.fetch_national_id)) {
-              frm.set_value("national_id", fetchNationalId);
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
+          args: {
+            doctype_name: commiricalNo,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("buyer", commiricalNo);
             } else {
-              frm.set_value("national_id", "");
-              frm.set_value("customer_name", "");
-
-
+              if (validateNationalId(frm, frm.doc.fetch_national_id)) {
+                frm.set_value("national_id", commiricalNo);
+              } else {
+                frm.set_value("national_id", "");
+                frm.set_value("customer_name", "");
+              }
             }
-          }
-        },
-      });
+          },
+        });
+      } else if (frm.doc.category_of_buyer == "Company") {
+        // validateNationalId(frm, frm.doc.fetch_national_id);
+        let commiricalNo = frm.doc.fetch_national_id;
+
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
+          args: {
+            doctype_name: commiricalNo,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("buyer", commiricalNo);
+            } else {
+            
+                frm.set_value("company_commercial_no", commiricalNo);
+              
+            }
+          },
+        });
+      }
     }
   },
 
@@ -448,12 +472,12 @@ frappe.ui.form.on("Teller Purchase", {
         args: {
           doctype: "Customer",
           filters: {
-            customer_name: frm.doc.buyer,
+            name: frm.doc.buyer,
           },
         },
         callback: function (r) {
           if (r.message) {
-            console.log(r.message);
+            console.log("client first time get",r.message);
 
             /////////////////////////////////
             var existing_client = r.message;
@@ -470,7 +494,9 @@ frappe.ui.form.on("Teller Purchase", {
                   var latest_client = response.message;
                   // Update the relevant fields
 
+                  latest_client.customer_name = frm.doc.customer_name;
                   latest_client.custom_card_type = frm.doc.card_type;
+
                   latest_client.custom_work_for = frm.doc.work_for;
 
                   latest_client.custom_nationality = frm.doc.nationality;
@@ -479,6 +505,9 @@ frappe.ui.form.on("Teller Purchase", {
                   latest_client.custom_place_of_birth = frm.doc.place_of_birth;
 
                   latest_client.custom_address = frm.doc.address;
+                  latest_client.custom_issue_date = frm.doc.address;
+
+                  
                   latest_client.custom_job_title = frm.doc.job_title;
                   latest_client.custom_date_of_birth =
                     frm.doc.date_of_birth || frappe.datetime.get_today();
@@ -547,9 +576,8 @@ frappe.ui.form.on("Teller Purchase", {
                 ? true
                 : false,
 
-            custom_commercial_no: frm.doc.company_commercial_no
-              ? frm.doc.company_commercial_no
-              : "",
+            custom_commercial_no: frm.doc.company_commercial_no,
+             
             custom_company_activity: frm.doc.company_activity
               ? frm.doc.company_activity
               : "",
@@ -581,7 +609,7 @@ frappe.ui.form.on("Teller Purchase", {
         args: {
           doctype: "Customer",
           filters: {
-            customer_name: frm.doc.buyer,
+            name: frm.doc.buyer,
           },
         },
         callback: function (r) {

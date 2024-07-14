@@ -411,9 +411,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Daily Currency Rates",
+   "label": "Currency",
    "link_count": 0,
-   "link_to": "Currency Exchange",
+   "link_to": "Currency",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -421,15 +421,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Currency",
+   "label": "Currency Rates",
    "link_count": 0,
-   "link_to": "Currency",
+   "link_to": "Update Currency Exchange",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2024-07-09 10:53:05.154190",
+ "modified": "2024-07-14 16:06:38.679782",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller System",

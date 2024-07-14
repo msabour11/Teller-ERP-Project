@@ -97,30 +97,29 @@ frappe.ui.form.on("Teller Invoice", {
 
   refresh(frm) {
     //save and submit form within press key shortcut
-    let form = frm;
 
-    frappe.ui.keys.on("ctrl+d", function (e) {
-      console.log("CTRL+D was pressed");
-      frappe.msgprint("ctrl+D was pressed");
+    frappe.ui.keys.on("shift+s", function (e) {
+      console.log("shift + s was pressed");
 
       e.preventDefault();
-      // if (form.doc.docstatus === 0) {
-      //   form
+
+      // if (frm.doc.docstatus === 0) {
+      //   frm
       //     .save()
       //     .then(() => {
       //       console.log("Form saved");
-      //       return form.savesubmit();
+      //       return frm.savesubmit();
       //     })
       //     .then(() => {
       //       console.log("Form submitted");
-      //       form.print_doc();
+      //       frm.print_doc();
       //       console.log("Form printed");
       //     })
       //     .catch((error) => console.error("Error:", error));
       // }
 
-      if (form.doc.docstatus === 0) {
-        form
+      if (frm.doc.docstatus === 0) {
+        frm
           .save()
           .then(() => {
             console.log("Form saved");
@@ -129,12 +128,12 @@ frappe.ui.form.on("Teller Invoice", {
             frappe.call({
               method: "frappe.client.submit",
               args: {
-                doc: form.doc,
+                doc: frm.doc,
               },
               callback: function (response) {
                 if (!response.exc) {
                   console.log("Form submitted");
-                  form.print_doc();
+                  frm.print_doc();
                   console.log("Form printed");
                 } else {
                   console.error("Error submitting:", response.exc);
@@ -144,6 +143,9 @@ frappe.ui.form.on("Teller Invoice", {
           })
           .catch((error) => console.error("Error:", error));
       }
+
+      ///////////////////
+     
     });
 
     // handle add contact
@@ -263,10 +265,10 @@ frappe.ui.form.on("Teller Invoice", {
   },
 
   onload(frm) {},
-  onload_post_render: function (frm) {
-    // Remove the keydown event when the form is closed
-    frappe.ui.keys.off("alt+f2");
-  },
+  // onload_post_render: function (frm) {
+  //   // Remove the keydown event when the form is closed
+  //   frappe.ui.keys.off("alt+f2");
+  // },
   // fetch national id or commerical no
 
   fetch_national_id(frm) {

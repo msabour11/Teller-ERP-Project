@@ -54,6 +54,57 @@ frappe.ui.form.on("Teller Purchase", {
   },
 
   refresh(frm) {
+
+
+    // save and submit and print the invoice on shortcut 
+    frappe.ui.keys.on("shift+s", function (e) {
+      console.log("shift + s was pressed");
+
+      e.preventDefault();
+
+      // if (frm.doc.docstatus === 0) {
+      //   frm
+      //     .save()
+      //     .then(() => {
+      //       console.log("Form saved");
+      //       return frm.savesubmit();
+      //     })
+      //     .then(() => {
+      //       console.log("Form submitted");
+      //       frm.print_doc();
+      //       console.log("Form printed");
+      //     })
+      //     .catch((error) => console.error("Error:", error));
+      // }
+
+      if (frm.doc.docstatus === 0) {
+        frm
+          .save()
+          .then(() => {
+            console.log("Form saved");
+
+            // Manually submit the form without showing confirmation
+            frappe.call({
+              method: "frappe.client.submit",
+              args: {
+                doc: frm.doc,
+              },
+              callback: function (response) {
+                if (!response.exc) {
+                  console.log("Form submitted");
+                  frm.print_doc();
+                  console.log("Form printed");
+                } else {
+                  console.error("Error submitting:", response.exc);
+                }
+              },
+            });
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      ///////////////////
+    });
     // frm.fields_dict["buyer"].df.onchange = function () {
     //   check_and_set_customer(frm);
     // };
@@ -211,9 +262,7 @@ frappe.ui.form.on("Teller Purchase", {
               console.log(r.message, "exists");
               frm.set_value("buyer", commiricalNo);
             } else {
-            
-                frm.set_value("company_commercial_no", commiricalNo);
-              
+              frm.set_value("company_commercial_no", commiricalNo);
             }
           },
         });
@@ -477,7 +526,7 @@ frappe.ui.form.on("Teller Purchase", {
         },
         callback: function (r) {
           if (r.message) {
-            console.log("client first time get",r.message);
+            console.log("client first time get", r.message);
 
             /////////////////////////////////
             var existing_client = r.message;
@@ -507,7 +556,6 @@ frappe.ui.form.on("Teller Purchase", {
                   latest_client.custom_address = frm.doc.address;
                   latest_client.custom_issue_date = frm.doc.address;
 
-                  
                   latest_client.custom_job_title = frm.doc.job_title;
                   latest_client.custom_date_of_birth =
                     frm.doc.date_of_birth || frappe.datetime.get_today();
@@ -577,7 +625,7 @@ frappe.ui.form.on("Teller Purchase", {
                 : false,
 
             custom_commercial_no: frm.doc.company_commercial_no,
-             
+
             custom_company_activity: frm.doc.company_activity
               ? frm.doc.company_activity
               : "",

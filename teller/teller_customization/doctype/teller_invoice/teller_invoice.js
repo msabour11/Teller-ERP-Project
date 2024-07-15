@@ -289,11 +289,11 @@ frappe.ui.form.on("Teller Invoice", {
             if (r.message) {
               console.log(r.message, "exists");
               frm.set_value("client", nationalId).then(() => {
-                frm.refresh_fields("client");
+                frm.refresh_field("client");
               });
             } else {
               frm.set_value("client", "").then(() => {
-                frm.refresh_fields("client");
+                frm.refresh_field("client");
                 if (validateNationalId(frm, nationalId)) {
                   frm.set_value("national_id", nationalId);
                 } else {
@@ -319,7 +319,7 @@ frappe.ui.form.on("Teller Invoice", {
             if (r.message) {
               console.log(r.message, "exists");
               frm.set_value("client", commiricalNo).then(() => {
-                frm.refresh_fields("client");
+                frm.refresh_field("client");
               });
             } else {
               frm.set_value("client", "").then(() => {

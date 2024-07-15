@@ -242,11 +242,11 @@ frappe.ui.form.on("Teller Purchase", {
             if (r.message) {
               console.log(r.message, "exists");
               frm.set_value("buyer", nationalId).then(() => {
-                frm.refresh_fields("buyer");
+                frm.refresh_field("buyer");
               });
             } else {
               frm.set_value("buyer", "").then(() => {
-                frm.refresh_fields("buyer");
+                frm.refresh_field("buyer");
                 if (validateNationalId(frm, nationalId)) {
                   frm.set_value("national_id", nationalId);
                 } else {
@@ -272,7 +272,7 @@ frappe.ui.form.on("Teller Purchase", {
             if (r.message) {
               console.log(r.message, "exists");
               frm.set_value("buyer", commiricalNo).then(() => {
-                frm.refresh_fields("buyer");
+                frm.refresh_field("buyer");
               });
             } else {
               frm.set_value("buyer", "").then(() => {

@@ -145,7 +145,6 @@ frappe.ui.form.on("Teller Invoice", {
       }
 
       ///////////////////
-     
     });
 
     // handle add contact
@@ -278,25 +277,31 @@ frappe.ui.form.on("Teller Invoice", {
         frm.doc.card_type == "National ID"
       ) {
         // validateNationalId(frm, frm.doc.fetch_national_id);
-        let commiricalNo = frm.doc.fetch_national_id;
+        let nationalId = frm.doc.fetch_national_id;
 
         frappe.call({
           method:
             "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
           args: {
-            doctype_name: commiricalNo,
+            doctype_name: nationalId,
           },
           callback: function (r) {
             if (r.message) {
               console.log(r.message, "exists");
-              frm.set_value("client", commiricalNo);
+              frm.set_value("client", nationalId).then(() => {
+                frm.refresh_fields("client");
+              });
             } else {
-              if (validateNationalId(frm, frm.doc.fetch_national_id)) {
-                frm.set_value("national_id", commiricalNo);
-              } else {
-                frm.set_value("national_id", "");
-                frm.set_value("customer_name", "");
-              }
+              frm.set_value("client", "").then(() => {
+                frm.refresh_fields("client");
+                if (validateNationalId(frm, nationalId)) {
+                  frm.set_value("national_id", nationalId);
+                } else {
+                  frm.set_value("national_id", "");
+                }
+              });
+
+              //
             }
           },
         });
@@ -313,15 +318,20 @@ frappe.ui.form.on("Teller Invoice", {
           callback: function (r) {
             if (r.message) {
               console.log(r.message, "exists");
-              frm.set_value("client", commiricalNo);
+              frm.set_value("client", commiricalNo).then(() => {
+                frm.refresh_fields("client");
+              });
             } else {
-              frm.set_value("company_commercial_no", commiricalNo);
+              frm.set_value("client", "").then(() => {
+                frm.set_value("company_commercial_no", commiricalNo);
+              });
             }
           },
         });
       }
     } else {
       frm.set_value("client", "");
+      frm.set_value("national_id", "");
     }
   },
 
@@ -392,7 +402,7 @@ frappe.ui.form.on("Teller Invoice", {
         // clear the fields
         frm.set_value("customer_name", "");
         frm.set_value("gender", "");
-        frm.set_value("card_type", "");
+        // frm.set_value("card_type", "");
         // frm.set_value("card_info", "");
         frm.set_value("mobile_number", "");
         frm.set_value("work_for", "");
@@ -439,7 +449,7 @@ frappe.ui.form.on("Teller Invoice", {
               "end_registration_date",
               r.message.custom_end_registration_date
             );
-            frm.set_value("company_number", r.message.custom_company_no);
+            frm.set_value("company_num", r.message.custom_company_no);
             frm.set_value("comoany_address", r.message.custom_comany_address1);
             frm.set_value("is_expired1", r.message.custom_is_expired);
             frm.set_value("interbank", r.message.custom_interbank);
@@ -451,7 +461,7 @@ frappe.ui.form.on("Teller Invoice", {
         frm.set_value("company_name", "");
         frm.set_value("company_activity", "");
         frm.set_value("company_commercial_no", "");
-        frm.set_value("company_number", "");
+        frm.set_value("company_num", "");
         frm.set_value("end_registration_date", "");
         frm.set_value("start_registration_date", "");
         frm.set_value("comoany_address", "");
@@ -665,15 +675,17 @@ frappe.ui.form.on("Teller Invoice", {
               ? frm.doc.comoany_address
               : "",
 
+            custom_company_no: frm.doc.company_num
+              ? frm.doc.comoany_address
+              : "",
+
             custom_type: frm.doc.client_type,
             custom_interbank:
               frm.doc.interbank && frm.doc.client_type == "Interbank"
                 ? true
                 : false,
 
-            custom_commercial_no: frm.doc.company_commercial_no
-              ? frm.doc.company_commercial_no
-              : "",
+            custom_commercial_no: frm.doc.company_commercial_no,
             custom_company_activity: frm.doc.company_activity
               ? frm.doc.company_activity
               : "",
@@ -735,7 +747,7 @@ frappe.ui.form.on("Teller Invoice", {
                   latest_company.custom_commercial_no =
                     frm.doc.company_commercial_no;
                   latest_company.custom_legal_form = frm.doc.company_legal_form;
-                  latest_company.custom_company_no = frm.doc.company_number;
+                  latest_company.custom_company_no = frm.doc.company_num;
                   latest_company.custom_company_activity =
                     frm.doc.company_activity;
 

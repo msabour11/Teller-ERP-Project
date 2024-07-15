@@ -54,28 +54,16 @@ frappe.ui.form.on("Teller Purchase", {
   },
 
   refresh(frm) {
+    // Automatically refresh the form after duplication
+    // if (frm.doc.__islocal) {
+    //   frm.reload_doc();
+    // }
 
-
-    // save and submit and print the invoice on shortcut 
-    frappe.ui.keys.on("shift+s", function (e) {
+    // save and submit and print the invoice on shortcut
+    frappe.ui.keys.on("alt+s", function (e) {
       console.log("shift + s was pressed");
 
       e.preventDefault();
-
-      // if (frm.doc.docstatus === 0) {
-      //   frm
-      //     .save()
-      //     .then(() => {
-      //       console.log("Form saved");
-      //       return frm.savesubmit();
-      //     })
-      //     .then(() => {
-      //       console.log("Form submitted");
-      //       frm.print_doc();
-      //       console.log("Form printed");
-      //     })
-      //     .catch((error) => console.error("Error:", error));
-      // }
 
       if (frm.doc.docstatus === 0) {
         frm
@@ -103,7 +91,22 @@ frappe.ui.form.on("Teller Purchase", {
           .catch((error) => console.error("Error:", error));
       }
 
-      ///////////////////
+      //   // if (frm.doc.docstatus === 0) {
+      //   //   frm
+      //   //     .save()
+      //   //     .then(() => {
+      //   //       console.log("Form saved");
+      //   //       return frm.savesubmit();
+      //   //     })
+      //   //     .then(() => {
+      //   //       console.log("Form submitted");
+      //   //       frm.print_doc();
+      //   //       console.log("Form printed");
+      //   //     })
+      //   //     .catch((error) => console.error("Error:", error));
+      //   // }
+
+      //   ///////////////////
     });
     // frm.fields_dict["buyer"].df.onchange = function () {
     //   check_and_set_customer(frm);
@@ -218,6 +221,8 @@ frappe.ui.form.on("Teller Purchase", {
     //
   },
 
+
+
   fetch_national_id(frm) {
     if (frm.doc.fetch_national_id) {
       if (
@@ -225,25 +230,31 @@ frappe.ui.form.on("Teller Purchase", {
         frm.doc.card_type == "National ID"
       ) {
         // validateNationalId(frm, frm.doc.fetch_national_id);
-        let commiricalNo = frm.doc.fetch_national_id;
+        let nationalId = frm.doc.fetch_national_id;
 
         frappe.call({
           method:
-            "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
           args: {
-            doctype_name: commiricalNo,
+            doctype_name: nationalId,
           },
           callback: function (r) {
             if (r.message) {
               console.log(r.message, "exists");
-              frm.set_value("buyer", commiricalNo);
+              frm.set_value("buyer", nationalId).then(() => {
+                frm.refresh_fields("buyer");
+              });
             } else {
-              if (validateNationalId(frm, frm.doc.fetch_national_id)) {
-                frm.set_value("national_id", commiricalNo);
-              } else {
-                frm.set_value("national_id", "");
-                frm.set_value("customer_name", "");
-              }
+              frm.set_value("buyer", "").then(() => {
+                frm.refresh_fields("buyer");
+                if (validateNationalId(frm, nationalId)) {
+                  frm.set_value("national_id", nationalId);
+                } else {
+                  frm.set_value("national_id", "");
+                }
+              });
+
+              //
             }
           },
         });
@@ -253,42 +264,37 @@ frappe.ui.form.on("Teller Purchase", {
 
         frappe.call({
           method:
-            "teller.teller_customization.doctype.teller_purchase.teller_purchase.check_client_exists",
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
           args: {
             doctype_name: commiricalNo,
           },
           callback: function (r) {
             if (r.message) {
               console.log(r.message, "exists");
-              frm.set_value("buyer", commiricalNo);
+              frm.set_value("buyer", commiricalNo).then(() => {
+                frm.refresh_fields("buyer");
+              });
             } else {
-              frm.set_value("company_commercial_no", commiricalNo);
+              frm.set_value("buyer", "").then(() => {
+                frm.set_value("company_commercial_no", commiricalNo);
+              });
             }
           },
         });
       }
+    } else {
+      frm.set_value("buyer", "");
+      // frm.set_value("fetch_national_id", "");
+      frm.set_value("national_id", "");
+
+      
     }
   },
+
 
   // get customer information if exists
   buyer: function (frm) {
     ///////////////////
-
-    // if (frm.doc.buyer) {
-    //   frappe.db.get_value("Customer", frm.doc.customer, "name", (r) => {
-    //     if (!r.name) {
-    //       // If customer does not exist, set the value in another field
-    //       frm.set_value("customer_name", frm.doc.buyer);
-    //       frm.set_value("buyer", "");
-    //       frappe.msgprint(
-    //         "Customer does not exist. Name moved to another field."
-    //       );
-    //     } else {
-    //       // If customer exists, clear the non_existing_customer_name field
-    //       frm.set_value("customer_name", "");
-    //     }
-    //   });
-    // }
 
     ///////////////////////////////
     // get the information for Egyptian
@@ -344,7 +350,7 @@ frappe.ui.form.on("Teller Purchase", {
         // clear the fields
         frm.set_value("customer_name", "");
         frm.set_value("gender", "");
-        frm.set_value("card_type", "");
+        // frm.set_value("card_type", "");
         // frm.set_value("card_info", "");
         frm.set_value("mobile_number", "");
         frm.set_value("work_for", "");
@@ -554,7 +560,7 @@ frappe.ui.form.on("Teller Purchase", {
                   latest_client.custom_place_of_birth = frm.doc.place_of_birth;
 
                   latest_client.custom_address = frm.doc.address;
-                  latest_client.custom_issue_date = frm.doc.address;
+                  latest_client.custom_issue_date = frm.doc.issue_date;
 
                   latest_client.custom_job_title = frm.doc.job_title;
                   latest_client.custom_date_of_birth =

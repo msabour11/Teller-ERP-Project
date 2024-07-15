@@ -62,8 +62,8 @@
   "mobile_number_copy",
   "companies_section",
   "company_name",
-  "company_number",
   "comoany_address",
+  "company_activity",
   "column_break_nqxf",
   "company_commercial_no",
   "start_registration_date",
@@ -72,7 +72,7 @@
   "contact_list",
   "column_break_uyru",
   "company_legal_form",
-  "company_activity",
+  "company_num",
   "is_expired1",
   "commissar_info_section",
   "commissar",
@@ -138,6 +138,7 @@
   {
    "fieldname": "client",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Search Client",
    "options": "Customer"
   },
@@ -214,7 +215,8 @@
    "fieldname": "company_commercial_no",
    "fieldtype": "Data",
    "label": "Company Commercial No ",
-   "mandatory_depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
+   "mandatory_depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")",
+   "read_only": 1
   },
   {
    "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")",
@@ -444,6 +446,7 @@
    "read_only": 1
   },
   {
+   "default": "National ID",
    "fieldname": "card_type",
    "fieldtype": "Select",
    "label": "Card Type",
@@ -502,13 +505,6 @@
    "fieldtype": "Data",
    "label": "Address",
    "mandatory_depends_on": "eval:doc.exceed == 1 && (doc.client_type === \"Egyptian\" || doc.client_type === \"Foreigner\")"
-  },
-  {
-   "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")",
-   "fieldname": "company_number",
-   "fieldtype": "Data",
-   "label": "Company Number",
-   "mandatory_depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")"
   },
   {
    "depends_on": "eval: (doc.client_type === \"Company\" || doc.client_type === \"Interbank\")",
@@ -696,12 +692,17 @@
    "fieldname": "fetch_national_id",
    "fieldtype": "Data",
    "label": "Enter Unique ID"
+  },
+  {
+   "fieldname": "company_num",
+   "fieldtype": "Data",
+   "label": "Company Num"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-10 12:30:01.646579",
+ "modified": "2024-07-15 14:23:27.037758",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Invoice",

@@ -284,10 +284,12 @@ def get_currency(account):
     currency_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "exchange_rate"
     )
+    currency_code = frappe.db.get_value("Account", {"name": account}, "custom_currency_code")
+
     special_purchase_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_special_purchasing"
     )
-    return currency, currency_rate, special_purchase_rate
+    return currency, currency_rate, special_purchase_rate,currency_code
 
 
 # Get the  Balance from the source account

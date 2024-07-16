@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "paid_from",
+  "code",
   "currency",
   "usd_amount",
   "rate",
@@ -57,12 +58,18 @@
    "fieldtype": "Currency",
    "label": "Balance",
    "read_only": 1
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "Code",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-30 16:05:22.348755",
+ "modified": "2024-07-16 15:00:01.048026",
  "modified_by": "Administrator",
  "module": "Teller Customization",
  "name": "Teller Purchase Child",

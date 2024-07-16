@@ -1019,10 +1019,14 @@ frappe.ui.form.on("Entry Child", {
           let curr = r.message[0];
           let currency_rate = r.message[1];
           acc_currency = curr;
+          let currencyCode = r.message[3]
+          console.log('the currency code is ' + currencyCode)
 
           frappe.model.set_value(cdt, cdn, "currency", curr);
 
           frappe.model.set_value(cdt, cdn, "rate", currency_rate);
+          frappe.model.set_value(cdt, cdn, "code", currencyCode);
+
         },
       });
 

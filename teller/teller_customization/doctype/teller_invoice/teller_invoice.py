@@ -297,13 +297,15 @@ class TellerInvoice(Document):
 @frappe.whitelist(allow_guest=True)
 def get_currency(account):
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
+    currency_code = frappe.db.get_value("Account", {"name": account}, "custom_currency_code")
+
     selling_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate"
     )
     special_selling_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_special_selling"
     )
-    return currency, selling_rate, special_selling_rate
+    return currency, selling_rate, special_selling_rate,currency_code
 
 
 @frappe.whitelist()
@@ -335,6 +337,7 @@ def account_to_balance(paid_to):
             "Error: Unable to fetch account balance."
         )  # Return a descriptive error message
 
+ 
 
 @frappe.whitelist(allow_guest=True)
 def get_printing_roll():

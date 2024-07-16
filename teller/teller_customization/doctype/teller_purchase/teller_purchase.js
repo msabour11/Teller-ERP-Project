@@ -221,8 +221,6 @@ frappe.ui.form.on("Teller Purchase", {
     //
   },
 
-
-
   fetch_national_id(frm) {
     if (frm.doc.fetch_national_id) {
       if (
@@ -286,11 +284,8 @@ frappe.ui.form.on("Teller Purchase", {
       frm.set_value("buyer", "");
       // frm.set_value("fetch_national_id", "");
       frm.set_value("national_id", "");
-
-      
     }
   },
-
 
   // get customer information if exists
   buyer: function (frm) {
@@ -825,8 +820,27 @@ frappe.ui.form.on("Teller Purchase Child", {
           console.log(r.message[0]);
           let curr = r.message[0];
           let currency_rate = r.message[1];
+          let currencyCode = r.message[3];
+          console.log("the currency code is " + currencyCode);
+
           frappe.model.set_value(cdt, cdn, "currency", curr);
           frappe.model.set_value(cdt, cdn, "rate", currency_rate);
+          frappe.model.set_value(cdt, cdn, "code", currencyCode);
+          // frm.set_df_property("paid_from", "hidden", 1);
+
+        
+
+          // Hide paid_from field in the child table row
+          // if (row.code) {
+          //   frm.fields_dict["transactions"].grid.grid_rows_by_docname[
+          //     row.name
+          //   ].toggle_display("paid_from", false);
+          // } else {
+          //   frm.fields_dict[cdt].grid.grid_rows_by_docname[cdn].toggle_display(
+          //     "paid_from",
+          //     true
+          //   );
+          // }
         },
       });
 

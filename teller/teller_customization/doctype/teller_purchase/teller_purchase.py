@@ -215,7 +215,11 @@ class TellerPurchase(Document):
         # last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
         last_number_str = str(last_number).zfill(zeros_number)
         receipt_number = f"{start_letter}-{self.branch_no}-{last_number_str}"
+        # handle receipt number without dash
+
+        receipt_number2 = f"{start_letter}{self.branch_no}{last_number_str}"
         self.receipt_number = receipt_number
+        self.receipt_number2 = receipt_number2
         self.current_roll = start_count
 
         # show_number = len(last_number_str)
@@ -284,12 +288,14 @@ def get_currency(account):
     currency_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "exchange_rate"
     )
-    currency_code = frappe.db.get_value("Account", {"name": account}, "custom_currency_code")
+    currency_code = frappe.db.get_value(
+        "Account", {"name": account}, "custom_currency_code"
+    )
 
     special_purchase_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_special_purchasing"
     )
-    return currency, currency_rate, special_purchase_rate,currency_code
+    return currency, currency_rate, special_purchase_rate, currency_code
 
 
 # Get the  Balance from the source account

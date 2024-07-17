@@ -89,7 +89,11 @@ class TellerInvoice(Document):
         # last_number_str = str(last_number).zfill(diff_cells + len(str(last_number)))
         last_number_str = str(last_number).zfill(zeros_number)
         receipt_number = f"{start_letter}-{self.branch_no}-{last_number_str}"
+        # handle receipt number without dash
+        receipt_number2 = f"{start_letter}{self.branch_no}{last_number_str}"
+
         self.receipt_number = receipt_number
+        self.receipt_number2 = receipt_number2
         self.current_roll = start_count
 
         # show_number = len(last_number_str)
@@ -297,7 +301,9 @@ class TellerInvoice(Document):
 @frappe.whitelist(allow_guest=True)
 def get_currency(account):
     currency = frappe.db.get_value("Account", {"name": account}, "account_currency")
-    currency_code = frappe.db.get_value("Account", {"name": account}, "custom_currency_code")
+    currency_code = frappe.db.get_value(
+        "Account", {"name": account}, "custom_currency_code"
+    )
 
     selling_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_selling_exchange_rate"
@@ -305,7 +311,7 @@ def get_currency(account):
     special_selling_rate = frappe.db.get_value(
         "Currency Exchange", {"from_currency": currency}, "custom_special_selling"
     )
-    return currency, selling_rate, special_selling_rate,currency_code
+    return currency, selling_rate, special_selling_rate, currency_code
 
 
 @frappe.whitelist()
@@ -337,7 +343,6 @@ def account_to_balance(paid_to):
             "Error: Unable to fetch account balance."
         )  # Return a descriptive error message
 
- 
 
 @frappe.whitelist(allow_guest=True)
 def get_printing_roll():

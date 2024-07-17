@@ -98,7 +98,7 @@ frappe.ui.form.on("Teller Invoice", {
   refresh(frm) {
     //save and submit form within press key shortcut
 
-    frappe.ui.keys.on("shift+s", function (e) {
+    frappe.ui.keys.on("alt+s", function (e) {
       console.log("shift + s was pressed");
 
       e.preventDefault();

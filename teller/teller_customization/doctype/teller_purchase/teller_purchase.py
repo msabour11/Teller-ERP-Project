@@ -429,3 +429,22 @@ def get_customer_total_amount(client_name, duration):
 @frappe.whitelist()
 def check_client_exists(doctype_name):
     return frappe.db.exists("Customer", doctype_name)
+
+
+@frappe.whitelist(allow_guest=True)
+def test_submit():
+    doc = frappe.db.get_list("Teller Purchase", ignore_permissions=True)
+    return doc
+
+
+@frappe.whitelist(allow_guest=True)
+def get_list_currency_code(session_user,code):
+    # session_user=frappe.session.logged_in_use
+    docs = frappe.db.get_list(
+        "Currency Code",
+        fields=["account", "user","code"],
+        filters={"user": session_user,"name": code},
+        ignore_permissions=True,
+    )
+
+    return docs

@@ -51,6 +51,18 @@ frappe.ui.form.on("Teller Purchase", {
           },
         };
       };
+
+    // set query to show only codes that belongs to session user
+
+    frm.fields_dict["transactions"].grid.get_field("currency_code").get_query =
+      function () {
+        let session = frappe.session.logged_in_user;
+        return {
+          filters: {
+            user: session,
+          },
+        };
+      };
   },
 
   refresh(frm) {
@@ -828,8 +840,6 @@ frappe.ui.form.on("Teller Purchase Child", {
           frappe.model.set_value(cdt, cdn, "code", currencyCode);
           // frm.set_df_property("paid_from", "hidden", 1);
 
-        
-
           // Hide paid_from field in the child table row
           // if (row.code) {
           //   frm.fields_dict["transactions"].grid.grid_rows_by_docname[
@@ -863,6 +873,34 @@ frappe.ui.form.on("Teller Purchase Child", {
         },
       });
     }
+  },
+
+  currency_code(frm, cdt, cdn) {
+    var row = locals[cdt][cdn];
+    console.log("currency_code is " + row.currency_code);
+
+    let current_user = frappe.session.logged_in_user;
+    frappe.call({
+      method:
+        "teller.teller_customization.doctype.teller_purchase.teller_purchase.get_list_currency_code",
+      args: {
+        session_user: current_user,
+        code: row.currency_code,
+      },
+      callback: function (r) {
+        if (r.message) {
+          console.log(
+            "codes.teller_customization.doctype",
+            r.message[0]["account"]
+          );
+          let account = r.message[0]["account"];
+          if (account) {
+            frappe.model.set_value(cdt, cdn, "paid_from", account);
+            // frm.set_value("receipt_number2", account);
+          }
+        }
+      },
+    });
   },
 
   usd_amount: function (frm, cdt, cdn) {

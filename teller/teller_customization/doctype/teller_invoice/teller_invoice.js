@@ -8,14 +8,24 @@ frappe.ui.form.on("Teller Invoice", {
     // filters accounts with cash ,is group False and account currency not EGY
 
     frm.fields_dict["transactions"].grid.get_field("paid_from").get_query =
-      function (doc, cdt, cdn) {
-        var row = locals[cdt][cdn];
+      function () {
         var account_types = ["Cash"];
         return {
           filters: {
             account_type: ["in", account_types],
             account_currency: ["!=", "EGP"],
             is_group: 0,
+          },
+        };
+      };
+
+    // get query for codes the belongs to currenct user
+    frm.fields_dict["transactions"].grid.get_field("currency_code").get_query =
+      function () {
+        let currentUser = frappe.session.logged_in_user;
+        return {
+          filters: {
+            user: currentUser,
           },
         };
       };
@@ -99,7 +109,7 @@ frappe.ui.form.on("Teller Invoice", {
     //save and submit form within press key shortcut
 
     frappe.ui.keys.on("alt+s", function (e) {
-      console.log("shift + s was pressed");
+      console.log("alt + s was pressed");
 
       e.preventDefault();
 
@@ -1019,14 +1029,13 @@ frappe.ui.form.on("Entry Child", {
           let curr = r.message[0];
           let currency_rate = r.message[1];
           acc_currency = curr;
-          let currencyCode = r.message[3]
-          console.log('the currency code is ' + currencyCode)
+          let currencyCode = r.message[3];
+          console.log("the currency code is " + currencyCode);
 
           frappe.model.set_value(cdt, cdn, "currency", curr);
 
           frappe.model.set_value(cdt, cdn, "rate", currency_rate);
           frappe.model.set_value(cdt, cdn, "code", currencyCode);
-
         },
       });
 
@@ -1088,6 +1097,27 @@ frappe.ui.form.on("Entry Child", {
       total += item.total_amount;
     });
     frm.set_value("total", total);
+  },
+  currency_code(frm, cdt, cdn) {
+    let row = locals[cdt][cdn];
+    let sessionUser = frappe.session.logged_in_user;
+    console.log("field is triger");
+    frappe.call({
+      method:
+        "teller.teller_customization.doctype.teller_invoice.teller_invoice.get_current_user_currency_codes",
+      args: {
+        current_user: sessionUser,
+        code: row.currency_code,
+      },
+      callback: function (r) {
+        if (!r.exc) {
+          // console.log(r.message[0]["account"]);
+          let userAccount = r.message[0].account;
+          console.log("the user account is", userAccount);
+          frappe.model.set_value(cdt, cdn, "paid_from", userAccount);
+        }
+      },
+    });
   },
 });
 function set_branch_and_shift(frm) {

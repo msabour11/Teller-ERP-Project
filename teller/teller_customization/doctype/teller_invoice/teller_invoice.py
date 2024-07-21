@@ -532,3 +532,26 @@ def get_contacts_by_link(doctype, txt, searchfield, start, page_len, filters):
 @frappe.whitelist()
 def check_client_exists(doctype_name):
     return frappe.db.exists("Customer", doctype_name)
+
+
+@frappe.whitelist(allow_guest=True)
+def test_api():
+    # doc = frappe.db.get_list("Customer", ignore_permissions=True, pluck="name")
+    # get single  value
+    pass
+
+
+@frappe.whitelist(allow_guest=True)
+def test_doc_description():
+    doc = frappe.db.describe("Teller Purchase")
+    return doc
+
+
+@frappe.whitelist(allow_guest=True)
+def get_current_user_currency_codes(current_user, code):
+    codes = frappe.db.get_list(
+        "Currency Code",
+        fields=["account", "code"],
+        filters={"user": current_user, "name": code},
+    )
+    return codes

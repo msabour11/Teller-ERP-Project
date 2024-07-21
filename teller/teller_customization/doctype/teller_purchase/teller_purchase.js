@@ -40,8 +40,7 @@ frappe.ui.form.on("Teller Purchase", {
   // filters accounts with cash ,is group False and account currency not EGY
   setup: function (frm) {
     frm.fields_dict["transactions"].grid.get_field("paid_from").get_query =
-      function (doc, cdt, cdn) {
-        var row = locals[cdt][cdn];
+      function () {
         var account_types = ["Cash"];
         return {
           filters: {

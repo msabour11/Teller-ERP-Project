@@ -438,13 +438,12 @@ def test_submit():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_list_currency_code(session_user,code):
+def get_list_currency_code(session_user, code):
     # session_user=frappe.session.logged_in_use
-    docs = frappe.db.get_list(
+    codes = frappe.db.get_list(
         "Currency Code",
-        fields=["account", "user","code"],
-        filters={"user": session_user,"name": code},
-        ignore_permissions=True,
+        fields=["account", "user", "code"],
+        filters={"user": session_user, "name": code},
     )
 
-    return docs
+    return codes

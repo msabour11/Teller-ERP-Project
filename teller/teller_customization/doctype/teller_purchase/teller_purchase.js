@@ -212,7 +212,7 @@ frappe.ui.form.on("Teller Purchase", {
             group_by: "",
             show_cancelled_entries: frm.doc.docstatus === 2,
           };
-          frappe.set_route("query-report", "Test General Ledger");
+          frappe.set_route("query-report", "General Ledger");
         },
         "fa fa-table"
       );

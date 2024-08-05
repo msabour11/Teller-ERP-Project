@@ -212,7 +212,7 @@ frappe.ui.form.on("Teller Purchase", {
             group_by: "",
             show_cancelled_entries: frm.doc.docstatus === 2,
           };
-          frappe.set_route("query-report", "General Ledger");
+          frappe.set_route("query-report", "Test General Ledger");
         },
         "fa fa-table"
       );
@@ -287,6 +287,42 @@ frappe.ui.form.on("Teller Purchase", {
               frm.set_value("buyer", "").then(() => {
                 frm.set_value("company_commercial_no", commiricalNo);
               });
+            }
+          },
+        });
+      }
+      // fetch or create client with passport number
+      else if (
+        (frm.doc.category_of_buyer == "Egyptian" ||
+          frm.doc.category_of_buyer == "Foreigner") &&
+        frm.doc.card_type == "Passport"
+      ) {
+        // frappe.msgprint("from passport");
+        let passportNumber = frm.doc.fetch_national_id;
+
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
+          args: {
+            doctype_name: passportNumber,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("buyer", passportNumber).then(() => {
+                frm.refresh_field("buyer");
+              });
+            } else {
+              frm.set_value("buyer", "").then(() => {
+                frm.refresh_field("buyer");
+                if (validateNationalId(frm, passportNumber)) {
+                  frm.set_value("passport_number", passportNumber);
+                } else {
+                  frm.set_value("passport_number", "");
+                }
+              });
+
+              //
             }
           },
         });
@@ -424,6 +460,27 @@ frappe.ui.form.on("Teller Purchase", {
       }
     }
   },
+
+  // category_of_buyer(frm) {
+  //   if (frm.doc.category_of_buyer == "InterBank") {
+  //     frappe.msgprint("hiiii");
+
+  //     frappe.call({
+  //       method: "frappe.client.get",
+  //       args: {
+  //         doctype: "Customer",
+  //         name: "Alahly",
+  //       },
+  //       callback: function (r) {
+  //         if (!r.exc) {
+  //           console.log(r.message);
+  //         } else {
+  //           console.log("error in fetchng interbank");
+  //         }
+  //       },
+  //     });
+  //   }
+  // },
 
   // add comissar to invoice
 

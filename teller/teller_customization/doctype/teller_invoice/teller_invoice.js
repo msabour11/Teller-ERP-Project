@@ -106,6 +106,10 @@ frappe.ui.form.on("Teller Invoice", {
   // },
 
   refresh(frm) {
+
+    // setTimeout(function () {
+    //   frm.get_field["fetch_national_id"].$input.focus();
+    // }, 500);
     //save and submit form within press key shortcut
 
     frappe.ui.keys.on("alt+s", function (e) {
@@ -265,7 +269,7 @@ frappe.ui.form.on("Teller Invoice", {
             group_by: "",
             show_cancelled_entries: frm.doc.docstatus === 2,
           };
-          frappe.set_route("query-report", "General Ledger");
+          frappe.set_route("query-report", "Test General Ledger");
         },
         "fa fa-table"
       );
@@ -273,7 +277,11 @@ frappe.ui.form.on("Teller Invoice", {
     //
   },
 
-  onload(frm) {},
+  onload(frm) {
+    // setTimeout(function () {
+    //   frm.get_field["fetch_national_id"].$input.focus();
+    // }, 500);
+  },
   // onload_post_render: function (frm) {
   //   // Remove the keydown event when the form is closed
   //   frappe.ui.keys.off("alt+f2");
@@ -335,6 +343,42 @@ frappe.ui.form.on("Teller Invoice", {
               frm.set_value("client", "").then(() => {
                 frm.set_value("company_commercial_no", commiricalNo);
               });
+            }
+          },
+        });
+      }
+      // fetch or create client with passport number
+      else if (
+        (frm.doc.client_type == "Egyptian" ||
+          frm.doc.client_type == "Foreigner") &&
+        frm.doc.card_type == "Passport"
+      ) {
+        // frappe.msgprint("from passport");
+        let passportNumber = frm.doc.fetch_national_id;
+
+        frappe.call({
+          method:
+            "teller.teller_customization.doctype.teller_invoice.teller_invoice.check_client_exists",
+          args: {
+            doctype_name: passportNumber,
+          },
+          callback: function (r) {
+            if (r.message) {
+              console.log(r.message, "exists");
+              frm.set_value("client", passportNumber).then(() => {
+                frm.refresh_field("client");
+              });
+            } else {
+              frm.set_value("client", "").then(() => {
+                frm.refresh_field("client");
+                if (validateNationalId(frm, passportNumber)) {
+                  frm.set_value("passport_number", passportNumber);
+                } else {
+                  frm.set_value("passport_number", "");
+                }
+              });
+
+              //
             }
           },
         });

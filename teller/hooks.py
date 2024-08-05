@@ -34,7 +34,6 @@ app_license = "mit"
 # doctype_js = {"Account" :"public/js/account_custom.js"}
 
 
-
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -134,7 +133,14 @@ doc_events = {
     # 		"on_cancel": "method",
     # 		"on_trash": "method"
     # 	}
-    "Customer": {"autoname": "teller.teller_customization.customer.customer.autoname"}
+    "Customer": {"autoname": "teller.teller_customization.customer.customer.autoname"},
+    # "Subscription": {
+    #     # "before_save": "teller.subscription.before_save",
+    #     "before_submit": "teller.subscription.before_submit",
+    #     "after_submit": "teller.subscription.after_submit",
+    #     "before_cancel": "teller.subscription.before_cancel",
+    #     "on_trash": "teller.subscription.on_trash",
+    # },
 }
 
 # Scheduled Tasks

@@ -106,12 +106,10 @@ frappe.ui.form.on("Teller Invoice", {
   // },
 
   refresh(frm) {
-
-    // setTimeout(function () {
-    //   frm.get_field["fetch_national_id"].$input.focus();
-    // }, 500);
-    //save and submit form within press key shortcut
-
+    // set the focus on the fetch_national_id field when the doctype is refreshed
+    setTimeout(function () {
+      frm.get_field("fetch_national_id").$input.focus();
+    }, 100);
     frappe.ui.keys.on("alt+s", function (e) {
       console.log("alt + s was pressed");
 

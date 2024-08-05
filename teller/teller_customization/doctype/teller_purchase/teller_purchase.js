@@ -70,6 +70,11 @@ frappe.ui.form.on("Teller Purchase", {
     //   frm.reload_doc();
     // }
 
+    // set the focus on the fetch_national_id field when the doctype is refreshed
+    setTimeout(function () {
+      frm.get_field("fetch_national_id").$input.focus();
+    }, 100);
+
     // save and submit and print the invoice on shortcut
     frappe.ui.keys.on("alt+s", function (e) {
       console.log("shift + s was pressed");

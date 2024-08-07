@@ -1,3 +1,4 @@
+
 # Copyright (c) 2024, Mohamed AbdElsabour and contributors
 # For license information, please see license.txt
 
@@ -10,40 +11,46 @@ def execute(filters=None):
     columns = get_columns()
     # Get filters
     filter_account = filters.get("account")
-    filter_currency = filters.get("account_currency")
-    filter_posting_date = filters.get("posting_date")
-	# Get data
-    sql_query = """
+    # filter_currency = filters.get("account_currency")
+    filter_currencies = filters.get("account_currency", [])
+
+    filter_from_date = filters.get("from_date")
+    # filter_to_date = filters.get("to_date")
+    conditions = []
+    if filter_account:
+        conditions.append(f"parent_account LIKE '%{filter_account}%'")
+    if filter_currencies:
+        currency_conditions = ', '.join([f"'{currency}'" for currency in filter_currencies])
+        conditions.append(f"account_currency IN ({currency_conditions})")
+
+    where_clause = " AND ".join(conditions) if conditions else "1=1"
+
+
+    sql_query = f"""
         SELECT
-			 account,
-			sum(credit_in_account_currency) as sum_currency_sale,
-            sum(debit_in_account_currency) as sum_currency_purchase,
+            account,
+            SUM(credit_in_account_currency) AS sum_currency_sale,
+            SUM(debit_in_account_currency) AS sum_currency_purchase,
             account_currency,
-            sum(credit) as sum_egy_sale,
-            sum(debit) as sum_egy_purchase
-            
+            SUM(credit) AS sum_egy_sale,
+            SUM(debit) AS sum_egy_purchase,
+            posting_date
         FROM
             `tabGL Entry`
         WHERE
-            account IN (SELECT name FROM `tabAccount` WHERE account_type = 'Cash' and account_currency <>"EGP" )
-        and  (%(filter_account)s IS NULL OR account LIKE %(filter_account)s)
-        and  (%(filter_currency)s IS NULL OR account_currency LIKE %(filter_currency)s)
-        and  (%(filter_posting_date)s IS NULL OR posting_date LIKE %(filter_posting_date)s)
-        group by account,account_currency
+            account IN (SELECT name FROM `tabAccount` WHERE account_type = 'Cash' AND {where_clause})
+        GROUP BY
+            account, account_currency
     """
-    # Get parameters
-    parameters = {
-        "filter_account": filter_account,
-        "filter_currency": filter_currency,
-        "filter_posting_date": filter_posting_date,
-    }
 
     try:
-        data = frappe.db.sql(sql_query, parameters, as_dict=True)
+        data = frappe.db.sql(sql_query, as_dict=True)
     except frappe.exceptions.SQLError as e:
         frappe.log_error(frappe.get_traceback(), "ERPNext Script Report Error")
-
         data = []
+
+
+
     # Get chart data
     chart = {
         "data": {
@@ -125,6 +132,12 @@ def get_columns():
             "label": _("Egy Purchasing"),
             "fieldname": "sum_egy_purchase",
             "fieldtype": "Currency",
+            "width": 150,
+        },
+        {
+            "label": _("Posting Date"),
+            "fieldname": "posting_date",
+            "fieldtype": "Date",
             "width": 150,
         },
     ]
